@@ -566,7 +566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indexItem: 0
   _font: {fileID: 11400000, guid: df7459bfe3c3bd94a99b0602aa47aaa6, type: 2}
-  _audioClip: {fileID: 0}
+  _audioClip: {fileID: 8300000, guid: 79e6baad2fd414b82a6d49ce1568d2e5, type: 3}
   _unlockIcon: {fileID: 281282596075956296}
   _lockIcon: {fileID: 281282595680008638}
   _iconIsMade: {fileID: 3040782597720803280}
@@ -579,7 +579,7 @@ MonoBehaviour:
   _goal: 500
   _lockColor: {r: 0.23921569, g: 0.5568628, b: 0.43137255, a: 1}
   _unlockColor: {r: 0, g: 1, b: 0.5803922, a: 1}
-  _amountPrize: 2
+  _amountPrize: 2000
 --- !u!114 &4771539085199356509
 MonoBehaviour:
   m_ObjectHideFlags: 0

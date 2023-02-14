@@ -15,7 +15,7 @@
             {
                 _currentLvlBooster = lvlBooster + 1;
                 ChangeCurrentStateText(_currentLvlBooster);
-                if (_currentLvlBooster == _goal)
+                if (_currentLvlBooster >= _goal)
                 {
                     UnlockAchivement();
                     _store.BoosterSetNewLevels -= ChangeStateAchivementAfterBuyBooster;

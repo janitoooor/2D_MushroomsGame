@@ -566,7 +566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indexItem: 1
   _font: {fileID: 11400000, guid: df7459bfe3c3bd94a99b0602aa47aaa6, type: 2}
-  _audioClip: {fileID: 0}
+  _audioClip: {fileID: 8300000, guid: 79e6baad2fd414b82a6d49ce1568d2e5, type: 3}
   _unlockIcon: {fileID: 281282596075956296}
   _lockIcon: {fileID: 281282595680008638}
   _iconIsMade: {fileID: 3040782597720803280}

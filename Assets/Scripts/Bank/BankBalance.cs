@@ -22,7 +22,7 @@
             long oldBalance = _coinsBalance;
             _coinsBalance += amount;
             BalanceChanged?.Invoke(amount);
-            BalanceSetOldBalance?.Invoke(_coinsBalance, oldBalance) ;
+            BalanceSetOldBalance?.Invoke(_coinsBalance, oldBalance);
             BalanceSetNewBalance?.Invoke(_coinsBalance);
         }
 

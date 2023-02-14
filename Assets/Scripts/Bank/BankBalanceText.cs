@@ -33,6 +33,12 @@ namespace Assets.Scripts
 
         private void UpdateBalanceText(long newBalance, long oldBalance)
         {
+            if (newBalance >= long.MaxValue || newBalance < 0)
+            {
+                _balanceText.text = CoyntingSystemUpdate(long.MaxValue);
+                return;
+            }
+
             if (newBalance - oldBalance < 0)
             {
                 LeanTween.value(_balanceText.gameObject, oldBalance, newBalance, _timeToChange)

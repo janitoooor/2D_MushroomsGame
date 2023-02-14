@@ -1,0 +1,22 @@
+﻿using System.Collections;
+using UnityEngine;
+
+namespace Assets.Scripts
+{
+    class ScrollController : MonoBehaviour
+    {
+        [SerializeField] private RectTransform _contentView;
+
+        private void OnEnable()
+        {
+            StartCoroutine(WaitTwoFrames());
+        }
+
+        private IEnumerator WaitTwoFrames()
+        {
+            yield return null;
+            yield return null;
+            _contentView.anchoredPosition = new Vector2(_contentView.anchoredPosition.x, 0);
+        }
+    }
+}

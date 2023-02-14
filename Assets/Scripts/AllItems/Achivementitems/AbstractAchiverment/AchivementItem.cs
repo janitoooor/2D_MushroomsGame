@@ -33,6 +33,7 @@ public abstract class AchivementItem : Items
     private Button _button;
     private void Start()
     {
+        GetComponents();
         SetSubscriptions();
         SetButton();
         LockAchivement();
@@ -52,6 +53,11 @@ public abstract class AchivementItem : Items
 
     protected private abstract void RemoveAllSubscriptions();
 
+    private void GetComponents()
+    {
+        _audioSource = GameObject.Find(_audiosourceObjectName).GetComponent<AudioSource>();
+    }
+
     protected private void UnlockAchivement()
     {
         ChangeStateObjectAchivement(true, false, true, false, true, _unlockColor);
@@ -69,6 +75,7 @@ public abstract class AchivementItem : Items
     {
         _button = GetComponent<Button>();
         _button.onClick.AddListener(AddGemsOnClickDeactivateObject);
+        _button.onClick.AddListener(PlayOneShot);
     }
 
     protected private virtual void AddGemsOnClickDeactivateObject()
