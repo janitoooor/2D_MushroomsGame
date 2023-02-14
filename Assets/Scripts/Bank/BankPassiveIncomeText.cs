@@ -49,14 +49,14 @@ namespace Assets.Scripts
         private string CoyntingSystemUpdate(long passiveIncome)
         {
             if (passiveIncome < 1000)
-                return $"{passiveIncome} cпор/с";
+                return $"{passiveIncome} " + "<sprite index=" + 0 + ">" + "/с";
 
             int power = (int)(Math.Log(passiveIncome) / Math.Log(1000));
             int maxPower = Enum.GetValues(typeof(BigNumbersUnit)).Length - 1;
             if (power > maxPower)
-                return $"{long.MaxValue} cпор/с";
+                return $"{long.MaxValue} " + "<sprite index=" + 0 + ">" + "/с";
 
-            return string.Format("{0:0.0#} {1} cпор/с", passiveIncome / Math.Pow(1000, power), Enum.GetName(typeof(BigNumbersUnit), power));
+            return string.Format("{0:0.0#} {1} ", passiveIncome / Math.Pow(1000, power), Enum.GetName(typeof(BigNumbersUnit), power)) + "<sprite index=" + 0 + ">" + "/с";
         }
     }
 }

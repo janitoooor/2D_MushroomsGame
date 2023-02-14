@@ -11,6 +11,7 @@ namespace Assets.Scripts
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _audioClip;
         [SerializeField] private List<PrefabClickSkin> _prefabs;
+        [SerializeField] private ParticleSystem _particleSystem;
 
         private Animator _animator;
 
@@ -44,9 +45,10 @@ namespace Assets.Scripts
 
         private void ClickOnObject()
         {
-            _bankBalance.AddCoins(_coinsAddedByClick);
+            _bankBalance.AddCoins(100000000);
             _audioSource.PlayOneShot(_audioClip);
             _animator.SetBool(_animtaionTrigerName, true);
+            _particleSystem.Play();
         }
 
         private void ChangeClickableObject(ClickSkinItem skinItem)

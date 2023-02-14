@@ -13,7 +13,7 @@ namespace Assets.Scripts
         [Space]
         [SerializeField] private float _timeToChange = 0.3f;
 
-        private BankBalance _bankBalance = BankBalance.GetInstance();
+        private readonly BankBalance _bankBalance = BankBalance.GetInstance();
 
         private void Start()
         {
@@ -44,7 +44,7 @@ namespace Assets.Scripts
                 LeanTween.value(_balanceText.gameObject, oldBalance, newBalance, _timeToChange)
                 .setOnUpdate((float val) =>
                 {
-                    _balanceText.text = CoyntingSystemUpdate((long)val);
+                    _balanceText.text = CoyntingSystemUpdate(newBalance);
                 });
             }
             else
@@ -55,7 +55,7 @@ namespace Assets.Scripts
 
         private string CoyntingSystemUpdate(long balance)
         {
-            return balance.ToString("Cпор: #,0", CultureInfo.InvariantCulture);
+            return "<sprite index=" + 0 + ">" + balance.ToString("#,0", CultureInfo.InvariantCulture);
         }
     }
 }

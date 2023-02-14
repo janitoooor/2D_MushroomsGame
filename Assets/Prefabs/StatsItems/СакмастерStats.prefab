@@ -220,7 +220,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: ea2e3ee3a547fea45b97a66ffcc4a5df, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -558,8 +558,7 @@ MonoBehaviour:
     \u0412\u044B\u0440\u044B\u0431\u0430\u0442\u0430\u0435\u0442 \u043E\u0433\u0440\u043E\u043C\u043D\u043E\u0435
     \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u043F\u043E\u0440.
     \u0418\u043C\u0435\u0435\u0442 \u043E\u0441\u043E\u0431\u044B\u0439 \u0437\u0430\u043F\u0430\u0445.\n\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u043E
-    \u043F\u0440\u0438\u043D\u043E\u0441\u0438\u0442 \u0441\u043F\u043E\u0440: 1\u043C
-    / \u0441. "
+    \u043F\u0440\u0438\u043D\u043E\u0441\u0438\u0442 1\u043C <sprite index= 0>/\u0441. "
 --- !u!1 &4867865245505116436
 GameObject:
   m_ObjectHideFlags: 0
