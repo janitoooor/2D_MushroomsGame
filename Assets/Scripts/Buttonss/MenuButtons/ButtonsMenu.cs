@@ -20,12 +20,11 @@ namespace Assets.Scripts.Buttons.StoreButtons
 
         private void Awake()
         {
-            _layerAnimator = _layer.GetComponent<Animator>();
+            GetComponents();
         }
 
         private void Start()
         {
-            SetBaseComponents();
             AddListeners();
 
             Invoke(nameof(SetActiveHomeLayer), Time.fixedDeltaTime);
@@ -39,6 +38,18 @@ namespace Assets.Scripts.Buttons.StoreButtons
 
         private void OnDestroy()
         {
+            RemoveAllListeners();
+        }
+
+        public override void GetComponents()
+        {
+            base.GetComponents();
+            _layerAnimator = _layer.GetComponent<Animator>();
+        }
+
+        public override void RemoveAllListeners()
+        {
+            base.RemoveAllListeners();
             _menu.ButtonMenuPressed -= CloseLayer;
             ButtonPresseds -= _menu.SetPressedButon;
         }

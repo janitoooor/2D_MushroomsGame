@@ -18,6 +18,12 @@ namespace Assets.Scripts.Buttonss.StoreButtons
 
         private Animator _layerAnimator;
         private Animator _layerButtonsAnimator;
+
+        private void Awake()
+        {
+            GetComponents();
+        }
+
         private void Start()
         {
             SetBase();
@@ -33,6 +39,11 @@ namespace Assets.Scripts.Buttonss.StoreButtons
         {
             ButtonPresseds -= _upgratesAndItems.SetPressedButon;
             _upgratesAndItems.ButtonBoostersOrItemsPressed -= CloseLayer;
+        }
+
+        private void OnDestroy()
+        {
+            RemoveAllListeners();
         }
 
         public override void OnClick()
@@ -59,12 +70,15 @@ namespace Assets.Scripts.Buttonss.StoreButtons
             }
         }
 
-        private void SetBase()
+        public override void GetComponents()
         {
+            base.GetComponents();
             _layerAnimator = _layer.GetComponent<Animator>();
             _layerButtonsAnimator = _layerButtons.GetComponent<Animator>();
+        }
 
-            SetBaseComponents();
+        private void SetBase()
+        {
             AddListeners();
             SetFont();
             ShowButtonSelected();

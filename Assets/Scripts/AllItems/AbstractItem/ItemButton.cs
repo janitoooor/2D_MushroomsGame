@@ -13,6 +13,11 @@ namespace Assets.Scripts.StoreItem
             _button = GetComponent<Button>();
         }
 
+        public void RemoveAllListeners()
+        {
+            _button.onClick.RemoveAllListeners();
+        }
+
         public void AddListeners(UnityAction action)
         {
             _button.onClick.AddListener(action);

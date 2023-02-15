@@ -12,9 +12,13 @@ namespace Assets.Scripts.Shop
         private readonly Store _store = Store.GetInstance();
         [SerializeField] private long _amount;
 
+        private void Awake()
+        {
+            GetComponents();
+        }
+
         private void Start()
         {
-            SetBaseComponents();
             AddListeners();
             SetFont();
             ShowButtonSelected(1);
@@ -30,6 +34,11 @@ namespace Assets.Scripts.Shop
         {
             _store.PressedButtonAmount -= ShowButtonSelected;
             PressedButtonAmount -= _store.TakeButtonAmount;
+        }
+
+        private void OnDestroy()
+        {
+            RemoveAllListeners();
         }
 
         public override void OnClick()

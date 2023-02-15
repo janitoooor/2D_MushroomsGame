@@ -1,6 +1,4 @@
 using Assets.Scripts;
-using Assets.Scripts.ItemBoosts;
-using Assets.Scripts.Shop;
 using UnityEngine;
 
 public class Store

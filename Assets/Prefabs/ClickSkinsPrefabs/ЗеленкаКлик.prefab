@@ -902,8 +902,8 @@ MonoBehaviour:
   _unlockIcon: {fileID: 5645783999588729321}
   _lockIcon: {fileID: 5645784000402398745}
   _iconIsSelect: {fileID: 2004074944880362254}
-  _description: "\u041E\u0447\u0435\u043D\u044C \u0440\u0435\u0434\u043A\u0430\u044F
-    \u0437\u0435\u043B\u0451\u043D\u043A\u0430"
+  _description: "\u0427\u0435\u0440\u043D\u043E\u0431\u044B\u043B\u044C\u0441\u043A\u0430\u044F
+    \u0437\u0435\u043B\u0451\u043D\u043A\u0430, \u0440\u0430\u0434\u0438\u0430\u043A\u0442\u0438\u0432\u043D\u0430."
   _price: 100
   _income: 0.6
   _descriptionText: {fileID: 1559557433}

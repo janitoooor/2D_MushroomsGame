@@ -22,6 +22,7 @@ public class ItemStats : Items
 
     private void Awake()
     {
+        GetComponents();
         _store.BuyItemsIsMades += UnlockItem;
     }
 
@@ -32,7 +33,6 @@ public class ItemStats : Items
 
     private void Start()
     {
-        GetComponents();
         SetFont();
         ChangelockItem("???", "???", Color.black, Color.black, true, false);
     }

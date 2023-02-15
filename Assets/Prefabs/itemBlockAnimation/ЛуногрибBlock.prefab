@@ -205,4 +205,4 @@ MonoBehaviour:
   - {fileID: 23337919333797846, guid: 19ba0052fd85c2144acbbaa89efa06e1, type: 3}
   _transform: {fileID: 7235583568470058513}
   _automatedPool: 0
-  _amountCreatedPrefabs: 20
+  _amountCreatedPrefabs: 60

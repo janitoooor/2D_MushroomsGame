@@ -32,6 +32,7 @@
         private protected override void RemoveAllSubscriptions()
         {
             _store.BoosterSetNewLevels -= ChangeStateAchivementAfterBuyBooster;
+
         }
 
         private protected override void SetSubscriptions()

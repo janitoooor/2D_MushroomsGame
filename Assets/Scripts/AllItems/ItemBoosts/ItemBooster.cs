@@ -72,6 +72,7 @@ public class ItemBooster : Items
     {
         _bankBalance.BalanceSetNewBalance -= LockItemBooster;
         _bankBalance.BalanceSetNewBalance -= UnlockItemBooster;
+        _itemBoosterButton.RemoveAllListeners();
     }
 
     private void AddAndGetComponents()
@@ -133,7 +134,7 @@ public class ItemBooster : Items
         DeactivateGameObject();
         SetNewValue();
         ChangeBoosterPriceText();
-        ChangeIncomeText(_passiveIncomeLvls[_indexLvl]);
+        ChangeIncomeText(_passiveIncomeLvls[1]);
     }
 
     private void SetNewValue()
@@ -148,7 +149,7 @@ public class ItemBooster : Items
             }
 
             _price = _pricesLvls[_indexLvl];
-            _itemBoosterNameText.ChangeText(_nameTextsLvl[_indexLvl]);
+            _itemBoosterNameText.ChangeText(_nameTextsLvl[1]);
         }
     }
 

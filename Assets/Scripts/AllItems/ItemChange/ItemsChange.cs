@@ -12,6 +12,11 @@ class ItemsChange : Items
     private readonly GemBank _gemBank = GemBank.GetInstance();
     private readonly BankBalance _bankBalance = BankBalance.GetInstance();
 
+    private void Awake()
+    {
+        GetComponents();
+    }
+
     private void Start()
     {
         SetStartComponents();
@@ -21,18 +26,23 @@ class ItemsChange : Items
     private void OnDestroy()
     {
         _bankBalance.BalanceSetNewBalance -= ChekBalanceAndChangeLock;
+        _button.onClick.RemoveAllListeners();
+    }
+
+    private void GetComponents()
+    {
+        _button = GetComponent<Button>();
+        _audioSource = GameObject.Find(_audiosourceObjectName).GetComponent<AudioSource>();
     }
 
     private void SetStartComponents()
     {
-        _audioSource = GameObject.Find(_audiosourceObjectName).GetComponent<AudioSource>();
-        SetButton();
+        SetButtonListeners();
         _bankBalance.BalanceSetNewBalance += ChekBalanceAndChangeLock;
     }
 
-    private void SetButton()
+    private void SetButtonListeners()
     {
-        _button = GetComponent<Button>();
         _button.onClick.AddListener(PlayOneShot);
         _button.onClick.AddListener(ChangeCoinsToGems);
     }

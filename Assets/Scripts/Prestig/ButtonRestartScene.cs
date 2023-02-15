@@ -8,10 +8,20 @@ namespace Assets.Scripts.Buttonss.PrestigButton
     {
         private Button _button;
 
-        private void Start()
+        private void Awake()
+        {
+            SetButton();
+        }
+
+        private void SetButton()
         {
             _button = GetComponent<Button>();
             _button.onClick.AddListener(RestartScene);
+        }
+
+        private void OnDestroy()
+        {
+            _button.onClick.RemoveAllListeners();
         }
 
         public void RestartScene()

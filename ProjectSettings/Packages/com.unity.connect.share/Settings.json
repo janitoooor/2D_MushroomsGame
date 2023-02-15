@@ -21,7 +21,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"D:/Мои_проекты_unity/My projects/Potato Clicker/WebGL Builds;;;;;;;;;\"}"
+                "value": "{\"m_Value\":\"D:/LocalServer/htdocs/Games/Build;D:/LocalServer/htdocs/Games/MushroomBuild1;D:/LocalServer/htdocs/Games/build5;D:/LocalServer/htdocs/Games/Build3;D:/LocalServer/htdocs/Games/Build2;D:/LocalServer/htdocs/Games/Build4;D:/LocalServer/htdocs/Games/MushroomBuild3;D:/LocalServer/htdocs/Games/MushroomBuild2;D:/LocalServer/htdocs/Games/MushroomBuild;D:/Мои_проекты_unity/My Games/MushroomBuild2\"}"
             }
         ]
     }

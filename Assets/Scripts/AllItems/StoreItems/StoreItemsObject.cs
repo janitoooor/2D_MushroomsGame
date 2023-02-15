@@ -149,6 +149,8 @@ public class StoreItemsObject : Items
         _upgratesAndItems.ButtonItemsPressed -= UnHiddenItem;
         _upgratesAndItems.ButtonItemsPressed -= LockItemInBuy;
         _upgratesAndItems.ButtonItemsPressed -= UnLockItemInBuy;
+
+        _itemButton.RemoveAllListeners();
     }
 
     private void SetStartOptions()

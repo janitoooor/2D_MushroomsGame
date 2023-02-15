@@ -28,22 +28,28 @@ public abstract class AchivementItem : Items
     [Space]
     [SerializeField] private int _amountPrize;
 
-    private GemBank _gemBank = GemBank.GetInstance();
+    private readonly GemBank _gemBank = GemBank.GetInstance();
 
     private Button _button;
-    private void Start()
+
+    private void Awake()
     {
         GetComponents();
+        SetButtonListeners();
+    }
+
+    private void Start()
+    {
         SetSubscriptions();
-        SetButton();
         LockAchivement();
         SetFonts();
     }
     private void OnDestroy()
     {
         RemoveAllSubscriptions();
-    }
+        _button.onClick.RemoveAllListeners();
 
+    }
     private protected void ChangeCurrentStateText(long currentValue)
     {
         _currentStateText.ChangeText($"{CoyntingSystemUpdate(currentValue)} / {CoyntingSystemUpdate(_goal)}");
@@ -55,6 +61,7 @@ public abstract class AchivementItem : Items
 
     private void GetComponents()
     {
+        _button = GetComponent<Button>();
         _audioSource = GameObject.Find(_audiosourceObjectName).GetComponent<AudioSource>();
     }
 
@@ -71,9 +78,8 @@ public abstract class AchivementItem : Items
         _currentStateText.ChangeText($"{0} / {_goal}");
     }
 
-    private void SetButton()
+    private void SetButtonListeners()
     {
-        _button = GetComponent<Button>();
         _button.onClick.AddListener(AddGemsOnClickDeactivateObject);
         _button.onClick.AddListener(PlayOneShot);
     }

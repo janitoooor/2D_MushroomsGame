@@ -62,6 +62,7 @@ class ItemBlockAnimation : Items
         _store.BuyItemIsMadeBlockCanCreates -= AddIcon;
         _store.SellItemIsMadeBlockCanCreates -= RemoveIcon;
         _store.BoosterSetNewLevels -= ChangeItemLvlbAfterBuyBooster;
+        _button.onClick.RemoveAllListeners();
     }
 
     private void GetComponents()

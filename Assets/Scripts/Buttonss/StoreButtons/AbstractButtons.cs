@@ -34,7 +34,13 @@ namespace Assets.Scripts.Buttons.StoreButtons
         {
             _button.onClick.AddListener(OnClick);
         }
-        public virtual void SetBaseComponents()
+
+        public virtual void RemoveAllListeners()
+        {
+            _button.onClick.RemoveAllListeners();
+        }
+
+        public virtual void GetComponents()
         {
             _button = GetComponent<Button>();
             _audioSource = GameObject.Find(_audiosourceObjectName).GetComponent<AudioSource>();

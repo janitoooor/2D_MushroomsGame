@@ -18,11 +18,30 @@ namespace Assets.Scripts.Buttonss.MenuButtons
 
         private bool _soundIsOff;
 
+        private void Awake()
+        {
+            GetComponents();
+        }
+
         private void Start()
         {
-            _buttonSound = GetComponent<Button>();
+            AddButtonListeners();
+        }
+
+        private void OnDestroy()
+        {
+            _buttonSound.onClick.RemoveAllListeners();
+        }
+
+        private void AddButtonListeners()
+        {
             _buttonSound.onClick.AddListener(SoundChangeVolume);
             _buttonSound.onClick.AddListener(PlayOneShot);
+        }
+
+        private void GetComponents()
+        {
+            _buttonSound = GetComponent<Button>();
         }
 
         private void SoundChangeVolume()
@@ -35,7 +54,7 @@ namespace Assets.Scripts.Buttonss.MenuButtons
 
         private void SoundChangeSpriteVolumeBool(float volume, Sprite sprite, bool soundIsOff)
         {
-             _audioSource.PlayOneShot(_audioClip);
+            _audioSource.PlayOneShot(_audioClip);
             _audioSource.volume = volume;
             _buttonSound.image.sprite = sprite;
             _soundIsOff = soundIsOff;

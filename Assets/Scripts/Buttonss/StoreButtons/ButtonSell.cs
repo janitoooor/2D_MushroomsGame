@@ -9,13 +9,16 @@ namespace Assets.Scripts.Shop
         public delegate void PressButtonSell();
         public event PressButtonSell PressSell;
 
+        private void Awake()
+        {
+            GetComponents();
+        }
+
         private void Start()
         {
-            SetBaseComponents();
             AddListeners();
             SetFont();
         }
-
 
         private void OnEnable()
         {
@@ -26,6 +29,11 @@ namespace Assets.Scripts.Shop
         {
             PressSell -= _store.ButtonSellIsPressed;
             _store.PressedButtonBuy -= ShowButtonSelected;
+        }
+
+        private void OnDestroy()
+        {
+            RemoveAllListeners();
         }
 
         public override void OnClick()

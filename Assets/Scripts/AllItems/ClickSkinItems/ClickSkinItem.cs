@@ -28,9 +28,14 @@ class ClickSkinItem : Items
 
     private readonly int _indexStartItem = 777;
     private bool _itemIsBuying;
-    private void Start()
+
+    private void Awake()
     {
         GetComponents();
+    }
+
+    private void Start()
+    {
         SetButton();
         LockItem();
 
@@ -46,6 +51,7 @@ class ClickSkinItem : Items
 
     private void GetComponents()
     {
+        _button = GetComponent<Button>();
         _audioSource = GameObject.Find(_audiosourceObjectName).GetComponent<AudioSource>();
     }
 
@@ -123,11 +129,11 @@ class ClickSkinItem : Items
     {
         _skinItemStore.SkinItemSelectedInStore -= UnSelectItem;
         _gemBank.GemBankSetsNewBalance -= ChangeButtonImageIfHaveGems;
+        _button.onClick.RemoveAllListeners();
     }
 
     private void SetButton()
     {
-        _button = GetComponent<Button>();
         _button.onClick.AddListener(BuyItem);
         _button.onClick.AddListener(PlayOneShot);
     }

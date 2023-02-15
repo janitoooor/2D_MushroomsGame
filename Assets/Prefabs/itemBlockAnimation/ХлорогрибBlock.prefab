@@ -169,7 +169,7 @@ MonoBehaviour:
   - {fileID: 1516555961353764836, guid: b13188fff56db6945b24edf5e79d9bc6, type: 3}
   _transform: {fileID: 6315322347447606960}
   _automatedPool: 0
-  _amountCreatedPrefabs: 20
+  _amountCreatedPrefabs: 60
 --- !u!1 &7592624937258879214
 GameObject:
   m_ObjectHideFlags: 0

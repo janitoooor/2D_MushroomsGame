@@ -21,7 +21,7 @@ namespace Assets.Scripts
         private long _coinsAddedByClick { get => _bankPassiveIncome.PassiveIncomeCoins * _itemIncome >= 1 ? Mathf.RoundToInt(_bankPassiveIncome.PassiveIncomeCoins * _itemIncome) : 1; }
         private float _itemIncome = 0.2f;
 
-        private void Start()
+        private void Awake()
         {
             _animator = GetComponent<Animator>();
             _skinItemStore.SkinItemSelectedInStore += ChangeClickableObject;
@@ -45,7 +45,7 @@ namespace Assets.Scripts
 
         private void ClickOnObject()
         {
-            _bankBalance.AddCoins(100000000);
+            _bankBalance.AddCoins(_coinsAddedByClick);
             _audioSource.PlayOneShot(_audioClip);
             _animator.SetBool(_animtaionTrigerName, true);
             _particleSystem.Play();
