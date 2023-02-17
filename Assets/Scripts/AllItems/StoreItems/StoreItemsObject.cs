@@ -5,6 +5,7 @@ using Assets.Scripts.Enumes;
 using Assets.Scripts.Buttonss.StoreButtons;
 using Assets.Scripts;
 using Assets.Scripts.Shop;
+using System.IO;
 
 public class StoreItemsObject : Items
 {
@@ -41,11 +42,17 @@ public class StoreItemsObject : Items
     private long _currentBankBalance;
     private long _startPrice;
 
+    private string _filePath;
+    private DataItem _itemData = new();
+
     private void Awake()
     {
+        _filePath = Application.persistentDataPath + "/" + $"Item{_indexItem}.json";
+
         GetChildsComponents();
         AddComponents();
         GetComponents();
+        Load();
     }
 
     private void Start()
@@ -70,6 +77,7 @@ public class StoreItemsObject : Items
             _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
             _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
             LockItemInBuy(_currentBankBalance);
+            Save();
         }
     }
 
@@ -84,6 +92,7 @@ public class StoreItemsObject : Items
             _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
             _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
             LockItemInSell(_itemValue.DesiredAmount);
+            Save();
         }
     }
 
@@ -155,11 +164,28 @@ public class StoreItemsObject : Items
 
     private void SetStartOptions()
     {
+        SetFont();
         SetButton();
         SetStartPrice();
+        SetStartItem();
         HiddenItem();
-        SetFont();
+        UnHiddenItem(_bankBalance.CoinsBalance);
+
+        if (ItemCurrentAmount >= 1)
+            gameObject.SetActive(true);
     }
+
+    private void SetStartItem()
+    {
+        _iconLocked.SetActive(false);
+        _iconUnlocked.SetActive(true);
+        _itemNameText.ChangeText(name);
+        _itemImageButton.ChangeImageColor(Color.white);
+        _itemButton.ChangeButtonInteractable(true);
+        _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
+        _itemAmountText.ChangeText($"{ItemCurrentAmount}");
+    }
+
     private void SetStartPrice()
     {
         _startPrice = _itemPrice;
@@ -238,17 +264,19 @@ public class StoreItemsObject : Items
         {
             ChangeHiddenItem(true, false, "???", Color.black, false, true);
             _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
+            _itemAmountText.ChangeText("");
         }
     }
 
     private void UnHiddenItem(long balance)
     {
-        if (!_store.PressedSell)
+        if (!_store.PressedSell && _itemIsHidden)
         {
-            if (_bankBalance.CoinsBalance >= _itemPrice)
+            if (_bankBalance.CoinsBalance >= _itemPrice || ItemCurrentAmount >= 1)
             {
                 ChangeHiddenItem(false, true, _itemName, Color.white, true, false);
                 _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
+                _itemAmountText.ChangeText($"{ItemCurrentAmount}");
             }
 
             _bankBalance.BalanceChanged -= UnHiddenItem;
@@ -351,5 +379,55 @@ public class StoreItemsObject : Items
             return $"{long.MaxValue}";
 
         return string.Format("{0:0.0#}{1}", value / Math.Pow(1000, power), Enum.GetName(typeof(BigNumbersUnit), power));
+    }
+
+    [Serializable]
+    public class DataItem
+    {
+        public long CurrentAmount;
+        public long Price;
+        public bool ItemIsHidden;
+    }
+
+    public void Save()
+    {
+        _itemData.CurrentAmount = ItemCurrentAmount;
+        _itemData.Price = ItemPrice;
+        _itemData.ItemIsHidden = _itemIsHidden;
+
+        string dataAsJson = JsonUtility.ToJson(_itemData, true);
+        File.WriteAllText(_filePath, dataAsJson);
+        Debug.Log("Item Saved");
+    }
+
+    public void Load()
+    {
+        if (File.Exists(_filePath))
+        {
+            string json = File.ReadAllText(_filePath);
+            _itemData = JsonUtility.FromJson<DataItem>(json);
+
+            _itemPrice = _itemData.Price;
+            _itemValue.ChangeCurrentAmount(_itemData.CurrentAmount);
+            _itemIsHidden = _itemData.ItemIsHidden;
+            Debug.Log($"Item loaded");
+        }
+        else
+        {
+            Debug.Log($"No saved data found");
+        }
+    }
+
+    public void ClearSaves()
+    {
+        if (File.Exists(_filePath))
+        {
+            File.Delete(_filePath);
+            Debug.Log($"Save file deleted");
+        }
+        else
+        {
+            Debug.Log($"No saved data found");
+        }
     }
 }

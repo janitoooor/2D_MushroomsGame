@@ -10,6 +10,7 @@ namespace Assets.Scripts.Buttonss.MenuButtons
 
         [Space]
         [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioSource _backgroundMusic;
         [SerializeField] private AudioClip _audioClip;
         [Space]
         [SerializeField] Button _buttonSound;
@@ -56,6 +57,7 @@ namespace Assets.Scripts.Buttonss.MenuButtons
         {
             _audioSource.PlayOneShot(_audioClip);
             _audioSource.volume = volume;
+            _backgroundMusic.volume = volume;
             _buttonSound.image.sprite = sprite;
             _soundIsOff = soundIsOff;
         }

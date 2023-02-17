@@ -10,16 +10,24 @@ public class Yandex : MonoBehaviour
     [SerializeField] private RawImage _userImage;
     [SerializeField] private TextMeshProUGUI _userName;
 
-
-    [DllImport("__Internal")]
-    private static extern void Hello();
-
     [DllImport("__Internal")]
     private static extern void GetPlayerData();
 
-    public void GetPlayerDataButton()
+    [DllImport("__Internal")]
+    private static extern void RateGame();
+
+    public void SetPlayerNameAndPhoto()
     {
+#if UNITY_WEBGL
         GetPlayerData();
+#endif
+    }
+
+    public void RateGameOnButton()
+    {
+#if UNITY_WEBGL
+        RateGame();
+#endif
     }
 
     public void SetName(string name)

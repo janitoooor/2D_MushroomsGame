@@ -20,7 +20,7 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            _passiveIncomeText.text = CoyntingSystemUpdate(0);
+            UpdatePassiveIncomeText(_bankPassiveIncome.PassiveIncomeCoins);
             _passiveIncomeText.font = _font;
         }
 

@@ -1,4 +1,7 @@
-﻿namespace Assets.Scripts
+﻿using System.Collections;
+using UnityEngine;
+
+namespace Assets.Scripts
 {
     public class BankBalance
     {
@@ -14,6 +17,8 @@
         private static readonly BankBalance s_bankBalance = new();
 
         private long _coinsBalance;
+
+        private float _timerAutoSave = 10f;
 
         public long CoinsBalance { get => _coinsBalance; }
 
@@ -33,11 +38,29 @@
             BalanceChanged?.Invoke(amount);
             BalanceSetOldBalance?.Invoke(_coinsBalance, oldBalance);
             BalanceSetNewBalance?.Invoke(_coinsBalance);
+            JsonBalanceSaveSystem.Instance.Save();
+        }
+
+        public void LoadCoinsBalance(long coinsBalance)
+        {
+            _coinsBalance = coinsBalance;
         }
 
         public static BankBalance GetInstance()
         {
             return s_bankBalance;
+        }
+
+        public void StartTimerSaveRoutine()
+        {
+            Coroutines.StartRoutine(TimerSaveBalance());
+        }
+
+        private IEnumerator TimerSaveBalance()
+        {
+            yield return new WaitForSeconds(_timerAutoSave);
+            JsonBalanceSaveSystem.Instance.Save();
+            Coroutines.StartRoutine(TimerSaveBalance());
         }
     }
 }

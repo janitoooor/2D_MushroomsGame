@@ -22,6 +22,11 @@
             PassiveIncomeChanged?.Invoke(coins);
         }
 
+        public void LoadPassiveIncome(long passiveIncome)
+        {
+            _passiveCoins = passiveIncome;
+        }
+
         public static BankPassiveIncome GetInstance()
         {
             return s_bankPassiveIncome;

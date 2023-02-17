@@ -17,7 +17,7 @@ namespace Assets.Scripts.GemBanks
 
         private void Start()
         {
-            _gemBalanceText.text = CoyntingSystemUpdate(0);
+            _gemBalanceText.text = CoyntingSystemUpdate(_gemBank.GemsBalance);
             _gemBalanceText.font = _font;
         }
 

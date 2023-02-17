@@ -17,8 +17,9 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            UpdateBalanceText(_bankBalance.CoinsBalance, 0);
             _balanceText.font = _font;
+            UpdateBalanceText(_bankBalance.CoinsBalance, 0);
+            _bankBalance.StartTimerSaveRoutine();
         }
 
         private void OnEnable()
