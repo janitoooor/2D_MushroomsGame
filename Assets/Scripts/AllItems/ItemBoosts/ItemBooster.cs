@@ -38,7 +38,7 @@ public class ItemBooster : Items
     public int IndexLvl { get => _indexLvl; }
 
     public int IndexBooster { get => _indexItem; }
-    private bool _maxLvlBoster { get => _indexLvl >= _pricesLvls.Count; }
+    private bool _maxLvlBoster { get => _indexLvl >= _pricesLvls.Count - 1; }
     public bool IsMaxLvlBooster { get => _maxLvlBoster; }
 
     public long BoostPrice { get => _price; }

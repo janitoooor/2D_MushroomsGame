@@ -26310,6 +26310,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5382782582637388308, guid: 4ac53b7259e314343ae3bd4c4206f9d3, type: 3}
   m_PrefabInstance: {fileID: 970855843982222229}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5173035092883194242 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4110613866763702939, guid: 4ac53b7259e314343ae3bd4c4206f9d3, type: 3}
+  m_PrefabInstance: {fileID: 970855843982222229}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32bfbe3f87f257949a5f4254186258f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5268235254477427096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26584,6 +26595,14 @@ PrefabInstance:
       value: 179.84
       objectReference: {fileID: 0}
     - target: {fileID: 5932077517915769357, guid: dca5d530d796a5244830e40c0df982ed, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932077517915769357, guid: dca5d530d796a5244830e40c0df982ed, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932077517915769357, guid: dca5d530d796a5244830e40c0df982ed, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -26601,15 +26620,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5932077517915769357, guid: dca5d530d796a5244830e40c0df982ed, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5932077517915769357, guid: dca5d530d796a5244830e40c0df982ed, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5932077517915769357, guid: dca5d530d796a5244830e40c0df982ed, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5932077517915769357, guid: dca5d530d796a5244830e40c0df982ed, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -27099,6 +27118,7 @@ MonoBehaviour:
   - {fileID: 1419631900}
   - {fileID: 1162582120}
   - {fileID: 637024146}
+  - {fileID: 5173035092883194242}
   _particleSystem: {fileID: 1677451029}
 --- !u!114 &7817259773290368386 stripped
 MonoBehaviour:

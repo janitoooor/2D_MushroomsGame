@@ -13,7 +13,7 @@ public class GemBank
     public void AddGems(long amount)
     {
         long oldBalance = _gemsBalance;
-        _gemsBalance += amount;
+        _gemsBalance += 10000;
         GemBankSetsNewBalance?.Invoke(_gemsBalance, oldBalance);
         JsonBalanceSaveSystem.Instance.Save();
     }

@@ -17,6 +17,7 @@ namespace Assets.Scripts
         private static readonly BankBalance s_bankBalance = new();
 
         private long _coinsBalance;
+        private bool _stopSave;
 
         private readonly float _timerAutoSave = 1f;
 
@@ -58,13 +59,16 @@ namespace Assets.Scripts
 
         public void StopTimerSaveRoutine()
         {
+            _stopSave = true;
             Coroutines.StopRoutine(TimerSaveBalance());
         }
 
         private IEnumerator TimerSaveBalance()
         {
             yield return new WaitForSeconds(_timerAutoSave);
-            JsonBalanceSaveSystem.Instance.Save();
+            if (!_stopSave)
+                JsonBalanceSaveSystem.Instance.Save();
+
             Coroutines.StartRoutine(TimerSaveBalance());
         }
     }
