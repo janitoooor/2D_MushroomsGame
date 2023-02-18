@@ -1,9 +1,11 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Buttonss.PrestigButton;
 using Assets.Scripts.Enumes;
 using Assets.Scripts.Shop;
 using Assets.Scripts.StoreItem;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ItemBooster : Items
@@ -32,29 +34,44 @@ public class ItemBooster : Items
 
     private long _price;
 
-    private int _indexLvl;
+    private int _indexLvl = -1;
     public int IndexLvl { get => _indexLvl; }
 
     public int IndexBooster { get => _indexItem; }
     private bool _maxLvlBoster { get => _indexLvl >= _pricesLvls.Count; }
+    public bool IsMaxLvlBooster { get => _maxLvlBoster; }
 
     public long BoostPrice { get => _price; }
     public int BoostPassiveIncome { get => _passiveIncome; }
 
     private bool _itemIsLocked = false;
 
+    private DataItemBooster _itemBoosterData = new();
+    private string _filePath;
+
     private void Awake()
     {
+        _filePath = Application.persistentDataPath + "/" + $"ItemBooster{_indexItem}.json";
+
         AddAndGetComponents();
         SetSubscriptions();
-    }
 
+        Load();
+        _store.GiveStoreItemBoosterLvl(this);
+    }
     private void Start()
     {
-        SetButton();
+
+        if (_maxLvlBoster)
+        {
+            DeactivateGameObject();
+            return;
+        }
+
         SetFont();
-        ChangeBoosterPriceText();
-        ChangeIncomeText(_passiveIncomeLvls[_indexLvl]);
+        SetButton();
+        SetNewValue();
+        LockItemBooster(0);
     }
 
     private void OnDestroy()
@@ -64,12 +81,14 @@ public class ItemBooster : Items
 
     private void SetSubscriptions()
     {
+        ButtonRestartScene.Instance.RestartsGame += ClearSaves;
         _bankBalance.BalanceSetNewBalance += LockItemBooster;
         _bankBalance.BalanceSetNewBalance += UnlockItemBooster;
     }
 
     private void RemoveAllSubcriptions()
     {
+        ButtonRestartScene.Instance.RestartsGame -= ClearSaves;
         _bankBalance.BalanceSetNewBalance -= LockItemBooster;
         _bankBalance.BalanceSetNewBalance -= UnlockItemBooster;
         _itemBoosterButton.RemoveAllListeners();
@@ -107,14 +126,15 @@ public class ItemBooster : Items
     {
         _itemBoosterButton.AddListeners(BuyBooster);
         _itemBoosterButton.AddListeners(PlayOneShot);
-        SetNewValue();
-        LockItemBooster(0);
+
     }
 
     private void BuyBooster()
     {
+        _indexLvl++;
         _store.BuyBooster(this);
         ChangeBoosterToNewLvlAfterBuy();
+        Save();
     }
 
     private void ChangeBoosterPriceText()
@@ -130,26 +150,25 @@ public class ItemBooster : Items
     private void ChangeBoosterToNewLvlAfterBuy()
     {
         _isCreated = true;
-        _indexLvl++;
         DeactivateGameObject();
         SetNewValue();
-        ChangeBoosterPriceText();
-        ChangeIncomeText(_passiveIncomeLvls[1]);
     }
 
     private void SetNewValue()
     {
         if (!_maxLvlBoster && gameObject != null)
         {
-            _iconLvls[_indexLvl].gameObject.SetActive(true);
+            _iconLvls[_indexLvl + 1].SetActive(true);
             for (int i = 0; i < _iconLvls.Count; i++)
             {
-                if (_iconLvls[i] != _iconLvls[_indexLvl])
-                    _iconLvls[i].gameObject.SetActive(false);
+                if (_iconLvls[i] != _iconLvls[_indexLvl + 1])
+                    _iconLvls[i].SetActive(false);
             }
 
-            _price = _pricesLvls[_indexLvl];
-            _itemBoosterNameText.ChangeText(_nameTextsLvl[1]);
+            _price = _pricesLvls[_indexLvl + 1];
+            _itemBoosterNameText.ChangeText(_nameTextsLvl[_indexLvl + 1]);
+            ChangeIncomeText(_passiveIncomeLvls[_indexLvl + 1]);
+            ChangeBoosterPriceText();
         }
     }
 
@@ -198,5 +217,43 @@ public class ItemBooster : Items
             return $"{long.MaxValue}";
 
         return string.Format("{0:0.0#}{1}", value / Math.Pow(1000, power), Enum.GetName(typeof(BigNumbersUnit), power));
+    }
+
+    [Serializable]
+    class DataItemBooster
+    {
+        public int IndexLvl;
+    }
+
+    public void Save()
+    {
+        _itemBoosterData.IndexLvl = _indexLvl;
+
+        string dataAsJson = JsonUtility.ToJson(_itemBoosterData, true);
+        File.WriteAllText(_filePath, dataAsJson);
+    }
+
+    public void Load()
+    {
+        if (File.Exists(_filePath))
+        {
+            string json = File.ReadAllText(_filePath);
+            _itemBoosterData = JsonUtility.FromJson<DataItemBooster>(json);
+
+            _indexLvl = _itemBoosterData.IndexLvl;
+        }
+        else
+        {
+            Debug.Log($"No saved data found");
+        }
+    }
+
+    public void ClearSaves()
+    {
+        if (File.Exists(_filePath))
+        {
+            File.Delete(_filePath);
+            Debug.Log($"Save file deleted");
+        }
     }
 }

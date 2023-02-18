@@ -28,6 +28,7 @@ class ClickSkinItem : Items
 
     private readonly int _indexStartItem = 777;
     private bool _itemIsBuying;
+    private bool _itemSelected;
 
     private void Awake()
     {
@@ -116,15 +117,26 @@ class ClickSkinItem : Items
         if (_gemBank.GemsBalance >= _price)
         {
             _gemBank.WithdrawGems(_price);
-            UnlockItem();
             _itemIsBuying = true;
+            ChangeBuyingItem();
+            SelectItem();
+        }
+    }
+
+    private void ChangeBuyingItem()
+    {
+        if (_itemIsBuying)
+        {
+            UnlockItem();
             _button.onClick.RemoveListener(BuyItem);
             _button.onClick.AddListener(SelectItem);
             _skinItemStore.SkinItemSelectedInStore += UnSelectItem;
             _gemBank.GemBankSetsNewBalance -= ChangeButtonImageIfHaveGems;
-            SelectItem();
         }
+        if (_itemSelected)
+            SelectItem();
     }
+
     private void RemoveAllSubcriptions()
     {
         _skinItemStore.SkinItemSelectedInStore -= UnSelectItem;

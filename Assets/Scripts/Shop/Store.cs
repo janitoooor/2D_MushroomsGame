@@ -82,6 +82,11 @@ public class Store
         }
     }
 
+    public void GiveStoreItemBoosterLvl(ItemBooster itemBooster)
+    {
+        BoosterSetNewLevels?.Invoke(itemBooster.IndexLvl, itemBooster.IndexItem);
+    }
+
     public void BuyBooster(ItemBooster itemBooster)
     {
         BuyAddBoosterStats(itemBooster);

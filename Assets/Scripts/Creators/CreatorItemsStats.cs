@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Shop;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Creators

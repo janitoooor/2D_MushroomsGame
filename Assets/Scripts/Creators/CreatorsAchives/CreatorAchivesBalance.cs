@@ -15,7 +15,7 @@ namespace Assets.Scripts.Creators.CreatorsAchives
         private void Start()
         {
             InstantiateStoreItems(_achivesBalance, _transform);
-            ActiveStartItems();
+
 
             foreach (var item in _createdItems)
             {
@@ -28,11 +28,30 @@ namespace Assets.Scripts.Creators.CreatorsAchives
                 if (_createdItems != null)
                     item.AchivesCreated += ChangeAchivement;
             }
+
+            SetStartAchivesItems();
+            ActiveStartItems();
         }
 
         private protected override void ActiveStartItems()
         {
-            _createdItems[0].gameObject.SetActive(true);
+            foreach (var item in _createdAchives)
+            {
+                if (!item.ItemIsGetValue)
+                {
+                    item.gameObject.SetActive(true);
+                    break;
+                }
+            }
+        }
+
+        private void SetStartAchivesItems()
+        {
+            foreach (var item in _createdAchives)
+            {
+                if (item.ItemIsGetValue)
+                    item.gameObject.SetActive(false);
+            }
         }
 
         private void ChangeAchivement(AchivementNewBalance achivementNewBalance)

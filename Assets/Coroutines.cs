@@ -21,12 +21,12 @@ namespace Assets
 
         private static Coroutines m_instance;
 
-        public static Coroutine StartRoutine(IEnumerator enumerator)
+        public static void StartRoutine(IEnumerator enumerator)
         {
-            return s_instance.StartCoroutine(enumerator);
+            s_instance.StartCoroutine(enumerator);
         }
 
-        public static void StopRoutine(Coroutine routine)
+        public static void StopRoutine(IEnumerator routine)
         {
             s_instance.StopCoroutine(routine);
         }

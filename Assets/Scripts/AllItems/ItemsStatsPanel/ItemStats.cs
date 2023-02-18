@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class ItemStats : Items
 {
-    private readonly Store _store = Store.GetInstance();
-
-    private ItemText _itemNameText;
-    private ItemText _itemDescriptionText;
-    private ItemImage _itemImageButton;
     [Space]
     [SerializeField] private GameObject _iconLocked;
     [SerializeField] private GameObject _iconUnlocked;
@@ -20,23 +15,38 @@ public class ItemStats : Items
     [Multiline]
     [SerializeField] private string _itemDescription;
 
+    private readonly Store _store = Store.GetInstance();
+
+    private ItemText _itemNameText;
+    private ItemText _itemDescriptionText;
+    private ItemImage _itemImageButton;
+
     private void Awake()
     {
+        CreatorItemsInStore.Instance.StoreItemsCreated += UnlockStartItems;
         GetComponents();
+        ChangelockItem("???", "???", Color.black, Color.black, true, false);
+    }
+
+    private void Start()
+    {
+        SetFont();
+    }
+
+    private void OnEnable()
+    {
         _store.BuyItemsIsMades += UnlockItem;
+    }
+
+    private void OnDisable()
+    {
+        CreatorItemsInStore.Instance.StoreItemsCreated -= UnlockStartItems;
     }
 
     private void OnDestroy()
     {
         _store.BuyItemsIsMades -= UnlockItem;
     }
-
-    private void Start()
-    {
-        SetFont();
-        ChangelockItem("???", "???", Color.black, Color.black, true, false);
-    }
-
     private void GetComponents()
     {
         var name = transform.GetChild(1);
@@ -49,6 +59,15 @@ public class ItemStats : Items
         _itemImageButton = GetComponent<ItemImage>();
         _itemNameText = name.GetComponent<ItemText>();
         _itemDescriptionText = description.GetComponent<ItemText>();
+    }
+
+    private void UnlockStartItems()
+    {
+        foreach (var item in CreatorItemsInStore.Instance.CreatedItems)
+        {
+            if (!item.ItemIsHidden)
+                UnlockItem(item.IndexItem);
+        }
     }
 
     private void SetFont()

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.ItemBoosts;
+using Assets.Scripts.StoreItem;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ class ItemBlockAnimation : Items
             new Queue<BoosterPrefab>(),
             new Queue<BoosterPrefab>(),
             new Queue<BoosterPrefab>()
-        };
+    };
 
     private int _lvlItem;
 
@@ -31,6 +32,12 @@ class ItemBlockAnimation : Items
         SetBaseOptions();
     }
 
+    private void Start()
+    {
+        if (_itemPrefabsActives.Count == 0)
+            ActivatePrefab();
+    }
+
     private void OnDestroy()
     {
         RemoveAllSubcriptions();
@@ -40,7 +47,6 @@ class ItemBlockAnimation : Items
     private void SetBaseOptions()
     {
         CreateStartsPrefabsMaxCount();
-        ActivatePrefab();
         SetSubscriptions();
     }
 
@@ -55,6 +61,8 @@ class ItemBlockAnimation : Items
         _store.BuyItemIsMadeBlockCanCreates += AddIcon;
         _store.SellItemIsMadeBlockCanCreates += RemoveIcon;
         _store.BoosterSetNewLevels += ChangeItemLvlbAfterBuyBooster;
+
+        CreatorItemsInStore.Instance.StoreItemsCreated += AddIconOnStart;
     }
 
     private void RemoveAllSubcriptions()
@@ -63,6 +71,17 @@ class ItemBlockAnimation : Items
         _store.SellItemIsMadeBlockCanCreates -= RemoveIcon;
         _store.BoosterSetNewLevels -= ChangeItemLvlbAfterBuyBooster;
         _button.onClick.RemoveAllListeners();
+
+        CreatorItemsInStore.Instance.StoreItemsCreated -= AddIconOnStart;
+    }
+
+    private void AddIconOnStart()
+    {
+        foreach (var item in CreatorItemsInStore.Instance.CreatedItems)
+        {
+            AddIcon(item.ItemCurrentAmount, item.IndexItem);
+            CreatorItemsInStore.Instance.StoreItemsCreated -= AddIconOnStart;
+        }
     }
 
     private void GetComponents()
@@ -157,7 +176,7 @@ class ItemBlockAnimation : Items
     {
         if (indexItem == _indexItem)
         {
-            if (currentAmount > 1 && currentAmount > _itemPrefabsActives.Count)
+            if (currentAmount >= 1 && currentAmount > _itemPrefabsActives.Count)
             {
                 int needCreate = (int)currentAmount - _itemPrefabsActives.Count;
                 for (int i = 0; i < needCreate; i++)
@@ -172,8 +191,8 @@ class ItemBlockAnimation : Items
         {
             if (currentAmount < _itemPrefabsActives.Count)
             {
-                int needCreate = _itemPrefabsActives.Count - (int)currentAmount;
-                for (int i = 0; i < needCreate; i++)
+                int needRemove = _itemPrefabsActives.Count - (int)currentAmount;
+                for (int i = 0; i < needRemove; i++)
                     DeactivatePrefab();
             }
         }
@@ -182,7 +201,12 @@ class ItemBlockAnimation : Items
     private void ChangeItemLvlbAfterBuyBooster(int lvlBooster, int indexBooster)
     {
         if (_indexItem == indexBooster)
-            _lvlItem++;
+            _lvlItem = lvlBooster + 1 ;
+
+        long amount = _itemPrefabsActives.Count;
+
+        RemoveIcon(0, _indexItem);
+        AddIcon(amount, _indexItem);
     }
 
     private void Dispose()

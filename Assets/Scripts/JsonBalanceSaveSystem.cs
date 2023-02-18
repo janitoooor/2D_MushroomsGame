@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Buttonss.PrestigButton;
+using System;
 using System.IO;
 using UnityEngine;
 
@@ -31,6 +32,16 @@ namespace Assets.Scripts
             Load();
         }
 
+        private void Start()
+        {
+            ButtonRestartScene.Instance.RestartsGame += ClearSaves;
+        }
+
+        private void OnDestroy()
+        {
+            ButtonRestartScene.Instance.RestartsGame -= ClearSaves;
+        }
+
         public void Save()
         {
             _saveData.CoinsBalance = _bankBalance.CoinsBalance;
@@ -39,7 +50,6 @@ namespace Assets.Scripts
 
             string dataAsJson = JsonUtility.ToJson(_saveData, true);
             File.WriteAllText(_filePath, dataAsJson);
-            Debug.Log("Game Saved");
         }
 
         public void Load()
@@ -52,25 +62,15 @@ namespace Assets.Scripts
                 _bankBalance.LoadCoinsBalance(_saveData.CoinsBalance);
                 _bankPassiveIncome.LoadPassiveIncome(_saveData.BankPassiveIncome);
                 _gemBank.LoadGemBalance(_saveData.GemBalance);
-                Debug.Log($"Game loaded");
-            }
-            else
-            {
-                Debug.Log($"No saved data found");
             }
         }
 
         public void ClearSaves()
         {
             if (File.Exists(_filePath))
-            {
                 File.Delete(_filePath);
-                Debug.Log($"Save file deleted");
-            }
-            else
-            {
-                Debug.Log($"No saved data found");
-            }
+
+            _bankBalance.StopTimerSaveRoutine();
         }
 
         [Serializable]

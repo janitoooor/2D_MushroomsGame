@@ -82,7 +82,8 @@ namespace Assets.Scripts.Buttonss.StoreButtons
             AddListeners();
             SetFont();
             ShowButtonSelected();
-            SetStartLayer();
+
+            Invoke(nameof(SetStartLayer), Time.fixedDeltaTime);
         }
 
         private void SetStartLayer()

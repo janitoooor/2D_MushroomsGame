@@ -1,7 +1,9 @@
+using Assets.Scripts.Buttonss.PrestigButton;
 using Assets.Scripts.Enumes;
 using Assets.Scripts.Shop;
 using Assets.Scripts.StoreItem;
 using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,23 +33,36 @@ public abstract class AchivementItem : Items
     private readonly GemBank _gemBank = GemBank.GetInstance();
 
     private Button _button;
+    private DataItem _dataItem = new();
+
+    private protected bool _itemIsGetValue;
+    private protected bool _itemIsUnlocked;
+
+    private string _filePath;
+
+    public bool ItemIsGetValue { get => _itemIsGetValue; }
 
     private void Awake()
     {
+        _filePath = Application.persistentDataPath + "/" + $"Item{name}.json";
         GetComponents();
         SetButtonListeners();
+
+        Load();
+
+        ButtonRestartScene.Instance.RestartsGame += ClearSaves;
     }
 
     private void Start()
     {
         SetSubscriptions();
         LockAchivement();
-        SetFonts();
     }
     private void OnDestroy()
     {
         RemoveAllSubscriptions();
         _button.onClick.RemoveAllListeners();
+        ButtonRestartScene.Instance.RestartsGame -= ClearSaves;
 
     }
     private protected void ChangeCurrentStateText(long currentValue)
@@ -69,24 +84,32 @@ public abstract class AchivementItem : Items
     {
         ChangeStateObjectAchivement(true, false, true, false, true, _unlockColor);
         _prizeAmountText.ChangeText($"{_amountPrize}");
+        _itemIsUnlocked = true;
+        Save();
     }
 
     protected private void LockAchivement()
     {
         ChangeStateObjectAchivement(false, true, false, true, false, _lockColor);
+        SetFonts();
         _descriptionText.ChangeText(_description);
         _currentStateText.ChangeText($"{0} / {_goal}");
+
+        if (_itemIsUnlocked)
+            UnlockAchivement();
     }
 
     private void SetButtonListeners()
     {
-        _button.onClick.AddListener(AddGemsOnClickDeactivateObject);
+        _button.onClick.AddListener(GetValueOnClickUnlockedItem);
         _button.onClick.AddListener(PlayOneShot);
     }
 
-    protected private virtual void AddGemsOnClickDeactivateObject()
+    protected private virtual void GetValueOnClickUnlockedItem()
     {
         _gemBank.AddGems(_amountPrize);
+        _itemIsGetValue = true;
+        Save();
     }
 
     private string CoyntingSystemUpdate(long value)
@@ -116,5 +139,39 @@ public abstract class AchivementItem : Items
         _currentStateText.gameObject.SetActive(currentStateText);
         _imageButton.ChangeImageColor(color);
         _button.interactable = buttonInteractable;
+    }
+
+    [Serializable]
+    public class DataItem
+    {
+        public bool ItemIsGetValue;
+        public bool ItemIsUnlocked;
+    }
+
+    public void Save()
+    {
+        _dataItem.ItemIsGetValue = _itemIsGetValue;
+        _dataItem.ItemIsUnlocked = _itemIsUnlocked;
+
+        string dataAsJson = JsonUtility.ToJson(_dataItem, true);
+        File.WriteAllText(_filePath, dataAsJson);
+    }
+
+    public void Load()
+    {
+        if (File.Exists(_filePath))
+        {
+            string json = File.ReadAllText(_filePath);
+            _dataItem = JsonUtility.FromJson<DataItem>(json);
+
+            _itemIsGetValue = _dataItem.ItemIsGetValue;
+            _itemIsUnlocked = _dataItem.ItemIsUnlocked;
+        }
+    }
+
+    public void ClearSaves()
+    {
+        if (File.Exists(_filePath))
+            File.Delete(_filePath);
     }
 }

@@ -40,12 +40,13 @@ namespace Assets.Scripts
                 return;
             }
 
-            if (newBalance - oldBalance < 0)
+            if (newBalance < oldBalance)
             {
+                Debug.Log("Buy Item");
                 LeanTween.value(_balanceText.gameObject, oldBalance, newBalance, _timeToChange)
                 .setOnUpdate((float val) =>
                 {
-                    _balanceText.text = CoyntingSystemUpdate(newBalance);
+                    _balanceText.text = CoyntingSystemUpdate((long)val);
                 });
             }
             else

@@ -18,7 +18,7 @@ namespace Assets.Scripts
 
         private long _coinsBalance;
 
-        private float _timerAutoSave = 10f;
+        private readonly float _timerAutoSave = 1f;
 
         public long CoinsBalance { get => _coinsBalance; }
 
@@ -54,6 +54,11 @@ namespace Assets.Scripts
         public void StartTimerSaveRoutine()
         {
             Coroutines.StartRoutine(TimerSaveBalance());
+        }
+
+        public void StopTimerSaveRoutine()
+        {
+            Coroutines.StopRoutine(TimerSaveBalance());
         }
 
         private IEnumerator TimerSaveBalance()

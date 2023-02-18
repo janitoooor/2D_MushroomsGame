@@ -6,10 +6,21 @@ namespace Assets.Scripts.Buttonss.PrestigButton
 {
     class ButtonRestartScene : MonoBehaviour
     {
+        public static ButtonRestartScene Instance;
+        public delegate void RestartGame();
+        public event RestartGame RestartsGame;
+
         private Button _button;
 
         private void Awake()
         {
+            if (Instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
             SetButton();
         }
 
@@ -26,7 +37,7 @@ namespace Assets.Scripts.Buttonss.PrestigButton
 
         public void RestartScene()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            RestartsGame?.Invoke();
         }
     }
 }

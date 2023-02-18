@@ -23,9 +23,9 @@
             }
         }
 
-        private protected override void AddGemsOnClickDeactivateObject()
+        private protected override void GetValueOnClickUnlockedItem()
         {
-            base.AddGemsOnClickDeactivateObject();
+            base.GetValueOnClickUnlockedItem();
             AchivesCreated?.Invoke(this);
         }
 
