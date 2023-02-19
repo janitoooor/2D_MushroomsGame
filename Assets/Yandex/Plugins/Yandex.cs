@@ -18,14 +18,14 @@ public class Yandex : MonoBehaviour
 
     public void SetPlayerNameAndPhoto()
     {
-#if UNITY_WEBGL
+#if !UNITY_EDITOR && UNITY_WEBGL
         GetPlayerData();
 #endif
     }
 
     public void RateGameOnButton()
     {
-#if UNITY_WEBGL
+#if !UNITY_EDITOR && UNITY_WEBGL
         RateGame();
 #endif
     }

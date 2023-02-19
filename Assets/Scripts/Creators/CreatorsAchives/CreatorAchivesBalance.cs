@@ -11,6 +11,7 @@ namespace Assets.Scripts.Creators.CreatorsAchives
         [SerializeField] private Transform _transform;
 
         private readonly List<AchivementNewBalance> _createdAchives = new();
+        public List<AchivementNewBalance> CreatedAchivesBalance { get => _createdAchives; }
 
         private void Start()
         {

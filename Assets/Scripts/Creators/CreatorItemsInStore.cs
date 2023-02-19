@@ -29,10 +29,7 @@ namespace Assets.Scripts.StoreItem
                 DontDestroyOnLoad(gameObject);
                 Instance = this;
             }
-        }
 
-        private void Start()
-        {
             InstantiateStoreItems(_storeItems, _transform);
             AddCreatedItemsInPublicList();
             ActiveStartItems();

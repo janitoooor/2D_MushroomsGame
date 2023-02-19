@@ -5,15 +5,24 @@ namespace Assets.Scripts.Creators
 {
     class CreatorSkinClickItem : CreatorItems
     {
-        [SerializeField] private List<ClickSkinItem> _statsItems;
+        [SerializeField] private List<ClickSkinItem> _skinItems;
         [SerializeField] private Transform _transform;
+
+        private readonly List<ClickSkinItem> _createdSkinItems = new();
+        public List<ClickSkinItem> CreatedSkinItems { get => _createdSkinItems; }
 
         private void Start()
         {
-            foreach (var item in _statsItems)
+            CreateAllItems();
+        }
+
+        private void CreateAllItems()
+        {
+            foreach (var item in _skinItems)
             {
                 var obj = Instantiate(item, _transform.parent);
                 obj.gameObject.SetActive(true);
+                _createdSkinItems.Add(obj);
             }
         }
     }

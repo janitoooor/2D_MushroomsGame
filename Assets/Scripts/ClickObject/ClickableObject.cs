@@ -27,11 +27,6 @@ namespace Assets.Scripts
             _skinItemStore.SkinItemSelectedInStore += ChangeClickableObject;
         }
 
-        private void Start()
-        {
-
-        }
-
         private void OnDestroy()
         {
             _skinItemStore.SkinItemSelectedInStore -= ChangeClickableObject;

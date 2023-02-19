@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using Assets.Scripts.Buttonss.PrestigButton;
 using Assets.Scripts.Enumes;
 using Assets.Scripts.Shop;
@@ -33,24 +34,17 @@ public abstract class AchivementItem : Items
     private readonly GemBank _gemBank = GemBank.GetInstance();
 
     private Button _button;
-    private DataItem _dataItem = new();
 
     private protected bool _itemIsGetValue;
     private protected bool _itemIsUnlocked;
 
-    private string _filePath;
-
     public bool ItemIsGetValue { get => _itemIsGetValue; }
+    public bool ItemIsUnlocked { get => _itemIsUnlocked; }
 
     private void Awake()
     {
-        _filePath = Application.persistentDataPath + "/" + $"Item{name}.json";
         GetComponents();
         SetButtonListeners();
-
-        Load();
-
-        ButtonRestartScene.Instance.RestartsGame += ClearSaves;
     }
 
     private void Start()
@@ -62,7 +56,6 @@ public abstract class AchivementItem : Items
     {
         RemoveAllSubscriptions();
         _button.onClick.RemoveAllListeners();
-        ButtonRestartScene.Instance.RestartsGame -= ClearSaves;
 
     }
     private protected void ChangeCurrentStateText(long currentValue)
@@ -85,7 +78,7 @@ public abstract class AchivementItem : Items
         ChangeStateObjectAchivement(true, false, true, false, true, _unlockColor);
         _prizeAmountText.ChangeText($"{_amountPrize}");
         _itemIsUnlocked = true;
-        Save();
+        JsonSaveSystem.Instance.Save();
     }
 
     protected private void LockAchivement()
@@ -109,7 +102,7 @@ public abstract class AchivementItem : Items
     {
         _gemBank.AddGems(_amountPrize);
         _itemIsGetValue = true;
-        Save();
+        JsonSaveSystem.Instance.Save();
     }
 
     private string CoyntingSystemUpdate(long value)
@@ -141,37 +134,9 @@ public abstract class AchivementItem : Items
         _button.interactable = buttonInteractable;
     }
 
-    [Serializable]
-    public class DataItem
+    public void LoadData(bool dataItemIsGetValue, bool dataItemIsUnlocked)
     {
-        public bool ItemIsGetValue;
-        public bool ItemIsUnlocked;
-    }
-
-    public void Save()
-    {
-        _dataItem.ItemIsGetValue = _itemIsGetValue;
-        _dataItem.ItemIsUnlocked = _itemIsUnlocked;
-
-        string dataAsJson = JsonUtility.ToJson(_dataItem, true);
-        File.WriteAllText(_filePath, dataAsJson);
-    }
-
-    public void Load()
-    {
-        if (File.Exists(_filePath))
-        {
-            string json = File.ReadAllText(_filePath);
-            _dataItem = JsonUtility.FromJson<DataItem>(json);
-
-            _itemIsGetValue = _dataItem.ItemIsGetValue;
-            _itemIsUnlocked = _dataItem.ItemIsUnlocked;
-        }
-    }
-
-    public void ClearSaves()
-    {
-        if (File.Exists(_filePath))
-            File.Delete(_filePath);
+        _itemIsGetValue = dataItemIsGetValue;
+        _itemIsUnlocked = dataItemIsUnlocked;
     }
 }

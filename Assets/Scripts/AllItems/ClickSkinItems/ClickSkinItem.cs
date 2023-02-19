@@ -1,13 +1,12 @@
-﻿using Assets.Scripts.AllItems.ClickSkinItems;
-using Assets.Scripts.Buttonss.PrestigButton;
+﻿using Assets.Scripts;
+using Assets.Scripts.AllItems.ClickSkinItems;
 using Assets.Scripts.Shop;
-using System;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 class ClickSkinItem : Items
 {
+
     [Space]
     [SerializeField] private GameObject _unlockIcon;
     [SerializeField] private GameObject _lockIcon;
@@ -33,20 +32,16 @@ class ClickSkinItem : Items
     private bool _itemIsBuying;
     private bool _itemSelected;
 
-    private string _filePath;
-    private SkinItemData _skinItemData = new();
+    public bool ItemIsBuying { get => _itemIsBuying; }
+    public bool ItemSelected { get => _itemSelected; }
 
     private void Awake()
     {
-        _filePath = Application.persistentDataPath + "/" + $"SkinItem{name}.json";
-
-        Load();
         GetComponents();
     }
 
     private void Start()
     {
-        ButtonRestartScene.Instance.RestartsGame += ClearSaves;
         _gemBank.GemBankSetsNewBalance += ChangeButtonImageIfHaveGems;
         SetButton();
         LockItem();
@@ -130,7 +125,7 @@ class ClickSkinItem : Items
             _itemIsBuying = true;
             ChangeBuyingItem();
             SelectItem();
-            Save();
+            JsonSaveSystem.Instance.Save();
         }
     }
 
@@ -153,7 +148,6 @@ class ClickSkinItem : Items
     {
         _skinItemStore.SkinItemSelectedInStore -= UnSelectItem;
         _gemBank.GemBankSetsNewBalance -= ChangeButtonImageIfHaveGems;
-        ButtonRestartScene.Instance.RestartsGame -= ClearSaves;
         _button.onClick.RemoveAllListeners();
     }
 
@@ -168,7 +162,7 @@ class ClickSkinItem : Items
         _itemSelected = true;
         ChangeSelectItem(false, true, false);
         _skinItemStore.SetSelectedItem(this);
-        Save();
+        JsonSaveSystem.Instance.Save();
     }
 
     private void UnSelectItem(ClickSkinItem skinItem)
@@ -177,38 +171,9 @@ class ClickSkinItem : Items
             ChangeSelectItem(true, false, true);
     }
 
-    [Serializable]
-    public class SkinItemData
+    public void LoadData(bool dataItemIsBuying, bool dataItemSelected)
     {
-        public bool ItemIsBuying;
-        public bool ItemIsSelected;
+        _itemIsBuying = dataItemIsBuying;
+        _itemSelected = dataItemSelected;
     }
-
-    public void Save()
-    {
-        _skinItemData.ItemIsBuying = _itemIsBuying;
-        _skinItemData.ItemIsSelected = _itemSelected;
-
-        string dataAsJson = JsonUtility.ToJson(_skinItemData, true);
-        File.WriteAllText(_filePath, dataAsJson);
-    }
-
-    public void Load()
-    {
-        if (File.Exists(_filePath))
-        {
-            string json = File.ReadAllText(_filePath);
-            _skinItemData = JsonUtility.FromJson<SkinItemData>(json);
-
-            _itemIsBuying = _skinItemData.ItemIsBuying;
-            _itemSelected = _skinItemData.ItemIsSelected;
-        }
-    }
-
-    public void ClearSaves()
-    {
-        if (File.Exists(_filePath))
-            File.Delete(_filePath);
-    }
-
 }

@@ -10,7 +10,7 @@ public class PrestigLayer : MonoBehaviour
     [SerializeField] private List<GameObject> _allLayers;
     [SerializeField] private Button _buttonPrestig;
 
-    private float _timeToWaitButton = 5;
+    private readonly float _timeToWaitButton = 5;
 
     private readonly BankBalance _bankBalance = BankBalance.GetInstance();
 
@@ -19,7 +19,7 @@ public class PrestigLayer : MonoBehaviour
         _bankBalance.BalanceSetNewBalance += RestartGame;
 
         _layer.SetActive(false);
-        _buttonPrestig.gameObject.SetActive(true);
+        _buttonPrestig.gameObject.SetActive(false);
     }
 
     private void OnDestroy()

@@ -39,7 +39,7 @@ namespace Assets.Scripts
             BalanceChanged?.Invoke(amount);
             BalanceSetOldBalance?.Invoke(_coinsBalance, oldBalance);
             BalanceSetNewBalance?.Invoke(_coinsBalance);
-            JsonBalanceSaveSystem.Instance.Save();
+            JsonSaveSystem.Instance.Save();
         }
 
         public void LoadCoinsBalance(long coinsBalance)
@@ -67,7 +67,7 @@ namespace Assets.Scripts
         {
             yield return new WaitForSeconds(_timerAutoSave);
             if (!_stopSave)
-                JsonBalanceSaveSystem.Instance.Save();
+                JsonSaveSystem.Instance.Save();
 
             Coroutines.StartRoutine(TimerSaveBalance());
         }

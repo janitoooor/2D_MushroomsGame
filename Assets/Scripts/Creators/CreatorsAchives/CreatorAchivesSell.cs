@@ -12,6 +12,8 @@ namespace Assets.Scripts.Creators.CreatorsAchives
         [SerializeField] private Transform _transform;
 
         private readonly List<AchivementItemSell> _createdAchives = new List<AchivementItemSell>();
+        public List<AchivementItemSell> CreatedAchivesSell { get => _createdAchives; }
+
 
         private void Start()
         {

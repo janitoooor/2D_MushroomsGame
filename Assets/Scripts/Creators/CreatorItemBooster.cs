@@ -9,7 +9,13 @@ namespace Assets.Scripts.ItemBoosts
         [SerializeField] private List<ItemBooster> _boostItems;
         [SerializeField] private Transform _transform;
 
-        private List<ItemBooster> _createdItemsBooster = new();
+        private readonly List<ItemBooster> _createdItemsBooster = new();
+        public List<ItemBooster> CreatedItemsBooster { get => _createdItemsBooster; }
+
+        private void Awake()
+        {
+          
+        }
 
         private void Start()
         {
@@ -24,7 +30,7 @@ namespace Assets.Scripts.ItemBoosts
             _store.BuyItemsIsMades += ActiveItems;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _store.BuyItemsIsMades -= ActiveItems;
             CreatorItemsInStore.Instance.StoreItemsCreated -= ActiveItemsInStart;

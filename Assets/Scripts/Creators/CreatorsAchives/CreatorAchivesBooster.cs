@@ -11,6 +11,7 @@ namespace Assets.Scripts.Creators
         [SerializeField] private Transform _transform;
 
         private readonly List<AchivementBooster> _createdAchives = new List<AchivementBooster>();
+        public List<AchivementBooster> CreatedAchivesBooster { get => _createdAchives; }
 
         private void Start()
         {

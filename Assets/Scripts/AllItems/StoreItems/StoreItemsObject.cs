@@ -5,8 +5,6 @@ using Assets.Scripts.Enumes;
 using Assets.Scripts.Buttonss.StoreButtons;
 using Assets.Scripts;
 using Assets.Scripts.Shop;
-using System.IO;
-using Assets.Scripts.Buttonss.PrestigButton;
 
 public class StoreItemsObject : Items
 {
@@ -44,22 +42,17 @@ public class StoreItemsObject : Items
     private long _currentBankBalance;
     private long _startPrice;
 
-    private string _filePath;
-    private DataItem _itemData = new();
-
     private void Awake()
     {
-        SetSubscriptions();
-        _filePath = Application.persistentDataPath + "/" + $"Item{_indexItem}.json";
-
         GetChildsComponents();
         AddComponents();
         GetComponents();
-        Load();
-        SetStartOptions();
     }
+
     private void Start()
     {
+        SetSubscriptions();
+        SetStartOptions();
     }
 
     private void OnDestroy()
@@ -78,7 +71,7 @@ public class StoreItemsObject : Items
             _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
             _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
             LockItemInBuy(_currentBankBalance);
-            Save();
+            JsonSaveSystem.Instance.Save();
         }
     }
 
@@ -93,7 +86,7 @@ public class StoreItemsObject : Items
             _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
             _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
             LockItemInSell(_itemValue.DesiredAmount);
-            Save();
+            JsonSaveSystem.Instance.Save();
         }
     }
 
@@ -127,8 +120,6 @@ public class StoreItemsObject : Items
         _upgratesAndItems.ButtonItemsPressed += UnHiddenItem;
         _upgratesAndItems.ButtonItemsPressed += LockItemInBuy;
         _upgratesAndItems.ButtonItemsPressed += UnLockItemInBuy;
-
-        ButtonRestartScene.Instance.RestartsGame += ClearSaves;
     }
 
     private void RemoveAllSubcriptions()
@@ -163,8 +154,6 @@ public class StoreItemsObject : Items
         _upgratesAndItems.ButtonItemsPressed -= UnLockItemInBuy;
 
         _itemButton.RemoveAllListeners();
-
-        ButtonRestartScene.Instance.RestartsGame -= ClearSaves;
     }
 
     private void SetStartOptions()
@@ -385,47 +374,14 @@ public class StoreItemsObject : Items
         return string.Format("{0:0.0#}{1}", value / Math.Pow(1000, power), Enum.GetName(typeof(BigNumbersUnit), power));
     }
 
-    [Serializable]
-    public class DataItem
+    public void LoadData(long dataCurrentAmount, long dataPassiveIncome, long dataItemPrice, bool dataItemIsHidden)
     {
-        public long CurrentAmount;
-        public long Price;
-        public bool ItemIsHidden;
-        public long PassiveIncome;
-    }
+        _itemValue.ChangeCurrentAmount(dataCurrentAmount);
+        _itemPasssiveIncome = dataPassiveIncome;
 
-    public void Save()
-    {
         if (_itemPrice > 0)
-            _itemData.Price = ItemPrice;
+            _itemPrice = dataItemPrice;
 
-        _itemData.CurrentAmount = ItemCurrentAmount;
-        _itemData.ItemIsHidden = _itemIsHidden;
-        _itemData.PassiveIncome = _itemPasssiveIncome;
-
-        string dataAsJson = JsonUtility.ToJson(_itemData, true);
-        File.WriteAllText(_filePath, dataAsJson);
-    }
-
-    public void Load()
-    {
-        if (File.Exists(_filePath))
-        {
-            string json = File.ReadAllText(_filePath);
-            _itemData = JsonUtility.FromJson<DataItem>(json);
-
-            if (_itemData.Price > 0)
-                _itemPrice = _itemData.Price;
-
-            _itemValue.ChangeCurrentAmount(_itemData.CurrentAmount);
-            _itemIsHidden = _itemData.ItemIsHidden;
-            _itemPasssiveIncome = _itemData.PassiveIncome;
-        }
-    }
-
-    public void ClearSaves()
-    {
-        if (File.Exists(_filePath))
-            File.Delete(_filePath);
+        _itemIsHidden = dataItemIsHidden;
     }
 }

@@ -1,11 +1,9 @@
 ﻿using Assets.Scripts;
-using Assets.Scripts.Buttonss.PrestigButton;
 using Assets.Scripts.Enumes;
 using Assets.Scripts.Shop;
 using Assets.Scripts.StoreItem;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 public class ItemBooster : Items
@@ -46,21 +44,14 @@ public class ItemBooster : Items
 
     private bool _itemIsLocked = false;
 
-    private DataItemBooster _itemBoosterData = new();
-    private string _filePath;
-
     private void Awake()
     {
-        _filePath = Application.persistentDataPath + "/" + $"ItemBooster{_indexItem}.json";
-
         AddAndGetComponents();
-        SetSubscriptions();
-
-        Load();
-        _store.GiveStoreItemBoosterLvl(this);
     }
     private void Start()
     {
+        SetSubscriptions();
+        _store.GiveStoreItemBoosterLvl(this);
 
         if (_maxLvlBoster)
         {
@@ -81,14 +72,12 @@ public class ItemBooster : Items
 
     private void SetSubscriptions()
     {
-        ButtonRestartScene.Instance.RestartsGame += ClearSaves;
         _bankBalance.BalanceSetNewBalance += LockItemBooster;
         _bankBalance.BalanceSetNewBalance += UnlockItemBooster;
     }
 
     private void RemoveAllSubcriptions()
     {
-        ButtonRestartScene.Instance.RestartsGame -= ClearSaves;
         _bankBalance.BalanceSetNewBalance -= LockItemBooster;
         _bankBalance.BalanceSetNewBalance -= UnlockItemBooster;
         _itemBoosterButton.RemoveAllListeners();
@@ -134,7 +123,7 @@ public class ItemBooster : Items
         _indexLvl++;
         _store.BuyBooster(this);
         ChangeBoosterToNewLvlAfterBuy();
-        Save();
+        JsonSaveSystem.Instance.Save();
     }
 
     private void ChangeBoosterPriceText()
@@ -219,41 +208,8 @@ public class ItemBooster : Items
         return string.Format("{0:0.0#}{1}", value / Math.Pow(1000, power), Enum.GetName(typeof(BigNumbersUnit), power));
     }
 
-    [Serializable]
-    class DataItemBooster
+    public void LoadData(int dataLvlBooster)
     {
-        public int IndexLvl;
-    }
-
-    public void Save()
-    {
-        _itemBoosterData.IndexLvl = _indexLvl;
-
-        string dataAsJson = JsonUtility.ToJson(_itemBoosterData, true);
-        File.WriteAllText(_filePath, dataAsJson);
-    }
-
-    public void Load()
-    {
-        if (File.Exists(_filePath))
-        {
-            string json = File.ReadAllText(_filePath);
-            _itemBoosterData = JsonUtility.FromJson<DataItemBooster>(json);
-
-            _indexLvl = _itemBoosterData.IndexLvl;
-        }
-        else
-        {
-            Debug.Log($"No saved data found");
-        }
-    }
-
-    public void ClearSaves()
-    {
-        if (File.Exists(_filePath))
-        {
-            File.Delete(_filePath);
-            Debug.Log($"Save file deleted");
-        }
+        _indexLvl = dataLvlBooster;
     }
 }

@@ -29,11 +29,11 @@ class ItemBlockAnimation : Items
     private void Awake()
     {
         GetComponents();
-        SetBaseOptions();
     }
 
     private void Start()
     {
+        SetBaseOptions();
         if (_itemPrefabsActives.Count == 0)
             ActivatePrefab();
     }
@@ -201,7 +201,7 @@ class ItemBlockAnimation : Items
     private void ChangeItemLvlbAfterBuyBooster(int lvlBooster, int indexBooster)
     {
         if (_indexItem == indexBooster)
-            _lvlItem = lvlBooster + 1 ;
+            _lvlItem = lvlBooster + 1;
 
         long amount = _itemPrefabsActives.Count;
 
