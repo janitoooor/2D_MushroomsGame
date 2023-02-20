@@ -38,14 +38,10 @@ public class ItemStats : Items
         _store.BuyItemsIsMades += UnlockItem;
     }
 
-    private void OnDisable()
-    {
-        CreatorItemsInStore.Instance.StoreItemsCreated -= UnlockStartItems;
-    }
-
     private void OnDestroy()
     {
         _store.BuyItemsIsMades -= UnlockItem;
+        CreatorItemsInStore.Instance.StoreItemsCreated -= UnlockStartItems;
     }
     private void GetComponents()
     {
@@ -65,8 +61,10 @@ public class ItemStats : Items
     {
         foreach (var item in CreatorItemsInStore.Instance.CreatedItems)
         {
-            if (!item.ItemIsHidden)
+            if (item.ItemIsHidden)
+            {
                 UnlockItem(item.IndexItem);
+            }
         }
     }
 

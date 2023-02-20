@@ -17,6 +17,7 @@ namespace Assets.Scripts.GemBanks
 
         private void Start()
         {
+            JsonSaveSystem.Instance.LoadBalance();
             _gemBalanceText.text = CoyntingSystemUpdate(_gemBank.GemsBalance);
             _gemBalanceText.font = _font;
         }

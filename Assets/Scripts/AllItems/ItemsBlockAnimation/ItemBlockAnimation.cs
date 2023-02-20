@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.ItemBoosts;
+﻿using Assets.Scripts;
+using Assets.Scripts.ItemBoosts;
 using Assets.Scripts.StoreItem;
 using System.Collections.Generic;
 using UnityEngine;

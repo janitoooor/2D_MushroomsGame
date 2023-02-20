@@ -1,10 +1,8 @@
 using Assets.Scripts;
-using Assets.Scripts.Buttonss.PrestigButton;
 using Assets.Scripts.Enumes;
 using Assets.Scripts.Shop;
 using Assets.Scripts.StoreItem;
 using System;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,11 +36,18 @@ public abstract class AchivementItem : Items
     private protected bool _itemIsGetValue;
     private protected bool _itemIsUnlocked;
 
+    private static int _indexAchives = 0;
+    public int IndexAchives { get; private set; }
+
     public bool ItemIsGetValue { get => _itemIsGetValue; }
     public bool ItemIsUnlocked { get => _itemIsUnlocked; }
 
+
     private void Awake()
     {
+        _indexAchives++;
+        IndexAchives = _indexAchives;
+
         GetComponents();
         SetButtonListeners();
     }
@@ -50,6 +55,9 @@ public abstract class AchivementItem : Items
     private void Start()
     {
         SetSubscriptions();
+
+        JsonSaveSystem.Instance.LoadAchives(this);
+
         LockAchivement();
     }
     private void OnDestroy()
@@ -78,7 +86,7 @@ public abstract class AchivementItem : Items
         ChangeStateObjectAchivement(true, false, true, false, true, _unlockColor);
         _prizeAmountText.ChangeText($"{_amountPrize}");
         _itemIsUnlocked = true;
-        JsonSaveSystem.Instance.Save();
+        JsonSaveSystem.Instance.SaveAchives(this);
     }
 
     protected private void LockAchivement()
@@ -102,7 +110,7 @@ public abstract class AchivementItem : Items
     {
         _gemBank.AddGems(_amountPrize);
         _itemIsGetValue = true;
-        JsonSaveSystem.Instance.Save();
+        JsonSaveSystem.Instance.SaveAchives(this);
     }
 
     private string CoyntingSystemUpdate(long value)

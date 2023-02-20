@@ -48,7 +48,7 @@ namespace Assets.Scripts.ItemBoosts
             {
                 if (item.IndexItem < _createdItems.Count && _createdItems[item.IndexItem] != null && !_createdItemsBooster[item.IndexItem].IsMaxLvlBooster)
                 {
-                    if (!_createdItems[item.IndexItem].IsCreated && !item.ItemIsHidden)
+                    if (!_createdItems[item.IndexItem].IsCreated && item.ItemIsHidden)
                         _createdItems[item.IndexItem].gameObject.SetActive(true);
                 }
             }

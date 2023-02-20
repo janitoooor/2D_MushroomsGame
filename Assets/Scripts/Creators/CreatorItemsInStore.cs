@@ -29,10 +29,13 @@ namespace Assets.Scripts.StoreItem
                 DontDestroyOnLoad(gameObject);
                 Instance = this;
             }
+        }
 
+        private void Start()
+        {
             InstantiateStoreItems(_storeItems, _transform);
-            AddCreatedItemsInPublicList();
             ActiveStartItems();
+            AddCreatedItemsInPublicList();
         }
 
         private void AddCreatedItemsInPublicList()
@@ -58,8 +61,11 @@ namespace Assets.Scripts.StoreItem
         {
             for (int i = 0; i < _createdStoreItems.Count - 1; i++)
             {
-                if (bankBalance >= _createdStoreItems[i].ItemPrice || _createdStoreItems[i].ItemCurrentAmount >= 1 && !_createdStoreItems[i + 1].gameObject.activeInHierarchy)
-                    _createdItems[i + 1].gameObject.SetActive(true);
+                if (!_createdStoreItems[i + 1].gameObject.activeInHierarchy && !_createdStoreItems[i + 1].IsCreated)
+                {
+                    if (bankBalance >= _createdStoreItems[i].ItemPrice || _createdStoreItems[i].ItemCurrentAmount >= 1)
+                        _createdItems[i + 1].gameObject.SetActive(true);
+                }
             }
         }
     }

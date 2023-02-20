@@ -51,6 +51,7 @@ public class ItemBooster : Items
     private void Start()
     {
         SetSubscriptions();
+        JsonSaveSystem.Instance.LoadBoosters(this);
         _store.GiveStoreItemBoosterLvl(this);
 
         if (_maxLvlBoster)
@@ -123,7 +124,7 @@ public class ItemBooster : Items
         _indexLvl++;
         _store.BuyBooster(this);
         ChangeBoosterToNewLvlAfterBuy();
-        JsonSaveSystem.Instance.Save();
+        JsonSaveSystem.Instance.SaveBoosters(this);
     }
 
     private void ChangeBoosterPriceText()
@@ -210,6 +211,7 @@ public class ItemBooster : Items
 
     public void LoadData(int dataLvlBooster)
     {
-        _indexLvl = dataLvlBooster;
+        if (dataLvlBooster != _indexLvl)
+            _indexLvl = dataLvlBooster;
     }
 }

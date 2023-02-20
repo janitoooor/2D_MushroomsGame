@@ -1050,7 +1050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9be7843111c77e45b156967b3dd483c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _indexItem: 777
+  _indexItem: 10
   _font: {fileID: 11400000, guid: df7459bfe3c3bd94a99b0602aa47aaa6, type: 2}
   _audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   _unlockIcon: {fileID: 1167063693295038340}

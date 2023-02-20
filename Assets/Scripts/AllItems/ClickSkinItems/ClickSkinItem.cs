@@ -28,7 +28,7 @@ class ClickSkinItem : Items
 
     private Button _button;
 
-    private readonly int _indexStartItem = 777;
+    private readonly int _indexStartItem = 10;
     private bool _itemIsBuying;
     private bool _itemSelected;
 
@@ -45,6 +45,9 @@ class ClickSkinItem : Items
         _gemBank.GemBankSetsNewBalance += ChangeButtonImageIfHaveGems;
         SetButton();
         LockItem();
+
+        JsonSaveSystem.Instance.LoadSkins(this);
+
         ChangeButtonImageIfHaveGems(_gemBank.GemsBalance);
         BuyStartItem();
         ChangeBuyingItem();
@@ -125,7 +128,7 @@ class ClickSkinItem : Items
             _itemIsBuying = true;
             ChangeBuyingItem();
             SelectItem();
-            JsonSaveSystem.Instance.Save();
+            JsonSaveSystem.Instance.SaveSkins(this);
         }
     }
 
@@ -162,7 +165,7 @@ class ClickSkinItem : Items
         _itemSelected = true;
         ChangeSelectItem(false, true, false);
         _skinItemStore.SetSelectedItem(this);
-        JsonSaveSystem.Instance.Save();
+        JsonSaveSystem.Instance.SaveSkins(this);
     }
 
     private void UnSelectItem(ClickSkinItem skinItem)

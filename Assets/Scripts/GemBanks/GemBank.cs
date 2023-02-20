@@ -15,7 +15,7 @@ public class GemBank
         long oldBalance = _gemsBalance;
         _gemsBalance += amount;
         GemBankSetsNewBalance?.Invoke(_gemsBalance, oldBalance);
-        JsonSaveSystem.Instance.Save();
+        JsonSaveSystem.Instance.SaveBalance();
     }
 
     public void WithdrawGems(long amount)
@@ -23,7 +23,7 @@ public class GemBank
         long oldBalance = _gemsBalance;
         _gemsBalance -= amount;
         GemBankSetsNewBalance?.Invoke(_gemsBalance, oldBalance);
-        JsonSaveSystem.Instance.Save();
+        JsonSaveSystem.Instance.SaveBalance();
     }
 
     public void LoadGemBalance(long balance)

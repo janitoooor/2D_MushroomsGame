@@ -20,6 +20,7 @@ namespace Assets.Scripts
 
         private void Start()
         {
+            JsonSaveSystem.Instance.LoadBalance();
             UpdatePassiveIncomeText(_bankPassiveIncome.PassiveIncomeCoins);
             _passiveIncomeText.font = _font;
         }

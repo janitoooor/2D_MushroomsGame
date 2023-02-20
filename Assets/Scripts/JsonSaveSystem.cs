@@ -3,8 +3,10 @@ using Assets.Scripts.Creators;
 using Assets.Scripts.Creators.CreatorsAchives;
 using Assets.Scripts.ItemBoosts;
 using Assets.Scripts.StoreItem;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -32,8 +34,7 @@ namespace Assets.Scripts
         private readonly BankPassiveIncome _bankPassiveIncome = BankPassiveIncome.GetInstance();
         private readonly GemBank _gemBank = GemBank.GetInstance();
 
-        private readonly string _firstRunKey = "isFirstRun";
-
+        private readonly string _firstRunKey = "IsFirstRun1";
 
         [DllImport("__Internal")]
         private static extern void SaveExtern(string date);
@@ -53,6 +54,7 @@ namespace Assets.Scripts
             if (PlayerPrefs.HasKey(_firstRunKey))
             {
                 Debug.Log("Has key");
+                Load("");
 #if !UNITY_EDITOR
             LoadExtern();
 #endif
@@ -60,8 +62,6 @@ namespace Assets.Scripts
 
             PlayerPrefs.SetInt(_firstRunKey, 1);
             PlayerPrefs.Save();
-
-            Save();
         }
 
         private void Start()
@@ -76,137 +76,122 @@ namespace Assets.Scripts
 
         public void Save()
         {
-            SaveBalance();
-            SaveItems();
-            SaveBoosters();
-            SaveAllAchives();
-            SaveSkins();
+            //string dataAsJson = JsonUtility.ToJson(_saveData);
 
-            string dataAsJson = JsonUtility.ToJson(_saveData);
+            string filePath = Application.persistentDataPath + "/" + "GameData";
+
+            if (File.Exists(filePath))
+            {
+                string json = File.ReadAllText(filePath);
+            }
+
+
+            string dataAsJson = JsonConvert.SerializeObject(_saveData);
+            File.WriteAllText(filePath, dataAsJson);
+
 #if !UNITY_EDITOR
             SaveExtern(dataAsJson);
 #endif
-            Debug.Log($"Game Saved coins balance{_saveData.CoinsBalance}");
         }
 
         public void Load(string value)
         {
-            _saveData = JsonUtility.FromJson<SaveData>(value);
+            //_saveData = JsonUtility.FromJson<SaveData>(value);
 
-            LoadBalance();
-            LoadItems();
-            LoadBoosters();
-            LoadAllAchives();
-            LoadSkins();
+            string filePath = Application.persistentDataPath + "/" + "GameData";
 
-            Debug.Log($"Game Loaded coins balance {_bankBalance.CoinsBalance}");
-        }
-
-        private void SaveItems()
-        {
-            for (int i = 0; i < _creatorItemsInStore.CreatedItems.Count; i++)
+            if (File.Exists(filePath))
             {
-                _saveData.PricesItems[i] = _creatorItemsInStore.CreatedItems[i].ItemPrice;
-                _saveData.CurrentAmountItems[i] = _creatorItemsInStore.CreatedItems[i].ItemCurrentAmount;
-                _saveData.PassiveIncomeItems[i] = _creatorItemsInStore.CreatedItems[i].ItemCurrentAmount;
-                _saveData.ItemsIsHidden[i] = _creatorItemsInStore.CreatedItems[i].ItemIsHidden;
-            }
-        }
-        private void LoadItems()
-        {
-            for (int i = 0; i < _creatorItemsInStore.CreatedItems.Count; i++)
-            {
-                _creatorItemsInStore.CreatedItems[i].LoadData(_saveData.CurrentAmountItems[i], _saveData.PassiveIncomeItems[i],
-                    _saveData.PricesItems[i], _saveData.ItemsIsHidden[i]);
+                string json = File.ReadAllText(filePath);
+                _saveData = JsonConvert.DeserializeObject<SaveData>(json);
             }
         }
 
-        private void SaveBoosters()
+        public void SaveItems(StoreItemsObject itemStore)
         {
-            for (int i = 0; i < _creatorItemBooster.CreatedItemsBooster.Count; i++)
-                _saveData.IndexLvlsBosters[i] = _creatorItemBooster.CreatedItemsBooster[i].IndexLvl;
+            _saveData.PricesItems[itemStore.IndexItem] = itemStore.ItemPrice;
+            _saveData.CurrentAmountItems[itemStore.IndexItem] = itemStore.ItemCurrentAmount;
+            _saveData.PassiveIncomeItems[itemStore.IndexItem] = itemStore.ItemPassiveIncome;
+            _saveData.ItemsIsHidden[itemStore.IndexItem] = itemStore.ItemIsHidden;
+            Save();
+        }
+        public void LoadItems(StoreItemsObject itemStore)
+        {
+            itemStore.LoadData(_saveData.CurrentAmountItems[itemStore.IndexItem], _saveData.PassiveIncomeItems[itemStore.IndexItem],
+                _saveData.PricesItems[itemStore.IndexItem], _saveData.ItemsIsHidden[itemStore.IndexItem]);
+            Save();
         }
 
-        private void LoadBoosters()
+        public void SaveBoosters(ItemBooster itemBooster)
         {
-            for (int i = 0; i < _creatorItemBooster.CreatedItemsBooster.Count; i++)
-                _creatorItemBooster.CreatedItemsBooster[i].LoadData(_saveData.IndexLvlsBosters[i]);
+            _saveData.IndexLvlsBosters[itemBooster.IndexBooster] = itemBooster.IndexLvl;
+            Save();
         }
 
-        private void SaveBalance()
+        public void LoadBoosters(ItemBooster itemBooster)
+        {
+            itemBooster.LoadData(_saveData.IndexLvlsBosters[itemBooster.IndexBooster]);
+            Save();
+
+        }
+
+        public void SaveBalance()
         {
             _saveData.CoinsBalance = _bankBalance.CoinsBalance;
             _saveData.BankPassiveIncome = _bankPassiveIncome.PassiveIncomeCoins;
             _saveData.GemBalance = _gemBank.GemsBalance;
+            Save();
         }
 
-        private void LoadBalance()
+        public void LoadBalance()
         {
             _bankBalance.LoadCoinsBalance(_saveData.CoinsBalance);
             _bankPassiveIncome.LoadPassiveIncome(_saveData.BankPassiveIncome);
             _gemBank.LoadGemBalance(_saveData.GemBalance);
+            Save();
         }
 
-        private void SaveAllAchives()
+        public void SaveAchives(AchivementItem achives)
         {
-            SaveOneTypeAchives(_creatorAchivesBalance.CreatedAchivesBalance);
-            SaveOneTypeAchives(_creatorAchivesBooster.CreatedAchivesBooster);
-            SaveOneTypeAchives(_creatorAchivesBuy.CreatedAchivesBuy);
-            SaveOneTypeAchives(_creatorAchivesSell.CreatedAchivesSell);
+            _saveData.AchivesIsGetsValue[achives.IndexAchives] = achives.ItemIsGetValue;
+            _saveData.AchivesIsUnlocked[achives.IndexAchives] = achives.ItemIsUnlocked;
+            Save();
         }
 
-        private void SaveOneTypeAchives<T>(List<T> creatorAchives) where T : AchivementItem
+        public void LoadAchives(AchivementItem achives)
         {
-            for (int i = 0; i < creatorAchives.Count; i++)
-            {
-                _saveData.AchivesIsGetsValue[i] = creatorAchives[i].ItemIsGetValue;
-                _saveData.AchivesIsUnlocked[i] = creatorAchives[i].ItemIsUnlocked;
-            }
+            achives.LoadData(_saveData.AchivesIsGetsValue[achives.IndexAchives], _saveData.AchivesIsUnlocked[achives.IndexAchives]);
+            Save();
         }
 
-        private void LoadAllAchives()
+        public void SaveSkins(ClickSkinItem skinItem)
         {
-            LoadOneTypeAchives(_creatorAchivesBalance.CreatedAchivesBalance);
-            LoadOneTypeAchives(_creatorAchivesBooster.CreatedAchivesBooster);
-            LoadOneTypeAchives(_creatorAchivesBuy.CreatedAchivesBuy);
-            LoadOneTypeAchives(_creatorAchivesSell.CreatedAchivesSell);
+            _saveData.SkinIsBuying[skinItem.IndexItem] = skinItem.ItemIsBuying;
+            _saveData.SkinIsSelected[skinItem.IndexItem] = skinItem.ItemSelected;
+            Save();
         }
 
-        private void LoadOneTypeAchives<T>(List<T> creatorAchives) where T : AchivementItem
+        public void LoadSkins(ClickSkinItem skinItem)
         {
-            for (int i = 0; i < creatorAchives.Count; i++)
-                creatorAchives[i].LoadData(_saveData.AchivesIsGetsValue[i], _saveData.AchivesIsUnlocked[i]);
-        }
-
-        public void SaveSkins()
-        {
-            for (int i = 0; i < _creatorSkinItems.CreatedSkinItems.Count; i++)
-            {
-                _saveData.SkinIsBuying[i] = _creatorSkinItems.CreatedSkinItems[i].ItemIsBuying;
-                _saveData.SkinIsSelected[i] = _creatorSkinItems.CreatedSkinItems[i].ItemSelected;
-            }
-        }
-
-        public void LoadSkins()
-        {
-            for (int i = 0; i < _creatorSkinItems.CreatedSkinItems.Count; i++)
-                _creatorSkinItems.CreatedSkinItems[i].LoadData(_saveData.SkinIsBuying[i], _saveData.SkinIsSelected[i]);
+            skinItem.LoadData(_saveData.SkinIsBuying[skinItem.IndexItem], _saveData.SkinIsSelected[skinItem.IndexItem]);
+            Save();
         }
 
         public void ClearSaves()
         {
             _bankBalance.StopTimerSaveRoutine();
             _saveData = new();
-            string dataAsJson = JsonUtility.ToJson(_saveData);
-            SaveExtern(dataAsJson);
-            LoadExtern();
+            Save();
+
+            //SaveExtern(dataAsJson);
+            //LoadExtern();
             Debug.LogError($"Reset game coins balance {_bankBalance.CoinsBalance}");
         }
 
         [Serializable]
         public class SaveData
         {
-            private static readonly int s_maxAmountItems = 10;
+            private static readonly int s_maxAmountItems = 11;
             private static readonly int s_maxAmountAchivesItems = 100;
 
             public long CoinsBalance;
@@ -218,7 +203,10 @@ namespace Assets.Scripts
             public long[] CurrentAmountItems = new long[s_maxAmountItems];
             public bool[] ItemsIsHidden = new bool[s_maxAmountItems];
 
-            public int[] IndexLvlsBosters = new int[s_maxAmountItems];
+            public int[] IndexLvlsBosters =
+            {
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+            };
 
             public bool[] AchivesIsGetsValue = new bool[s_maxAmountAchivesItems];
             public bool[] AchivesIsUnlocked = new bool[s_maxAmountAchivesItems];

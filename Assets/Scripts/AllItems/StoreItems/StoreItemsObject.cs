@@ -36,7 +36,7 @@ public class StoreItemsObject : Items
 
     public long DesiredAmount { get => _itemValue.DesiredAmount; }
 
-    private bool _itemIsHidden = true;
+    private bool _itemIsHidden = false;
     public bool ItemIsHidden { get => _itemIsHidden; }
 
     private long _currentBankBalance;
@@ -47,14 +47,9 @@ public class StoreItemsObject : Items
         GetChildsComponents();
         AddComponents();
         GetComponents();
-    }
-
-    private void Start()
-    {
         SetSubscriptions();
         SetStartOptions();
     }
-
     private void OnDestroy()
     {
         RemoveAllSubcriptions();
@@ -71,7 +66,7 @@ public class StoreItemsObject : Items
             _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
             _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
             LockItemInBuy(_currentBankBalance);
-            JsonSaveSystem.Instance.Save();
+            JsonSaveSystem.Instance.SaveItems(this);
         }
     }
 
@@ -86,7 +81,7 @@ public class StoreItemsObject : Items
             _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
             _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
             LockItemInSell(_itemValue.DesiredAmount);
-            JsonSaveSystem.Instance.Save();
+            JsonSaveSystem.Instance.SaveItems(this);
         }
     }
 
@@ -160,6 +155,9 @@ public class StoreItemsObject : Items
     {
         SetFont();
         SetButton();
+
+        JsonSaveSystem.Instance.LoadItems(this);
+
         SetStartPrice();
         SetStartItem();
         HiddenItem();
@@ -178,6 +176,7 @@ public class StoreItemsObject : Items
         _itemButton.ChangeButtonInteractable(true);
         _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
         _itemAmountText.ChangeText($"{ItemCurrentAmount}");
+        _isCreated = true;
     }
 
     private void SetStartPrice()
@@ -253,9 +252,9 @@ public class StoreItemsObject : Items
 
     private void HiddenItem()
     {
-        if (_itemIsHidden)
+        if (!_itemIsHidden)
         {
-            ChangeHiddenItem(true, false, "???", Color.black, false, true);
+            ChangeHiddenItem(true, false, "???", Color.black, false, false);
             _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
             _itemAmountText.ChangeText("");
         }
@@ -263,11 +262,11 @@ public class StoreItemsObject : Items
 
     private void UnHiddenItem(long balance)
     {
-        if (!_store.PressedSell && _itemIsHidden)
+        if (!_store.PressedSell && !_itemIsHidden)
         {
             if (_bankBalance.CoinsBalance >= _itemPrice || ItemCurrentAmount >= 1)
             {
-                ChangeHiddenItem(false, true, _itemName, Color.white, true, false);
+                ChangeHiddenItem(false, true, _itemName, Color.white, true, true);
                 _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
                 _itemAmountText.ChangeText($"{ItemCurrentAmount}");
             }
@@ -286,7 +285,7 @@ public class StoreItemsObject : Items
 
     private void LockItemInBuy(long balance)
     {
-        if (!_store.PressedSell && _store.PressedBuy && !_itemIsHidden)
+        if (!_store.PressedSell && _store.PressedBuy && _itemIsHidden)
         {
             if (_bankBalance.CoinsBalance < _itemPrice)
                 ChangeLockItem(Color.black, false);
@@ -295,7 +294,7 @@ public class StoreItemsObject : Items
 
     private void UnLockItemInBuy(long balance)
     {
-        if (!_store.PressedSell && _store.PressedBuy && !_itemIsHidden)
+        if (!_store.PressedSell && _store.PressedBuy && _itemIsHidden)
         {
             if (_bankBalance.CoinsBalance >= _itemPrice)
                 ChangeLockItem(Color.white, true);
@@ -306,14 +305,14 @@ public class StoreItemsObject : Items
     {
         Color colorLockInSell = Color.Lerp(Color.red, Color.blue, 0.5f);
 
-        if (!_store.PressedBuy && _store.PressedSell && !_itemIsHidden)
+        if (!_store.PressedBuy && _store.PressedSell && _itemIsHidden)
             if (_itemValue.CurrentAmount < _itemValue.DesiredAmount)
                 ChangeLockItem(colorLockInSell, false);
     }
 
     private void UnLockItemInSell(long desiredAmout)
     {
-        if (!_store.PressedBuy && _store.PressedSell && !_itemIsHidden)
+        if (!_store.PressedBuy && _store.PressedSell && _itemIsHidden)
             if (_itemValue.CurrentAmount >= _itemValue.DesiredAmount)
                 ChangeLockItem(Color.red, true);
     }
@@ -377,9 +376,11 @@ public class StoreItemsObject : Items
     public void LoadData(long dataCurrentAmount, long dataPassiveIncome, long dataItemPrice, bool dataItemIsHidden)
     {
         _itemValue.ChangeCurrentAmount(dataCurrentAmount);
-        _itemPasssiveIncome = dataPassiveIncome;
 
-        if (_itemPrice > 0)
+        if (dataPassiveIncome > 0)
+            _itemPasssiveIncome = dataPassiveIncome;
+
+        if (dataItemPrice > 0)
             _itemPrice = dataItemPrice;
 
         _itemIsHidden = dataItemIsHidden;

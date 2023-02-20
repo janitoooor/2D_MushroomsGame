@@ -18,6 +18,7 @@ namespace Assets.Scripts
         private void Start()
         {
             _balanceText.font = _font;
+            JsonSaveSystem.Instance.LoadBalance();
             UpdateBalanceText(_bankBalance.CoinsBalance, 0);
             _bankBalance.StartTimerSaveRoutine();
         }

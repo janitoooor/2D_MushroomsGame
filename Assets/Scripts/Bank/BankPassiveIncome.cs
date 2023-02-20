@@ -14,12 +14,14 @@
         {
             _passiveCoins += coins;
             PassiveIncomeChanged?.Invoke(coins);
+            JsonSaveSystem.Instance.SaveBalance();
         }
 
         public void DecreasePassiveIncome(long coins)
         {
             _passiveCoins += coins;
             PassiveIncomeChanged?.Invoke(coins);
+            JsonSaveSystem.Instance.SaveBalance();
         }
 
         public void LoadPassiveIncome(long passiveIncome)
