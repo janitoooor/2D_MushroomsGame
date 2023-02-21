@@ -19,7 +19,7 @@ namespace Assets.Scripts
         private long _coinsBalance;
         private bool _stopSave;
 
-        private readonly float _timerAutoSave = 1f;
+        private readonly float _timerAutoSave = 3f;
 
         public long CoinsBalance { get => _coinsBalance; }
 

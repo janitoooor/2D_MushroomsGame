@@ -49,12 +49,20 @@ public class StoreItemsObject : Items
         GetComponents();
         SetSubscriptions();
         SetStartOptions();
+
+
     }
+
+    private void Start()
+    {
+        if (gameObject.activeInHierarchy)
+            _isCreated = true;
+    }
+
     private void OnDestroy()
     {
         RemoveAllSubcriptions();
     }
-
     public void BuyItem()
     {
         if (_store.PressedBuy && _bankBalance.CoinsBalance >= _itemPrice)
@@ -176,7 +184,6 @@ public class StoreItemsObject : Items
         _itemButton.ChangeButtonInteractable(true);
         _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
         _itemAmountText.ChangeText($"{ItemCurrentAmount}");
-        _isCreated = true;
     }
 
     private void SetStartPrice()

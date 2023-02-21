@@ -19,7 +19,7 @@ public class PrestigLayer : MonoBehaviour
         _bankBalance.BalanceSetNewBalance += RestartGame;
 
         _layer.SetActive(false);
-        _buttonPrestig.gameObject.SetActive(true);
+        _buttonPrestig.gameObject.SetActive(false);
     }
 
     private void OnDestroy()

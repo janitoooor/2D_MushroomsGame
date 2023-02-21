@@ -50,13 +50,13 @@ public abstract class AchivementItem : Items
 
         GetComponents();
         SetButtonListeners();
+        JsonSaveSystem.Instance.LoadAchives(this);
     }
 
     private void Start()
     {
         SetSubscriptions();
 
-        JsonSaveSystem.Instance.LoadAchives(this);
 
         LockAchivement();
     }

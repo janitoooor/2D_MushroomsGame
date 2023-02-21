@@ -30,11 +30,11 @@ class ItemBlockAnimation : Items
     private void Awake()
     {
         GetComponents();
+        SetBaseOptions();
     }
 
     private void Start()
     {
-        SetBaseOptions();
         if (_itemPrefabsActives.Count == 0)
             ActivatePrefab();
     }

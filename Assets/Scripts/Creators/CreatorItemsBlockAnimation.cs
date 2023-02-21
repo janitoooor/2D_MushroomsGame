@@ -6,16 +6,11 @@ public class CreatorItemsBlockAnimation : CreatorItems
 {
     [SerializeField] private List<ItemBlockAnimation> _itemsBlock;
     [SerializeField] private Transform _transform;
-    private void Awake()
-    {
-        InstantiateStoreItems(_itemsBlock, _transform);
-    }
-
     private void Start()
     {
         CreatorItemsInStore.Instance.StoreItemsCreated += ActiveItemsInStart;
+        InstantiateStoreItems(_itemsBlock, _transform);
     }
-
     private void OnEnable()
     {
         _store.BuyItemsIsMades += ActiveItems;

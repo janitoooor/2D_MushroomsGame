@@ -5,7 +5,6 @@ using Assets.Scripts.ItemBoosts;
 using Assets.Scripts.StoreItem;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -34,7 +33,7 @@ namespace Assets.Scripts
         private readonly BankPassiveIncome _bankPassiveIncome = BankPassiveIncome.GetInstance();
         private readonly GemBank _gemBank = GemBank.GetInstance();
 
-        private readonly string _firstRunKey = "IsFirstRun1";
+        private readonly string _firstRunKey = "IsFirstRun";
 
         [DllImport("__Internal")]
         private static extern void SaveExtern(string date);
@@ -53,10 +52,10 @@ namespace Assets.Scripts
 
             if (PlayerPrefs.HasKey(_firstRunKey))
             {
-                Debug.Log("Has key");
+#if UNITY_WEBGL && !UNITY_EDITOR
+                LoadExtern();
+#else
                 Load("");
-#if !UNITY_EDITOR
-            LoadExtern();
 #endif
             }
 
@@ -76,8 +75,10 @@ namespace Assets.Scripts
 
         public void Save()
         {
-            //string dataAsJson = JsonUtility.ToJson(_saveData);
-
+#if UNITY_WEBGL && !UNITY_EDITOR
+            string dataAsJson = JsonConvert.SerializeObject(_saveData);
+            SaveExtern(dataAsJson);
+#else
             string filePath = Application.persistentDataPath + "/" + "GameData";
 
             if (File.Exists(filePath))
@@ -85,26 +86,23 @@ namespace Assets.Scripts
                 string json = File.ReadAllText(filePath);
             }
 
-
             string dataAsJson = JsonConvert.SerializeObject(_saveData);
             File.WriteAllText(filePath, dataAsJson);
-
-#if !UNITY_EDITOR
-            SaveExtern(dataAsJson);
 #endif
         }
 
         public void Load(string value)
         {
-            //_saveData = JsonUtility.FromJson<SaveData>(value);
-
+#if UNITY_WEBGL && !UNITY_EDITOR
+            _saveData = JsonConvert.DeserializeObject<SaveData>(value);
+#else
             string filePath = Application.persistentDataPath + "/" + "GameData";
-
             if (File.Exists(filePath))
             {
                 string json = File.ReadAllText(filePath);
                 _saveData = JsonConvert.DeserializeObject<SaveData>(json);
             }
+#endif
         }
 
         public void SaveItems(StoreItemsObject itemStore)
@@ -119,7 +117,6 @@ namespace Assets.Scripts
         {
             itemStore.LoadData(_saveData.CurrentAmountItems[itemStore.IndexItem], _saveData.PassiveIncomeItems[itemStore.IndexItem],
                 _saveData.PricesItems[itemStore.IndexItem], _saveData.ItemsIsHidden[itemStore.IndexItem]);
-            Save();
         }
 
         public void SaveBoosters(ItemBooster itemBooster)
@@ -131,7 +128,6 @@ namespace Assets.Scripts
         public void LoadBoosters(ItemBooster itemBooster)
         {
             itemBooster.LoadData(_saveData.IndexLvlsBosters[itemBooster.IndexBooster]);
-            Save();
 
         }
 
@@ -148,7 +144,6 @@ namespace Assets.Scripts
             _bankBalance.LoadCoinsBalance(_saveData.CoinsBalance);
             _bankPassiveIncome.LoadPassiveIncome(_saveData.BankPassiveIncome);
             _gemBank.LoadGemBalance(_saveData.GemBalance);
-            Save();
         }
 
         public void SaveAchives(AchivementItem achives)
@@ -161,7 +156,6 @@ namespace Assets.Scripts
         public void LoadAchives(AchivementItem achives)
         {
             achives.LoadData(_saveData.AchivesIsGetsValue[achives.IndexAchives], _saveData.AchivesIsUnlocked[achives.IndexAchives]);
-            Save();
         }
 
         public void SaveSkins(ClickSkinItem skinItem)
@@ -174,7 +168,6 @@ namespace Assets.Scripts
         public void LoadSkins(ClickSkinItem skinItem)
         {
             skinItem.LoadData(_saveData.SkinIsBuying[skinItem.IndexItem], _saveData.SkinIsSelected[skinItem.IndexItem]);
-            Save();
         }
 
         public void ClearSaves()
@@ -182,10 +175,12 @@ namespace Assets.Scripts
             _bankBalance.StopTimerSaveRoutine();
             _saveData = new();
             Save();
-
-            //SaveExtern(dataAsJson);
+            PlayerPrefs.DeleteAll();
+#if !UNITY_EDITOR && UNITY_WEBGL
             //LoadExtern();
-            Debug.LogError($"Reset game coins balance {_bankBalance.CoinsBalance}");
+#else
+            Load("");
+#endif
         }
 
         [Serializable]

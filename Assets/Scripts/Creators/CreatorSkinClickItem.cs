@@ -11,9 +11,14 @@ namespace Assets.Scripts.Creators
         private readonly List<ClickSkinItem> _createdSkinItems = new();
         public List<ClickSkinItem> CreatedSkinItems { get => _createdSkinItems; }
 
+        private void Awake()
+        {
+            
+            CreateAllItems();
+        }
+
         private void Start()
         {
-            CreateAllItems();
         }
 
         private void CreateAllItems()

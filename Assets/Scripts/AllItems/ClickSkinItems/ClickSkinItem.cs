@@ -38,6 +38,8 @@ class ClickSkinItem : Items
     private void Awake()
     {
         GetComponents();
+
+
     }
 
     private void Start()
@@ -95,11 +97,12 @@ class ClickSkinItem : Items
             BuyItem();
     }
 
-    private void ChangeSelectItem(bool unlockIcon, bool iconSelect, bool buttonInteractable)
+    private void ChangeSelectItem(bool unlockIcon, bool iconSelect, bool buttonInteractable, bool itemSelected)
     {
         _unlockIcon.SetActive(unlockIcon);
         _iconIsSelect.SetActive(iconSelect);
         _button.interactable = buttonInteractable;
+        _itemSelected = itemSelected;
     }
 
     private void ChangeLockItem(bool unlockIcon, bool lockIcon, Color buttonColor)
@@ -162,8 +165,7 @@ class ClickSkinItem : Items
 
     private void SelectItem()
     {
-        _itemSelected = true;
-        ChangeSelectItem(false, true, false);
+        ChangeSelectItem(false, true, false, true);
         _skinItemStore.SetSelectedItem(this);
         JsonSaveSystem.Instance.SaveSkins(this);
     }
@@ -171,7 +173,8 @@ class ClickSkinItem : Items
     private void UnSelectItem(ClickSkinItem skinItem)
     {
         if (skinItem != this)
-            ChangeSelectItem(true, false, true);
+            ChangeSelectItem(true, false, true, false);
+        JsonSaveSystem.Instance.SaveSkins(this);
     }
 
     public void LoadData(bool dataItemIsBuying, bool dataItemSelected)
