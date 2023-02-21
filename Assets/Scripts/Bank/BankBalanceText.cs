@@ -43,7 +43,6 @@ namespace Assets.Scripts
 
             if (newBalance < oldBalance)
             {
-                Debug.Log("Buy Item");
                 LeanTween.value(_balanceText.gameObject, oldBalance, newBalance, _timeToChange)
                 .setOnUpdate((float val) =>
                 {
