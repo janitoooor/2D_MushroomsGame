@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -20,6 +21,10 @@ namespace Assets.Scripts
         private bool _stopSave;
 
         private readonly float _timerAutoSave = 3f;
+
+        [DllImport("__Internal")]
+        private static extern void SetToLeaderboard(long value);
+
 
         public long CoinsBalance { get => _coinsBalance; }
 
@@ -67,7 +72,10 @@ namespace Assets.Scripts
         {
             yield return new WaitForSeconds(_timerAutoSave);
             if (!_stopSave)
+            {
                 JsonSaveSystem.Instance.SaveBalance();
+                SetToLeaderboard(CoinsBalance);
+            }
 
             Coroutines.StartRoutine(TimerSaveBalance());
         }

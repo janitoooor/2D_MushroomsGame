@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Runtime.InteropServices;
 using TMPro;
@@ -7,14 +8,29 @@ using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
+    private readonly BankBalance _bankBalance = BankBalance.GetInstance();
+
     [SerializeField] private RawImage _userImage;
     [SerializeField] private TextMeshProUGUI _userName;
+
+    [DllImport("__Internal")]
+    private static extern void ShowAdv();
+
+    [DllImport("__Internal")]
+    private static extern void AddCoinsExtern(long value);
 
     [DllImport("__Internal")]
     private static extern void GetPlayerData();
 
     [DllImport("__Internal")]
     private static extern void RateGame();
+
+    private void Start()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        ShowAdv();
+# endif
+    }
 
     public void SetPlayerNameAndPhoto()
     {
@@ -38,6 +54,18 @@ public class Yandex : MonoBehaviour
     public void SetPhoto(string url)
     {
         StartCoroutine(DownoladImage(url));
+    }
+
+    public void ShowAddButton(long value)
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        AddCoinsExtern(value);
+#endif
+    }
+
+    public void AddCoinsForAdv(long value)
+    {
+        _bankBalance.AddCoins(value);
     }
 
     private IEnumerator DownoladImage(string mediaUrl)

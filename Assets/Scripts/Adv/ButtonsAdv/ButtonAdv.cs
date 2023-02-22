@@ -21,11 +21,10 @@ namespace Assets.Scripts.Buttonss.ButtonsAdv
             _audioSource = GameObject.Find(_audiosourceObjectName).GetComponent<AudioSource>();
             _animatorLayer = _layerToClose.GetComponent<Animator>();
             _button = GetComponent<Button>();
-            _button.onClick.AddListener(CloseLayer);
             _button.onClick.AddListener(PlayOneShot);
         }
 
-        private void CloseLayer()
+        public virtual void CloseLayer()
         {
             _animatorLayer.SetTrigger(_nameAnimationTriggerClose);
             _layerToOpen.SetActive(true);

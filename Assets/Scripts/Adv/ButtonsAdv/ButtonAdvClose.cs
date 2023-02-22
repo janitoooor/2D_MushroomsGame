@@ -11,6 +11,12 @@ public class ButtonAdvClose : ButtonAdv
     {
         _layerToClose.SetActive(false);
     }
+
+    public override void GetComponents()
+    {
+        base.GetComponents();
+        _button.onClick.AddListener(CloseLayer);
+    }
 }
 
 
