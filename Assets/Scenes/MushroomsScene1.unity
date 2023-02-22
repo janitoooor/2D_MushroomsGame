@@ -1078,6 +1078,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _userImage: {fileID: 2119901579}
   _userName: {fileID: 2060618770}
+  _buttonAdvOpen: {fileID: 1290364422}
+  _timeToActivateAdv: 60
 --- !u!4 &233317673
 Transform:
   m_ObjectHideFlags: 0
@@ -1108,7 +1110,7 @@ GameObject:
   - component: {fileID: 236185940}
   - component: {fileID: 236185941}
   m_Layer: 5
-  m_Name: ButtonNo
+  m_Name: ButtonClose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4412,7 +4414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -51.964, y: 0.0011978149}
+  m_AnchoredPosition: {x: -51.964005, y: 0.0011978149}
   m_SizeDelta: {x: 84.7271, y: 83.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &764757892
@@ -7569,7 +7571,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.1
+  m_fontSize: 42.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -13739,7 +13741,7 @@ GameObject:
   - component: {fileID: 1290364417}
   - component: {fileID: 1290364422}
   m_Layer: 5
-  m_Name: ButtonAdv
+  m_Name: ButtonAdvOpen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16180,8 +16182,9 @@ GameObject:
   - component: {fileID: 1573637166}
   - component: {fileID: 1573637165}
   - component: {fileID: 1573637168}
+  - component: {fileID: 1573637169}
   m_Layer: 5
-  m_Name: ButtonYes
+  m_Name: ButtonShowAdv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16309,6 +16312,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1573637169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573637163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148efbb14006a3542a9513712d18d5b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerToClose: {fileID: 692178323}
+  _button: {fileID: 1573637165}
+  _audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+  _layerToOpen: {fileID: 7816746524226360501}
+  _bonusTextAdv: {fileID: 2118047190}
+  _yandex: {fileID: 233317672}
 --- !u!1 &1577004942
 GameObject:
   m_ObjectHideFlags: 0
@@ -25512,6 +25533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _textBonus: {fileID: 2118047188}
+  _modifyBonus: 60
 --- !u!1 &2119156944
 GameObject:
   m_ObjectHideFlags: 0

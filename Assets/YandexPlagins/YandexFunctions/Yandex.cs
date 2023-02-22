@@ -1,3 +1,5 @@
+using Assets.Scripts;
+using Assets.Scripts.Buttonss.ButtonsAdv;
 using System.Collections;
 using System.Runtime.InteropServices;
 using TMPro;
@@ -7,14 +9,33 @@ using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
+    private readonly BankBalance _bankBalance = BankBalance.GetInstance();
+
     [SerializeField] private RawImage _userImage;
     [SerializeField] private TextMeshProUGUI _userName;
+    [Space]
+    [SerializeField] private ButtonAdvOpen _buttonAdvOpen;
+    [Space]
+    [SerializeField] private int _timeToActivateAdv = 60;
+
+    [DllImport("__Internal")]
+    private static extern void ShowAdv();
+
+    [DllImport("__Internal")]
+    private static extern void AddCoinsExtern(long value);
 
     [DllImport("__Internal")]
     private static extern void GetPlayerData();
 
     [DllImport("__Internal")]
     private static extern void RateGame();
+
+    private void Start()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        ShowAdv();
+# endif
+    }
 
     public void SetPlayerNameAndPhoto()
     {
@@ -40,6 +61,19 @@ public class Yandex : MonoBehaviour
         StartCoroutine(DownoladImage(url));
     }
 
+    public void ShowAddButton(long value)
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        AddCoinsExtern(value);
+#endif
+    }
+
+    public void AddCoinsAdv(long value)
+    {
+        _bankBalance.AddCoins(value);
+        DeactivateAdvButtonAfterAdvShow();
+    }
+
     private IEnumerator DownoladImage(string mediaUrl)
     {
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(mediaUrl);
@@ -49,5 +83,17 @@ public class Yandex : MonoBehaviour
             Debug.Log(request.error);
         else
             _userImage.texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+    }
+
+    private void DeactivateAdvButtonAfterAdvShow()
+    {
+        _buttonAdvOpen.gameObject.SetActive(false);
+        StartCoroutine(ActiveAdvAfterShow());
+    }
+
+    private IEnumerator ActiveAdvAfterShow()
+    {
+        yield return new WaitForSeconds(_timeToActivateAdv);
+        _buttonAdvOpen.gameObject.SetActive(true);
     }
 }
