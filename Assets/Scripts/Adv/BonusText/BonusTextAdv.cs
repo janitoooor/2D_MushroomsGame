@@ -9,7 +9,7 @@ public class BonusTextAdv : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _textBonus;
 
     [SerializeField] private int _modifyBonus = 50;
-    public int ModifyBonus { get => _modifyBonus; }
+    public long ModifyBonus { get => _modifyBonus; }
 
     private readonly BankPassiveIncome _bankPassiveIncome = BankPassiveIncome.GetInstance();
 
@@ -31,7 +31,7 @@ public class BonusTextAdv : MonoBehaviour
 
     private void ChangeTextBonus(long passiveIncome)
     {
-        _textBonus.text = CoyntingSystemUpdate(passiveIncome * ChangeModifyBonus());
+        _textBonus.text = CoyntingSystemUpdate((passiveIncome + 1) * ChangeModifyBonus());
     }
 
     private string CoyntingSystemUpdate(long passiveIncome)

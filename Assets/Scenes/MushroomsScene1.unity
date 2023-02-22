@@ -1078,6 +1078,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _userImage: {fileID: 2119901579}
   _userName: {fileID: 2060618770}
+  _buttonAdvOpen: {fileID: 1290364422}
+  _timeToActivateAdv: 60
 --- !u!4 &233317673
 Transform:
   m_ObjectHideFlags: 0
@@ -5235,7 +5237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.82873374}
   m_AnchorMax: {x: 1, y: 0.9173246}
-  m_AnchoredPosition: {x: -0.0024414062, y: 102.65173}
+  m_AnchoredPosition: {x: -0.0024414062, y: 102.65174}
   m_SizeDelta: {x: 0.01, y: 27.47516}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &882762415
@@ -13042,10 +13044,10 @@ RectTransform:
   m_Father: {fileID: 1798262968}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 256.18195, y: -292}
-  m_SizeDelta: {x: 508.3639, y: 108}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1186878528
 MonoBehaviour:
@@ -16326,8 +16328,6 @@ MonoBehaviour:
   _button: {fileID: 1573637165}
   _audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   _layerToOpen: {fileID: 7816746524226360501}
-  _timeToActiveateAdv: 60
-  _buttonAdvOpen: {fileID: 1290364422}
   _bonusTextAdv: {fileID: 2118047190}
   _yandex: {fileID: 233317672}
 --- !u!1 &1577004942
@@ -23651,10 +23651,10 @@ RectTransform:
   m_Father: {fileID: 1798262968}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 256.18195, y: -174}
-  m_SizeDelta: {x: 508.3639, y: 108}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1929602763
 MonoBehaviour:
@@ -24634,7 +24634,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2026234092
@@ -25533,7 +25533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _textBonus: {fileID: 2118047188}
-  _modifyBonus: 40
+  _modifyBonus: 60
 --- !u!1 &2119156944
 GameObject:
   m_ObjectHideFlags: 0
@@ -28916,10 +28916,10 @@ RectTransform:
   m_Father: {fileID: 1798262968}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 256.18195, y: -56}
-  m_SizeDelta: {x: 508.3639, y: 108}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8745695271639370382
 MonoBehaviour:

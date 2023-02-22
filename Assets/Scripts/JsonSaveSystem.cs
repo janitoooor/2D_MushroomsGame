@@ -133,10 +133,22 @@ namespace Assets.Scripts
 
         public void SaveBalance()
         {
-            _saveData.CoinsBalance = _bankBalance.CoinsBalance;
-            _saveData.BankPassiveIncome = _bankPassiveIncome.PassiveIncomeCoins;
-            _saveData.GemBalance = _gemBank.GemsBalance;
-            Save();
+            if (_saveData.CoinsBalance != _bankBalance.CoinsBalance)
+            {
+                _saveData.CoinsBalance = _bankBalance.CoinsBalance;
+                Save();
+            }
+            if (_saveData.BankPassiveIncome != _bankPassiveIncome.PassiveIncomeCoins)
+            {
+                _saveData.BankPassiveIncome = _bankPassiveIncome.PassiveIncomeCoins;
+                Save();
+            }
+            if (_saveData.GemBalance != _gemBank.GemsBalance)
+            {
+                _saveData.GemBalance = _gemBank.GemsBalance;
+                Save();
+            }
+
         }
 
         public void LoadBalance()

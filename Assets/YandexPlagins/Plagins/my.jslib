@@ -48,7 +48,6 @@ mergeInto(LibraryManager.library, {
         })
     },
 
-
     AddCoinsExtern: function (value) {
         ysdk.adv.showRewardedVideo({
             callbacks: {
@@ -57,7 +56,7 @@ mergeInto(LibraryManager.library, {
                 },
                 onRewarded: () => {
                     console.log('Rewarded!');
-                    myGameInstance.SendMessage('Yandex', 'AddCoinsForAdv', value);
+                    myGameInstance.SendMessage('Yandex', 'AddCoinsAdv', value);
                 },
                 onClose: () => {
                     console.log('Video ad closed.');

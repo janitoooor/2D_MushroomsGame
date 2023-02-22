@@ -74,9 +74,10 @@ namespace Assets.Scripts
             if (!_stopSave)
             {
                 JsonSaveSystem.Instance.SaveBalance();
+#if !UNITY_EDITOR && UNITY_WEBGL
                 SetToLeaderboard(CoinsBalance);
+#endif
             }
-
             Coroutines.StartRoutine(TimerSaveBalance());
         }
     }

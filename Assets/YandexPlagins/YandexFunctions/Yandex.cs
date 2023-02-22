@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using Assets.Scripts.Buttonss.ButtonsAdv;
 using System.Collections;
 using System.Runtime.InteropServices;
 using TMPro;
@@ -12,6 +13,10 @@ public class Yandex : MonoBehaviour
 
     [SerializeField] private RawImage _userImage;
     [SerializeField] private TextMeshProUGUI _userName;
+    [Space]
+    [SerializeField] private ButtonAdvOpen _buttonAdvOpen;
+    [Space]
+    [SerializeField] private int _timeToActivateAdv = 60;
 
     [DllImport("__Internal")]
     private static extern void ShowAdv();
@@ -63,9 +68,10 @@ public class Yandex : MonoBehaviour
 #endif
     }
 
-    public void AddCoinsForAdv(long value)
+    public void AddCoinsAdv(long value)
     {
         _bankBalance.AddCoins(value);
+        DeactivateAdvButtonAfterAdvShow();
     }
 
     private IEnumerator DownoladImage(string mediaUrl)
@@ -77,5 +83,17 @@ public class Yandex : MonoBehaviour
             Debug.Log(request.error);
         else
             _userImage.texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+    }
+
+    private void DeactivateAdvButtonAfterAdvShow()
+    {
+        _buttonAdvOpen.gameObject.SetActive(false);
+        StartCoroutine(ActiveAdvAfterShow());
+    }
+
+    private IEnumerator ActiveAdvAfterShow()
+    {
+        yield return new WaitForSeconds(_timeToActivateAdv);
+        _buttonAdvOpen.gameObject.SetActive(true);
     }
 }
