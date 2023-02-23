@@ -8,7 +8,9 @@ public class BonusTextAdv : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _textBonus;
 
-    [SerializeField] private int _modifyBonus = 50;
+    [SerializeField] private int _minBonus = 50;
+
+    private long _modifyBonus;
     public long ModifyBonus { get => _modifyBonus; }
 
     private readonly BankPassiveIncome _bankPassiveIncome = BankPassiveIncome.GetInstance();
@@ -24,14 +26,15 @@ public class BonusTextAdv : MonoBehaviour
         ChangeTextBonus(_bankPassiveIncome.PassiveIncomeCoins);
     }
 
-    private int ChangeModifyBonus()
+    private void ChangeModifyBonus()
     {
-        return UnityEngine.Random.Range(_modifyBonus, _modifyBonus * 2);
+        _modifyBonus = UnityEngine.Random.Range(_minBonus, _minBonus * 2);
     }
 
     private void ChangeTextBonus(long passiveIncome)
     {
-        _textBonus.text = CoyntingSystemUpdate((passiveIncome + 1) * ChangeModifyBonus());
+        ChangeModifyBonus();
+        _textBonus.text = CoyntingSystemUpdate((passiveIncome + 1) * _modifyBonus);
     }
 
     private string CoyntingSystemUpdate(long passiveIncome)

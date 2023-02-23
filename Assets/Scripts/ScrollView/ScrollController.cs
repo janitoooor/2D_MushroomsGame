@@ -7,6 +7,8 @@ namespace Assets.Scripts
     {
         [SerializeField] private RectTransform _contentView;
 
+        private readonly int _yPos = -2000;
+
         private void OnEnable()
         {
             StartCoroutine(WaitTwoFrames());
@@ -16,7 +18,8 @@ namespace Assets.Scripts
         {
             yield return null;
             yield return null;
-            _contentView.anchoredPosition = new Vector2(_contentView.anchoredPosition.x, 0);
+            yield return null;
+            _contentView.anchoredPosition = new Vector2(_contentView.anchoredPosition.x, _yPos);
         }
     }
 }

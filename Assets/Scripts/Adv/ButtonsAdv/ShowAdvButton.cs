@@ -9,7 +9,7 @@ public class ShowAdvButton : ButtonAdv
     [Space]
     [SerializeField] private BonusTextAdv _bonusTextAdv;
     [Space]
-    [SerializeField] private Yandex _yandex;
+    [SerializeField] private AdvShow _advShow;
 
     private void Awake()
     {
@@ -20,6 +20,6 @@ public class ShowAdvButton : ButtonAdv
 
     private void ShowAdvOnClick()
     {
-        _yandex.ShowAddButton((_bankPassiveIncome.PassiveIncomeCoins + 1) * _bonusTextAdv.ModifyBonus);
+        _advShow.ShowAddButton((_bankPassiveIncome.PassiveIncomeCoins + 1) * _bonusTextAdv.ModifyBonus);
     }
 }

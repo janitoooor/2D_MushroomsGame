@@ -33,7 +33,7 @@ namespace Assets.Scripts
         private readonly BankPassiveIncome _bankPassiveIncome = BankPassiveIncome.GetInstance();
         private readonly GemBank _gemBank = GemBank.GetInstance();
 
-        private readonly string _firstRunKey = "IsFirstRun";
+        private readonly int _minLvlBooster = -1;
 
         [DllImport("__Internal")]
         private static extern void SaveExtern(string date);
@@ -42,6 +42,9 @@ namespace Assets.Scripts
 
         private void Awake()
         {
+            for (int i = 0; i < _saveData.IndexLvlsBosters.Length; i++)
+                _saveData.IndexLvlsBosters[i] = _minLvlBooster;
+
             if (Instance != null)
             {
                 Destroy(gameObject);
@@ -50,17 +53,11 @@ namespace Assets.Scripts
 
             Instance = this;
 
-            if (PlayerPrefs.HasKey(_firstRunKey))
-            {
 #if UNITY_WEBGL && !UNITY_EDITOR
                 LoadExtern();
 #else
-                Load("");
+            Load("");
 #endif
-            }
-
-            PlayerPrefs.SetInt(_firstRunKey, 1);
-            PlayerPrefs.Save();
         }
 
         private void Start()
@@ -89,6 +86,7 @@ namespace Assets.Scripts
             string dataAsJson = JsonConvert.SerializeObject(_saveData);
             File.WriteAllText(filePath, dataAsJson);
 #endif
+            Debug.Log("Save");
         }
 
         public void Load(string value)
@@ -103,15 +101,35 @@ namespace Assets.Scripts
                 _saveData = JsonConvert.DeserializeObject<SaveData>(json);
             }
 #endif
+            Debug.Log("Load");
         }
 
         public void SaveItems(StoreItemsObject itemStore)
         {
-            _saveData.PricesItems[itemStore.IndexItem] = itemStore.ItemPrice;
-            _saveData.CurrentAmountItems[itemStore.IndexItem] = itemStore.ItemCurrentAmount;
-            _saveData.PassiveIncomeItems[itemStore.IndexItem] = itemStore.ItemPassiveIncome;
-            _saveData.ItemsIsHidden[itemStore.IndexItem] = itemStore.ItemIsHidden;
-            Save();
+            bool dataIsChanged = false;
+            if (_saveData.PricesItems[itemStore.IndexItem] != itemStore.ItemPrice)
+            {
+                _saveData.PricesItems[itemStore.IndexItem] = itemStore.ItemPrice;
+                dataIsChanged = true;
+            }
+            if (_saveData.CurrentAmountItems[itemStore.IndexItem] != itemStore.ItemCurrentAmount)
+            {
+                _saveData.CurrentAmountItems[itemStore.IndexItem] = itemStore.ItemCurrentAmount;
+                dataIsChanged = true;
+            }
+            if (_saveData.PassiveIncomeItems[itemStore.IndexItem] != itemStore.ItemPassiveIncome)
+            {
+                _saveData.PassiveIncomeItems[itemStore.IndexItem] = itemStore.ItemPassiveIncome;
+                dataIsChanged = true;
+            }
+            if (_saveData.ItemsIsHidden[itemStore.IndexItem] != itemStore.ItemIsHidden)
+            {
+                _saveData.ItemsIsHidden[itemStore.IndexItem] = itemStore.ItemIsHidden;
+                dataIsChanged = true;
+            }
+
+            if (dataIsChanged)
+                Save();
         }
         public void LoadItems(StoreItemsObject itemStore)
         {
@@ -121,34 +139,39 @@ namespace Assets.Scripts
 
         public void SaveBoosters(ItemBooster itemBooster)
         {
-            _saveData.IndexLvlsBosters[itemBooster.IndexBooster] = itemBooster.IndexLvl;
-            Save();
+            if (_saveData.IndexLvlsBosters[itemBooster.IndexBooster] != itemBooster.IndexLvl)
+            {
+                _saveData.IndexLvlsBosters[itemBooster.IndexBooster] = itemBooster.IndexLvl;
+                Save();
+            }
         }
 
         public void LoadBoosters(ItemBooster itemBooster)
         {
             itemBooster.LoadData(_saveData.IndexLvlsBosters[itemBooster.IndexBooster]);
-
         }
 
         public void SaveBalance()
         {
+            bool dataIsChanged = false;
             if (_saveData.CoinsBalance != _bankBalance.CoinsBalance)
             {
                 _saveData.CoinsBalance = _bankBalance.CoinsBalance;
-                Save();
+                dataIsChanged = true;
             }
             if (_saveData.BankPassiveIncome != _bankPassiveIncome.PassiveIncomeCoins)
             {
                 _saveData.BankPassiveIncome = _bankPassiveIncome.PassiveIncomeCoins;
-                Save();
+                dataIsChanged = true;
             }
             if (_saveData.GemBalance != _gemBank.GemsBalance)
             {
                 _saveData.GemBalance = _gemBank.GemsBalance;
-                Save();
+                dataIsChanged = true;
             }
 
+            if (dataIsChanged)
+                Save();
         }
 
         public void LoadBalance()
@@ -160,9 +183,21 @@ namespace Assets.Scripts
 
         public void SaveAchives(AchivementItem achives)
         {
-            _saveData.AchivesIsGetsValue[achives.IndexAchives] = achives.ItemIsGetValue;
-            _saveData.AchivesIsUnlocked[achives.IndexAchives] = achives.ItemIsUnlocked;
-            Save();
+            bool dataIsChanged = false;
+            if (_saveData.AchivesIsGetsValue[achives.IndexAchives] != achives.ItemIsGetValue)
+            {
+                _saveData.AchivesIsGetsValue[achives.IndexAchives] = achives.ItemIsGetValue;
+                dataIsChanged = true;
+            }
+
+            if (_saveData.AchivesIsUnlocked[achives.IndexAchives] != achives.ItemIsUnlocked)
+            {
+                _saveData.AchivesIsUnlocked[achives.IndexAchives] = achives.ItemIsUnlocked;
+                dataIsChanged = true;
+            }
+
+            if (dataIsChanged)
+                Save();
         }
 
         public void LoadAchives(AchivementItem achives)
@@ -172,9 +207,20 @@ namespace Assets.Scripts
 
         public void SaveSkins(ClickSkinItem skinItem)
         {
-            _saveData.SkinIsBuying[skinItem.IndexItem] = skinItem.ItemIsBuying;
-            _saveData.SkinIsSelected[skinItem.IndexItem] = skinItem.ItemSelected;
-            Save();
+            bool dataIsChanged = false;
+            if (_saveData.SkinIsBuying[skinItem.IndexItem] != skinItem.ItemIsBuying)
+            {
+                _saveData.SkinIsBuying[skinItem.IndexItem] = skinItem.ItemIsBuying;
+                dataIsChanged = true;
+            }
+            if (_saveData.SkinIsSelected[skinItem.IndexItem] != skinItem.ItemSelected)
+            {
+                _saveData.SkinIsSelected[skinItem.IndexItem] = skinItem.ItemSelected;
+                dataIsChanged = true;
+            }
+
+            if (dataIsChanged)
+                Save();
         }
 
         public void LoadSkins(ClickSkinItem skinItem)
@@ -185,14 +231,19 @@ namespace Assets.Scripts
         public void ClearSaves()
         {
             _bankBalance.StopTimerSaveRoutine();
+            long gemBalance = _saveData.GemBalance;
+            bool[] skinsIsBuying = new bool[11];
+
+            for (int i = 0; i < _saveData.SkinIsBuying.Length; i++)
+                skinsIsBuying[i] = _saveData.SkinIsBuying[i];
+
             _saveData = new();
+            _saveData.GemBalance = gemBalance;
+
+            for (int i = 0; i < skinsIsBuying.Length; i++)
+                _saveData.SkinIsBuying[i] = skinsIsBuying[i];
+
             Save();
-            PlayerPrefs.DeleteAll();
-#if !UNITY_EDITOR && UNITY_WEBGL
-            //LoadExtern();
-#else
-            Load("");
-#endif
         }
 
         [Serializable]
@@ -210,10 +261,7 @@ namespace Assets.Scripts
             public long[] CurrentAmountItems = new long[s_maxAmountItems];
             public bool[] ItemsIsHidden = new bool[s_maxAmountItems];
 
-            public int[] IndexLvlsBosters =
-            {
-                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
-            };
+            public int[] IndexLvlsBosters = new int[s_maxAmountItems];
 
             public bool[] AchivesIsGetsValue = new bool[s_maxAmountAchivesItems];
             public bool[] AchivesIsUnlocked = new bool[s_maxAmountAchivesItems];
