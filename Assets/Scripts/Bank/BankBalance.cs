@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Buttonss.ButtonsAdv;
+using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -24,7 +25,6 @@ namespace Assets.Scripts
 
         [DllImport("__Internal")]
         private static extern void SetToLeaderboard(long value);
-
 
         public long CoinsBalance { get => _coinsBalance; }
 

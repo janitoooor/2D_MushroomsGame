@@ -48,7 +48,7 @@ mergeInto(LibraryManager.library, {
         })
     },
 
-    AddCoinsExtern: function (value) {
+    AddCoinsExtern: function () {
         ysdk.adv.showRewardedVideo({
             callbacks: {
                 onOpen: () => {
@@ -56,7 +56,7 @@ mergeInto(LibraryManager.library, {
                 },
                 onRewarded: () => {
                     console.log('Rewarded!');
-                    myGameInstance.SendMessage('Yandex', 'AddCoinsAdv', value);
+                    myGameInstance.SendMessage('ShowAdv', 'AddCoinsAdv');
                 },
                 onClose: () => {
                     console.log('Video ad closed.');
@@ -74,5 +74,4 @@ mergeInto(LibraryManager.library, {
                 lb.setLeaderboardScore('MushroomSpores', value);
             });
     },
-
 });

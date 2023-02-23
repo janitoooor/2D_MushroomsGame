@@ -49,8 +49,6 @@ public class StoreItemsObject : Items
         GetComponents();
         SetSubscriptions();
         SetStartOptions();
-
-
     }
 
     private void Start()
@@ -232,6 +230,7 @@ public class StoreItemsObject : Items
         {
             _store.ChangePassiveIncomeCurrentAmount(this);
             _itemPasssiveIncome *= passiveIncome;
+            JsonSaveSystem.Instance.SaveItems(this);
         }
     }
 
