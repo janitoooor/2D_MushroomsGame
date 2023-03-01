@@ -560,6 +560,8 @@ MonoBehaviour:
   _pricesLvls: d012130000000000e070720000000000
   _passiveIncome: 2
   _passiveIncomeLvls: 1405000000000000280a000000000000
+  _spriteAssteHaveMoney: {fileID: 11400000, guid: 1b96cdcbd185c8749824bb15bb1b5fc3, type: 2}
+  _spriteAssteHaventMoney: {fileID: 11400000, guid: ea2e3ee3a547fea45b97a66ffcc4a5df, type: 2}
 --- !u!1 &3401340119512859220
 GameObject:
   m_ObjectHideFlags: 0

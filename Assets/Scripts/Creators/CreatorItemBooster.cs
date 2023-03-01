@@ -6,6 +6,8 @@ namespace Assets.Scripts.ItemBoosts
 {
     class CreatorItemBooster : CreatorItems
     {
+        public static CreatorItemBooster Instance { get; private set; }
+
         [SerializeField] private List<ItemBooster> _boostItems;
         [SerializeField] private Transform _transform;
 
@@ -14,7 +16,10 @@ namespace Assets.Scripts.ItemBoosts
 
         private void Awake()
         {
-          
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+                Instance = this;
         }
 
         private void Start()

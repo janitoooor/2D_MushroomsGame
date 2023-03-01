@@ -1,6 +1,6 @@
 using Assets.Scripts.Buttonss.ButtonsAdv;
 
-public class ButtonAdvClose : ButtonAdv
+public class ButtonAdvClose : ButtonBonus
 {
     private void Awake()
     {
@@ -18,9 +18,3 @@ public class ButtonAdvClose : ButtonAdv
         _button.onClick.AddListener(CloseLayer);
     }
 }
-
-
-
-
-
-

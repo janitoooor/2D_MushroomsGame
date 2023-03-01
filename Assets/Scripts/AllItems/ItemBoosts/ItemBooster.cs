@@ -5,6 +5,7 @@ using Assets.Scripts.StoreItem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ItemBooster : Items
 {
@@ -25,6 +26,9 @@ public class ItemBooster : Items
     [SerializeField] private int _passiveIncome;
     [Space]
     [SerializeField] private List<long> _passiveIncomeLvls;
+    [Space]
+    [SerializeField] private TMP_SpriteAsset _spriteAssteHaveMoney;
+    [SerializeField] private TMP_SpriteAsset _spriteAssteHaventMoney;
 
     private ItemText _itemPriceText;
     private ItemText _itemBoosterNameText;
@@ -60,9 +64,9 @@ public class ItemBooster : Items
             return;
         }
 
+        SetNewValue();
         SetFont();
         SetButton();
-        SetNewValue();
         LockItemBooster(0);
     }
 
@@ -162,17 +166,20 @@ public class ItemBooster : Items
         }
     }
 
-    private void SetLockItem(Color color, bool interactable)
+    private void SetLockItem(Color color, bool interactable, TMP_SpriteAsset spriteAsset)
     {
         _itemBoosterButtonImage.ChangeImageColor(color);
         _itemBoosterButton.ChangeButtonInteractable(interactable);
+
+        _itemIncomeText.ChangeSpriteAsset(spriteAsset);
+        _itemPriceText.ChangeSpriteAsset(spriteAsset);
     }
 
     private void LockItemBooster(long currentBankBalance)
     {
         if (!_itemIsLocked && _price > currentBankBalance)
         {
-            SetLockItem(Color.grey, false);
+            SetLockItem(Color.grey, false, _spriteAssteHaventMoney);
             _itemIsLocked = true;
         }
     }
@@ -181,7 +188,7 @@ public class ItemBooster : Items
     {
         if (_itemIsLocked && _price <= currentBankBalance && !_maxLvlBoster)
         {
-            SetLockItem(Color.white, true);
+            SetLockItem(Color.white, true, _spriteAssteHaveMoney);
             _itemIsLocked = false;
         }
     }

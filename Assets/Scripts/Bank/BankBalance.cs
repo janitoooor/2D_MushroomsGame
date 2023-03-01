@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Buttonss.ButtonsAdv;
-using System.Collections;
+﻿using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -20,6 +19,9 @@ namespace Assets.Scripts
 
         private long _coinsBalance;
         private bool _stopSave;
+
+        private long _maxBalance;
+        public long MaxBalance { get => _maxBalance; }
 
         private readonly float _timerAutoSave = 3f;
 
@@ -52,6 +54,11 @@ namespace Assets.Scripts
             _coinsBalance = coinsBalance;
         }
 
+        public void LoadMaxBalance(long maxBalance)
+        {
+            _maxBalance = maxBalance;
+        }
+
         public static BankBalance GetInstance()
         {
             return s_bankBalance;
@@ -75,10 +82,15 @@ namespace Assets.Scripts
             {
                 JsonSaveSystem.Instance.SaveBalance();
 #if !UNITY_EDITOR && UNITY_WEBGL
-                SetToLeaderboard(CoinsBalance);
-#endif
+            if (_maxBalance < _coinsBalance && AuthBonus.Instance.GemsAdded)
+            {
+                _maxBalance = _coinsBalance;
+                SetToLeaderboard(_maxBalance);
+                JsonSaveSystem.Instance.SaveMaxBalance();
             }
-            Coroutines.StartRoutine(TimerSaveBalance());
+#endif
+                Coroutines.StartRoutine(TimerSaveBalance());
+            }
         }
     }
 }

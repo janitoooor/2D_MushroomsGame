@@ -571,12 +571,13 @@ MonoBehaviour:
   _lockIcon: {fileID: 281282595680008638}
   _iconIsMade: {fileID: 3040782597720803280}
   _description: "\u0417\u0430\u0440\u0430\u0431\u043E\u0442\u0430\u0439\u0442\u0435
-    250\u0442 <sprite index= 0>"
+    50\u0442 <sprite index= 0>"
+  _spriteAsset: {fileID: 11400000, guid: 1b96cdcbd185c8749824bb15bb1b5fc3, type: 2}
   _descriptionText: {fileID: 8743598967776524012}
   _currentStateText: {fileID: 3813865255163251131}
   _prizeAmountText: {fileID: 1437531661}
   _imageButton: {fileID: 7284487539820554445}
-  _goal: 2500000000000000
+  _goal: 50000000000000
   _lockColor: {r: 0.23921569, g: 0.5568628, b: 0.43137255, a: 1}
   _unlockColor: {r: 0, g: 1, b: 0.5803922, a: 1}
   _amountPrize: 100

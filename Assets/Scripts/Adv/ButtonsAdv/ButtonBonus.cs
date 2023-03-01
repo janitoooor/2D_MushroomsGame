@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Buttonss.ButtonsAdv
 {
-    public abstract class ButtonAdv : MonoBehaviour
+    public abstract class ButtonBonus : MonoBehaviour
     {
         [SerializeField] private protected GameObject _layerToClose;
         [SerializeField] private protected Button _button;

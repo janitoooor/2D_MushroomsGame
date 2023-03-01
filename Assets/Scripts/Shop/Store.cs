@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Store
 {
+    public delegate void SayDesiredAmountItemAfterBuy(long desiredAmount, int index);
+    public event SayDesiredAmountItemAfterBuy SayDesiredAmountAfterBuy;
+
     public delegate void BuyBoosterIsMade(int indexBooster, long passiveIncome);
     public event BuyBoosterIsMade BuyBoosterIsMades;
 
@@ -63,6 +66,7 @@ public class Store
         {
             BuyItemsIsMades?.Invoke(storeItem.IndexItem);
             BuyItemIsMadeBlockCanCreates?.Invoke(storeItem.ItemCurrentAmount, storeItem.IndexItem);
+            SayDesiredAmountAfterBuy?.Invoke(storeItem.DesiredAmount, storeItem.IndexItem);
         }
     }
 

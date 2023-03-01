@@ -5,6 +5,7 @@ using Assets.Scripts.StoreItem;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public abstract class AchivementItem : Items
 {
@@ -15,6 +16,8 @@ public abstract class AchivementItem : Items
     [Space]
     [Multiline]
     [SerializeField] private string _description;
+    [Space]
+    [SerializeField] private TMP_SpriteAsset _spriteAsset;
     [Space]
     [SerializeField] private ItemText _descriptionText;
     [SerializeField] private ItemText _currentStateText;
@@ -53,13 +56,6 @@ public abstract class AchivementItem : Items
         JsonSaveSystem.Instance.LoadAchives(this);
     }
 
-    private void Start()
-    {
-        SetSubscriptions();
-
-
-        LockAchivement();
-    }
     private void OnDestroy()
     {
         RemoveAllSubscriptions();
@@ -130,6 +126,9 @@ public abstract class AchivementItem : Items
     {
         _descriptionText.ChangeFontText(_font);
         _currentStateText.ChangeFontText(_font);
+
+        _descriptionText.ChangeSpriteAsset(_spriteAsset);
+        _currentStateText.ChangeSpriteAsset(_spriteAsset);
     }
 
     private void ChangeStateObjectAchivement(bool unlockIcon, bool lockIcon, bool iconIsMade, bool currentStateText, bool buttonInteractable, Color color)

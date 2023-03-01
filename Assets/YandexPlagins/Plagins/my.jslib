@@ -1,8 +1,20 @@
 mergeInto(LibraryManager.library, {
 
-    Hello: function () {
-        window.alert("Hello, world!");
-        console.log("Hello, world!");
+    AuthExtern: function () {
+        ysdk.getPlayer().then(_player => {
+            player = _player;
+        }).catch(err => {
+            // Ошибка при инициализации объекта Player.
+        });
+
+        if (player.getMode() === 'lite') {
+            ysdk.auth.openAuthDialog();
+        }
+        else {
+            myGameInstance.SendMessage('AuthBonus', 'AuthBonusGems');
+            ysdk.getLeaderboards()
+                .then(_lb => lb = _lb);
+        }
     },
 
     GetPlayerData: function () {
@@ -74,4 +86,66 @@ mergeInto(LibraryManager.library, {
                 lb.setLeaderboardScore('MushroomSpores', value);
             });
     },
+
+    BuyItemGems200Extern: function () {
+
+        payments.purchase({ id: 'gems200' }).then(purchase => {
+            myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying200');
+            addGems(200).then(() => payments.consumePurchase(purchase.purchaseToken));
+        });
+
+        function addGems(value) {
+            return player.incrementStats({ gems: value });
+        }
+    },
+
+    BuyItemGems600Extern: function () {
+
+        payments.purchase({ id: 'gems600' }).then(purchase => {
+            myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying600');
+            addGems(600).then(() => payments.consumePurchase(purchase.purchaseToken));
+        });
+
+        function addGems(value) {
+            return player.incrementStats({ gems: value });
+        }
+    },
+
+    BuyItemGems2000Extern: function () {
+
+        payments.purchase({ id: 'gems2000' }).then(purchase => {
+            myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying2000');
+            addGems(2000).then(() => payments.consumePurchase(purchase.purchaseToken));
+        });
+
+        function addGems(value) {
+            return player.incrementStats({ gems: value });
+        }
+    },
+
+    CheckPaymentsExtern: function () {
+        payments.getPurchases().then(purchases => purchases.forEach(consumePurchase));
+
+        function consumePurchase(purchase) {
+            if (purchase.productID === 'gems200') {
+                myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying200');
+                player.incrementStats({ gems: 200 }).then(() => {
+                    payments.consumePurchase(purchase.purchaseToken)
+                });
+            }
+            if (purchase.productID === 'gems600') {
+                myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying600');
+                player.incrementStats({ gems: 600 }).then(() => {
+                    payments.consumePurchase(purchase.purchaseToken)
+                });
+            }
+            if (purchase.productID === 'gems2000') {
+                myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying2000');
+                player.incrementStats({ gems: 2000 }).then(() => {
+                    payments.consumePurchase(purchase.purchaseToken)
+                });
+            }
+        }
+    },
+
 });

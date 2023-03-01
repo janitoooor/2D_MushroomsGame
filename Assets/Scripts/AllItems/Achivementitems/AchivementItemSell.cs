@@ -7,15 +7,30 @@
 
         private readonly Store _store = Store.GetInstance();
 
-        private long _currentItemAmountAfterSell;
+        private long _currentAmountItemsSell;
+        public long CurrentAmountItemsSell { get => _currentAmountItemsSell; }
+
+        private void Start()
+        {
+            JsonSaveSystem.Instance.LoadAchivesSell(this);
+            SetSubscriptions();
+            LockAchivement();
+            ChangeCurrentStateText(_currentAmountItemsSell);
+        }
+
+        public void LoadData(long amountItemsSell)
+        {
+            _currentAmountItemsSell = amountItemsSell;
+        }
 
         private void ChangeStateAchivementAfterSellItem(int indexItem, long desiredAmount)
         {
             if (_indexItem == indexItem)
             {
-                _currentItemAmountAfterSell += desiredAmount;
-                ChangeCurrentStateText(_currentItemAmountAfterSell);
-                if (_currentItemAmountAfterSell >= _goal)
+                _currentAmountItemsSell += desiredAmount;
+                ChangeCurrentStateText(_currentAmountItemsSell);
+                JsonSaveSystem.Instance.SaveAchivesSell(this);
+                if (_currentAmountItemsSell >= _goal)
                 {
                     UnlockAchivement();
                     _store.SellItemsIsMades -= ChangeStateAchivementAfterSellItem;

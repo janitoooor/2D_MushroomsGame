@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Items.Achivementitems;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +21,9 @@ namespace Assets.Scripts.Creators
             foreach (var item in _createdItems)
             {
                 if (_createdItems != null)
+                {
                     _createdAchives.Add((AchivementBooster)item);
+                }
             }
 
             foreach (var item in _createdAchives)

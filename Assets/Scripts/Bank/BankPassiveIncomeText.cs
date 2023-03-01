@@ -10,19 +10,19 @@ namespace Assets.Scripts
         [Space]
         [SerializeField] private TextMeshProUGUI _passiveIncomeText;
         [Space]
+        [SerializeField] private TMP_SpriteAsset _spriteAsset;
         [SerializeField] private TMP_FontAsset _font;
         [Space]
         [SerializeField] private float _timeToChange = 0.7f;
 
-        private BankPassiveIncome _bankPassiveIncome = BankPassiveIncome.GetInstance();
+        private readonly BankPassiveIncome _bankPassiveIncome = BankPassiveIncome.GetInstance();
 
         private long _currentPassiveIncome;
 
         private void Start()
         {
             JsonSaveSystem.Instance.LoadBalance();
-            UpdatePassiveIncomeText(_bankPassiveIncome.PassiveIncomeCoins);
-            _passiveIncomeText.font = _font;
+            SetStartText();
         }
 
         private void OnEnable()
@@ -33,6 +33,13 @@ namespace Assets.Scripts
         private void OnDisable()
         {
             _bankPassiveIncome.PassiveIncomeChanged -= UpdatePassiveIncomeText;
+        }
+
+        private void SetStartText()
+        {
+            _passiveIncomeText.font = _font;
+            _passiveIncomeText.spriteAsset = _spriteAsset;
+            UpdatePassiveIncomeText(_bankPassiveIncome.PassiveIncomeCoins);
         }
 
         private void UpdatePassiveIncomeText(long amount)

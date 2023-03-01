@@ -1,11 +1,17 @@
 ﻿using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using Assets.Scripts.Shop;
 
 class ItemsChange : Items
 {
     [SerializeField] private long _priceCoinsToChange;
     [SerializeField] private long _priceGemsToChange;
+    [Space]
+    [SerializeField] private TMP_SpriteAsset _spriteAssetLock;
+    [SerializeField] private TMP_SpriteAsset _spriteAssetUnlock;
+    [SerializeField] private ItemText _itemPrice;
 
     private Button _button;
 
@@ -56,17 +62,18 @@ class ItemsChange : Items
         }
     }
 
-    private void ChangeLockItem(Color buttonColor, bool buttonInteractable)
+    private void ChangeLockItem(Color buttonColor, bool buttonInteractable, TMP_SpriteAsset spriteAsset)
     {
         _button.image.color = buttonColor;
         _button.interactable = buttonInteractable;
+        _itemPrice.ChangeSpriteAsset(spriteAsset);
     }
 
     private void ChekBalanceAndChangeLock(long bankBalance)
     {
         if (bankBalance >= _priceCoinsToChange)
-            ChangeLockItem(Color.white, true);
+            ChangeLockItem(Color.white, true, _spriteAssetUnlock);
         else
-            ChangeLockItem(Color.black, false);
+            ChangeLockItem(Color.black, false, _spriteAssetLock);
     }
 }
