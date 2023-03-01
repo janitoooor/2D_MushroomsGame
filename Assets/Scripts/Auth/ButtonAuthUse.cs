@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Buttonss.ButtonsAdv;
+using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.Auth
@@ -6,6 +7,10 @@ namespace Assets.Scripts.Auth
     public class ButtonAuthUse : ButtonBonus
     {
         [SerializeField] private AuthBonus _authBonus;
+        [SerializeField] private TextMeshProUGUI _textArea;
+        [Space]
+        [Multiline]
+        [SerializeField] private string _textWarning;
 
         private void Awake()
         {
@@ -24,6 +29,7 @@ namespace Assets.Scripts.Auth
 #if !UNITY_EDITOR && UNITY_WEBGL
         JsonSaveSystem.Instance.Auth();
 #endif
+            _textArea.text = _textWarning;
         }
     }
 }
