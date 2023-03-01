@@ -2,6 +2,7 @@
 using Assets.Scripts.Creators;
 using Assets.Scripts.Creators.CreatorsAchives;
 using Assets.Scripts.ItemBoosts;
+using Assets.Scripts.Items.Achivementitems;
 using Assets.Scripts.StoreItem;
 using Newtonsoft.Json;
 using System;
@@ -33,8 +34,8 @@ namespace Assets.Scripts
         private readonly BankPassiveIncome _bankPassiveIncome = BankPassiveIncome.GetInstance();
         private readonly GemBank _gemBank = GemBank.GetInstance();
 
-        private readonly int _minLvlBooster = -1;
-
+        [DllImport("__Internal")]
+        private static extern void AuthExtern();
         [DllImport("__Internal")]
         private static extern void SaveExtern(string date);
         [DllImport("__Internal")]
@@ -42,9 +43,6 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            for (int i = 0; i < _saveData.IndexLvlsBosters.Length; i++)
-                _saveData.IndexLvlsBosters[i] = _minLvlBooster;
-
             if (Instance != null)
             {
                 Destroy(gameObject);
@@ -102,6 +100,11 @@ namespace Assets.Scripts
             }
 #endif
             Debug.Log("Load");
+        }
+
+        public void Auth()
+        {
+            AuthExtern();
         }
 
         public void SaveItems(StoreItemsObject itemStore)
@@ -205,6 +208,48 @@ namespace Assets.Scripts
             achives.LoadData(_saveData.AchivesIsGetsValue[achives.IndexAchives], _saveData.AchivesIsUnlocked[achives.IndexAchives]);
         }
 
+        public void SaveAchivesBuy(AchivementItemBuy achivesBuy)
+        {
+            if (_saveData.AchivementBuyAmountItemsBuy[achivesBuy.IndexAchives] != achivesBuy.CurrentAmountItemsBuy)
+            {
+                _saveData.AchivementBuyAmountItemsBuy[achivesBuy.IndexAchives] = achivesBuy.CurrentAmountItemsBuy;
+                Save();
+            }
+        }
+
+        public void LoadAchivesBuy(AchivementItemBuy achivesBuy)
+        {
+            achivesBuy.LoadData(_saveData.AchivementBuyAmountItemsBuy[achivesBuy.IndexAchives]);
+        }
+
+        public void SaveAchivesSell(AchivementItemSell achivesSell)
+        {
+            if (_saveData.AchivemenSellyAmountItemsSell[achivesSell.IndexAchives] != achivesSell.CurrentAmountItemsSell)
+            {
+                _saveData.AchivemenSellyAmountItemsSell[achivesSell.IndexAchives] = achivesSell.CurrentAmountItemsSell;
+                Save();
+            }
+        }
+
+        public void LoadAchivesSell(AchivementItemSell achivesSell)
+        {
+            achivesSell.LoadData(_saveData.AchivemenSellyAmountItemsSell[achivesSell.IndexAchives]);
+        }
+
+        public void SaveAchivesBooster(AchivementBooster achivementBooster)
+        {
+            if (_saveData.AchivementBoosterLvlBooster[achivementBooster.IndexAchives] != achivementBooster.CurrentLvlBooster)
+            {
+                _saveData.AchivementBoosterLvlBooster[achivementBooster.IndexAchives] = achivementBooster.CurrentLvlBooster;
+                Save();
+            }
+        }
+
+        public void LoadAchivesBooster(AchivementBooster achivementBooster)
+        {
+            achivementBooster.LoadData(_saveData.AchivementBoosterLvlBooster[achivementBooster.IndexAchives]);
+        }
+
         public void SaveSkins(ClickSkinItem skinItem)
         {
             bool dataIsChanged = false;
@@ -228,20 +273,49 @@ namespace Assets.Scripts
             skinItem.LoadData(_saveData.SkinIsBuying[skinItem.IndexItem], _saveData.SkinIsSelected[skinItem.IndexItem]);
         }
 
+        public void SaveAuthBonus(AuthBonus authBonus)
+        {
+            _saveData.AuthBonus = authBonus.GemsAdded;
+        }
+
+        public void LoadAuthBonus(AuthBonus authBonus)
+        {
+            authBonus.LoadData(_saveData.AuthBonus);
+        }
+
+        public void SaveMaxBalance()
+        {
+            _saveData.MaxCoinsBalance = _bankBalance.MaxBalance;
+        }
+
+        public void LoadMaxBalance()
+        {
+            _bankBalance.LoadMaxBalance(_saveData.MaxCoinsBalance);
+        }
+
         public void ClearSaves()
         {
             _bankBalance.StopTimerSaveRoutine();
+            bool authBonus = _saveData.AuthBonus;
             long gemBalance = _saveData.GemBalance;
             bool[] skinsIsBuying = new bool[11];
+            bool[] skinsIsSelected = new bool[11];
 
             for (int i = 0; i < _saveData.SkinIsBuying.Length; i++)
                 skinsIsBuying[i] = _saveData.SkinIsBuying[i];
 
+            for (int i = 0; i < _saveData.SkinIsSelected.Length; i++)
+                skinsIsSelected[i] = _saveData.SkinIsSelected[i];
+
             _saveData = new();
             _saveData.GemBalance = gemBalance;
+            _saveData.AuthBonus = authBonus;
 
             for (int i = 0; i < skinsIsBuying.Length; i++)
                 _saveData.SkinIsBuying[i] = skinsIsBuying[i];
+
+            for (int i = 0; i < skinsIsSelected.Length; i++)
+                _saveData.SkinIsSelected[i] = skinsIsSelected[i];
 
             Save();
         }
@@ -252,6 +326,9 @@ namespace Assets.Scripts
             private static readonly int s_maxAmountItems = 11;
             private static readonly int s_maxAmountAchivesItems = 100;
 
+            public bool AuthBonus;
+
+            public long MaxCoinsBalance;
             public long CoinsBalance;
             public long GemBalance;
             public long BankPassiveIncome;
@@ -261,13 +338,21 @@ namespace Assets.Scripts
             public long[] CurrentAmountItems = new long[s_maxAmountItems];
             public bool[] ItemsIsHidden = new bool[s_maxAmountItems];
 
-            public int[] IndexLvlsBosters = new int[s_maxAmountItems];
+            public int[] IndexLvlsBosters =
+            {
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            };
 
             public bool[] AchivesIsGetsValue = new bool[s_maxAmountAchivesItems];
             public bool[] AchivesIsUnlocked = new bool[s_maxAmountAchivesItems];
 
             public bool[] SkinIsBuying = new bool[s_maxAmountItems];
             public bool[] SkinIsSelected = new bool[s_maxAmountItems];
+
+            public long[] AchivementBuyAmountItemsBuy = new long[s_maxAmountAchivesItems];
+            public long[] AchivemenSellyAmountItemsSell = new long[s_maxAmountAchivesItems];
+
+            public int[] AchivementBoosterLvlBooster = new int[s_maxAmountAchivesItems];
         }
     }
 }

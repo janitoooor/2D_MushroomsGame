@@ -424,6 +424,7 @@ MonoBehaviour:
     \u041C\u043E\u0436\u0435\u0442 \u043C\u0435\u043D\u044F\u0442\u044C \u0441\u0432\u043E\u0439
     \u0446\u0432\u0435\u0442.\n\u041F\u0430\u0441\u0441\u0438\u0432\u043D\u043E \u043F\u0440\u0438\u043D\u043E\u0441\u0438\u0442
     7\u043A <sprite index= 0>/\u0441. "
+  _spriteAsset: {fileID: 11400000, guid: 1b96cdcbd185c8749824bb15bb1b5fc3, type: 2}
 --- !u!1 &4876840291230620858
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,12 @@
 
         private long _currentBalance;
 
+        private void Start()
+        {
+            SetSubscriptions();
+            LockAchivement();
+        }
+
         private protected override void RemoveAllSubscriptions()
         {
             _bankBalance.BalanceSetNewBalance -= ChangeStateAchivementAfterNewBalance;

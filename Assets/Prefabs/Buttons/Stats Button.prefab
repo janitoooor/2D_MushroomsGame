@@ -69,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 278ab51414c0fbf4ba213a2dbd0dc515, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 833b7e99078e4e643b196cb9f0c18047, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f20340bc78a3345b9dacd357a32f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonSelectedSprite: {fileID: 21300000, guid: 833b7e99078e4e643b196cb9f0c18047, type: 3}
+  _buttonSelectedSprite: {fileID: 21300000, guid: 278ab51414c0fbf4ba213a2dbd0dc515, type: 3}
   _audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   _font: {fileID: 11400000, guid: df7459bfe3c3bd94a99b0602aa47aaa6, type: 2}
   _layer: {fileID: 0}

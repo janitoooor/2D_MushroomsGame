@@ -31,6 +31,11 @@ namespace Assets.Scripts.Shop
         {
             _itemNameText.font = font;
         }
+
+        public void ChangeSpriteAsset(TMP_SpriteAsset spriteAsset)
+        {
+            _itemNameText.spriteAsset = spriteAsset;
+        }
     }
 }
 

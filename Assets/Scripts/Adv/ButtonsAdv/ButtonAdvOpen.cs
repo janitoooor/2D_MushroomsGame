@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Buttonss.ButtonsAdv
 {
-    public class ButtonAdvOpen : ButtonAdv
+    public class ButtonAdvOpen : ButtonBonus
     {
         private void Awake()
         {

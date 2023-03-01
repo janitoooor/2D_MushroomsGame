@@ -5,6 +5,7 @@ using Assets.Scripts.Enumes;
 using Assets.Scripts.Buttonss.StoreButtons;
 using Assets.Scripts;
 using Assets.Scripts.Shop;
+using TMPro;
 
 public class StoreItemsObject : Items
 {
@@ -28,6 +29,9 @@ public class StoreItemsObject : Items
     [SerializeField] private string _itemName;
     [SerializeField] private long _itemPrice;
     [SerializeField] private long _itemPasssiveIncome;
+    [Space]
+    [SerializeField] private TMP_SpriteAsset _spriteAssetUnlock;
+    [SerializeField] private TMP_SpriteAsset _spriteAssetLock;
 
     public long ItemPrice { get => _itemPrice; }
     public long ItemPassiveIncome { get => _itemPasssiveIncome; }
@@ -159,7 +163,7 @@ public class StoreItemsObject : Items
 
     private void SetStartOptions()
     {
-        SetFont();
+        SetTextComponents();
         SetButton();
 
         JsonSaveSystem.Instance.LoadItems(this);
@@ -190,11 +194,12 @@ public class StoreItemsObject : Items
         _itemValue.IfBuyChangePriceDependOfDesiredAmount(_startPrice, ref _itemPrice, 1);
     }
 
-    private void SetFont()
+    private void SetTextComponents()
     {
         _itemAmountText.ChangeFontText(_font);
         _itemNameText.ChangeFontText(_font);
         _itemPriceText.ChangeFontText(_font);
+        _itemPriceText.ChangeSpriteAsset(_spriteAssetLock);
     }
 
     private void GetChildsComponents()
@@ -283,10 +288,11 @@ public class StoreItemsObject : Items
         }
     }
 
-    private void ChangeLockItem(Color color, bool interactable)
+    private void ChangeLockItem(Color color, bool interactable, TMP_SpriteAsset spriteAsset)
     {
         _itemImageButton.ChangeImageColor(color);
         _itemButton.ChangeButtonInteractable(interactable);
+        _itemPriceText.ChangeSpriteAsset(spriteAsset);
     }
 
     private void LockItemInBuy(long balance)
@@ -294,7 +300,7 @@ public class StoreItemsObject : Items
         if (!_store.PressedSell && _store.PressedBuy && _itemIsHidden)
         {
             if (_bankBalance.CoinsBalance < _itemPrice)
-                ChangeLockItem(Color.black, false);
+                ChangeLockItem(Color.black, false, _spriteAssetLock);
         }
     }
 
@@ -303,7 +309,7 @@ public class StoreItemsObject : Items
         if (!_store.PressedSell && _store.PressedBuy && _itemIsHidden)
         {
             if (_bankBalance.CoinsBalance >= _itemPrice)
-                ChangeLockItem(Color.white, true);
+                ChangeLockItem(Color.white, true, _spriteAssetUnlock);
         }
     }
 
@@ -313,14 +319,14 @@ public class StoreItemsObject : Items
 
         if (!_store.PressedBuy && _store.PressedSell && _itemIsHidden)
             if (_itemValue.CurrentAmount < _itemValue.DesiredAmount)
-                ChangeLockItem(colorLockInSell, false);
+                ChangeLockItem(colorLockInSell, false, _spriteAssetLock);
     }
 
     private void UnLockItemInSell(long desiredAmout)
     {
         if (!_store.PressedBuy && _store.PressedSell && _itemIsHidden)
             if (_itemValue.CurrentAmount >= _itemValue.DesiredAmount)
-                ChangeLockItem(Color.red, true);
+                ChangeLockItem(Color.red, true, _spriteAssetUnlock);
     }
 
     private void PressedButtonSell(long amount = 0)

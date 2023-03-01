@@ -9,6 +9,7 @@ namespace Assets.Scripts
         [Space]
         [SerializeField] private TextMeshProUGUI _balanceText;
         [Space]
+        [SerializeField] private TMP_SpriteAsset _spriteAsset;
         [SerializeField] private TMP_FontAsset _font;
         [Space]
         [SerializeField] private float _timeToChange = 0.3f;
@@ -17,10 +18,9 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            _balanceText.font = _font;
-            JsonSaveSystem.Instance.LoadBalance();
-            UpdateBalanceText(_bankBalance.CoinsBalance, 0);
-            _bankBalance.StartTimerSaveRoutine();
+            SetTextComponents();
+            LoadOnStart();
+            SetStartText();
         }
 
         private void OnEnable()
@@ -31,6 +31,24 @@ namespace Assets.Scripts
         private void OnDisable()
         {
             _bankBalance.BalanceSetOldBalance -= UpdateBalanceText;
+        }
+
+        private void SetStartText()
+        {
+            UpdateBalanceText(_bankBalance.CoinsBalance, 0);
+            _bankBalance.StartTimerSaveRoutine();
+        }
+
+        private void LoadOnStart()
+        {
+            JsonSaveSystem.Instance.LoadBalance();
+            JsonSaveSystem.Instance.LoadMaxBalance();
+        }
+
+        private void SetTextComponents()
+        {
+            _balanceText.font = _font;
+            _balanceText.spriteAsset = _spriteAsset;
         }
 
         private void UpdateBalanceText(long newBalance, long oldBalance)

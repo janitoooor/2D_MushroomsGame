@@ -572,6 +572,7 @@ MonoBehaviour:
   _iconIsMade: {fileID: 3040782597720803280}
   _description: "\u0417\u0430\u0440\u0430\u0431\u043E\u0442\u0430\u0439\u0442\u0435
     55\u043C <sprite index= 0>"
+  _spriteAsset: {fileID: 11400000, guid: 1b96cdcbd185c8749824bb15bb1b5fc3, type: 2}
   _descriptionText: {fileID: 8743598967776524012}
   _currentStateText: {fileID: 3813865255163251131}
   _prizeAmountText: {fileID: 1437531661}

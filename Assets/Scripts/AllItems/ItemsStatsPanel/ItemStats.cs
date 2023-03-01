@@ -1,6 +1,7 @@
 using Assets.Scripts.Shop;
 using Assets.Scripts.StoreItem;
 using UnityEngine;
+using TMPro;
 
 public class ItemStats : Items
 {
@@ -14,6 +15,8 @@ public class ItemStats : Items
     [Space]
     [Multiline]
     [SerializeField] private string _itemDescription;
+    [Space]
+    [SerializeField] private TMP_SpriteAsset _spriteAsset;
 
     private readonly Store _store = Store.GetInstance();
 
@@ -30,7 +33,7 @@ public class ItemStats : Items
 
     private void Start()
     {
-        SetFont();
+        SetTextComponents();
     }
 
     private void OnEnable()
@@ -68,10 +71,13 @@ public class ItemStats : Items
         }
     }
 
-    private void SetFont()
+    private void SetTextComponents()
     {
         _itemDescriptionText.ChangeFontText(_font);
         _itemNameText.ChangeFontText(_font);
+
+        _itemNameText.ChangeSpriteAsset(_spriteAsset);
+        _itemDescriptionText.ChangeSpriteAsset(_spriteAsset);
     }
 
     private void UnlockItem(int indexItem)

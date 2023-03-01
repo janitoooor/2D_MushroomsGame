@@ -716,6 +716,8 @@ MonoBehaviour:
   _itemName: "\u0417\u0435\u043B\u0435\u043D\u043A\u0430"
   _itemPrice: 680
   _itemPasssiveIncome: 8
+  _spriteAssetUnlock: {fileID: 11400000, guid: 1b96cdcbd185c8749824bb15bb1b5fc3, type: 2}
+  _spriteAssetLock: {fileID: 11400000, guid: ea2e3ee3a547fea45b97a66ffcc4a5df, type: 2}
 --- !u!95 &6055787469164207072
 Animator:
   serializedVersion: 4

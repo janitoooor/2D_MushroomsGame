@@ -17,11 +17,12 @@ namespace Assets.Scripts.Creators.CreatorsAchives
         {
             InstantiateStoreItems(_achivesBalance, _transform);
 
-
             foreach (var item in _createdItems)
             {
                 if (_createdItems != null)
+                {
                     _createdAchives.Add((AchivementNewBalance)item);
+                }
             }
 
             foreach (var item in _createdAchives)

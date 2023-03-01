@@ -570,12 +570,12 @@ MonoBehaviour:
   _unlockIcon: {fileID: 281282596075956296}
   _lockIcon: {fileID: 281282595680008638}
   _iconIsMade: {fileID: 3040782597720803280}
-  _description: "\u043A\u0443\u043F\u0438\u0442\u044C 1000 \u0441\u043A\u0438\u0442\u043B\u0433\u0440\u0438\u0431\u043E\u0432"
+  _description: "\u043A\u0443\u043F\u0438\u0442\u044C 10  \u0441\u043A\u0438\u0442\u043B\u0433\u0440\u0438\u0431\u043E\u0432"
   _descriptionText: {fileID: 8743598967776524012}
   _currentStateText: {fileID: 3813865255163251131}
   _prizeAmountText: {fileID: 1437531661}
   _imageButton: {fileID: 7284487539820554445}
-  _goal: 1000
+  _goal: 10
   _lockColor: {r: 0.23839444, g: 0.5566038, b: 0.43058458, a: 1}
   _unlockColor: {r: 0, g: 1, b: 0.5803922, a: 1}
   _amountPrize: 65

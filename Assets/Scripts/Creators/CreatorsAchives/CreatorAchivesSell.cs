@@ -22,7 +22,9 @@ namespace Assets.Scripts.Creators.CreatorsAchives
             foreach (var item in _createdItems)
             {
                 if (_createdItems != null)
+                {
                     _createdAchives.Add((AchivementItemSell)item);
+                }
             }
 
             foreach (var item in _createdAchives)
