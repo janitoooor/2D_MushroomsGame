@@ -63,7 +63,7 @@ namespace Assets.Scripts.Buttons.StoreButtons
             }
             catch
             {
-
+                Debug.Log("_textButton don't have reference");
             }
         }
         public virtual void DisabledButtonPressedState()
