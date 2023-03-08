@@ -43,10 +43,12 @@ mergeInto(LibraryManager.library, {
     },
 
     LoadExtern: function () {
-        player.getData().then(_date => {
-            const myJSON = JSON.stringify(_date);
-            myGameInstance.SendMessage('JsonSaveSystem', 'Load', myJSON);
-        });
+       if (typeof player !== "undefined" && player !== null && typeof player.getData === "function") {
+            player.getData().then(_date => {
+                const myJSON = JSON.stringify(_date);
+                myGameInstance.SendMessage('JsonSaveSystem', 'Load', myJSON);
+            });
+            }
     },
 
     ShowAdv: function () {
