@@ -90,14 +90,7 @@ namespace Assets.Scripts
         public void Load(string value)
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
-            try
-            {
                 _saveData = JsonConvert.DeserializeObject<SaveData>(value);
-            }
-            catch
-            {
-                Debug.Log("Data not founded!");
-            }
 #else
             string filePath = Application.persistentDataPath + "/" + "GameData";
             if (File.Exists(filePath))
