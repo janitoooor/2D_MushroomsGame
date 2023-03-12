@@ -12,6 +12,7 @@ public class TutorialPanel : MonoBehaviour
     [SerializeField] private GameObject _tutorialObject;
     [Space]
     [SerializeField] private float _timerHideObject = 5f;
+    [SerializeField] private float _timerCanvasGroupAlphaTimer = 0.05f;
 
     private Button _button;
 
@@ -46,7 +47,8 @@ public class TutorialPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(HideObjectTimer());
+        if (_tutorialObject.activeInHierarchy)
+            StartCoroutine(HideObjectTimer());
     }
 
     private void Show()
@@ -54,6 +56,7 @@ public class TutorialPanel : MonoBehaviour
         if (_isShowed)
             return;
 
+        _canvasGroup.alpha = 1;
         _tutorialObject.SetActive(true);
         StartCoroutine(HideObjectTimer());
         _isShowed = true;
@@ -73,8 +76,8 @@ public class TutorialPanel : MonoBehaviour
 
     private IEnumerator CanvasGroupAlphaTimer()
     {
-        yield return new WaitForSeconds(0.05f);
-        _canvasGroup.alpha -= 0.25f;
+        yield return new WaitForSeconds(_timerCanvasGroupAlphaTimer);
+        _canvasGroup.alpha -= _timerCanvasGroupAlphaTimer;
 
         if (_canvasGroup.alpha <= 0)
             Hide();
