@@ -10,6 +10,9 @@ public class BackGroundMusic : MonoBehaviour
     private AudioClip _playedAudioClip;
     private readonly float _timeToChekSoundEnd = 0.1f;
 
+    private bool _isOnFocus;
+    private bool _isOnPause;
+
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -20,13 +23,14 @@ public class BackGroundMusic : MonoBehaviour
         _audioSource.PlayOneShot(_playedAudioClip);
         StartCoroutine(CheckSoundIsPlay());
     }
-
     private void OnApplicationPause(bool pause)
     {
-        if (pause)
-            _audioSource.Stop();
-        else
-            _audioSource.Play();
+        _isOnPause = pause;
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        _isOnFocus = focus;
     }
 
     private void GetRandomAudioClip()
@@ -37,17 +41,22 @@ public class BackGroundMusic : MonoBehaviour
             _playedAudioClip = newAudioClip;
         else
             goto GetNewAudioClip;
-
     }
 
     private IEnumerator CheckSoundIsPlay()
     {
         yield return new WaitForSeconds(_timeToChekSoundEnd);
-        if (!_audioSource.isPlaying)
+        if (!_audioSource.isPlaying && _isOnFocus && !_isOnPause)
         {
             GetRandomAudioClip();
             _audioSource.PlayOneShot(_playedAudioClip);
         }
+
+        if ((_isOnPause || !_isOnFocus) && _audioSource.isPlaying)
+        {
+            _audioSource.Stop();
+        }
+
         StartCoroutine(CheckSoundIsPlay());
     }
 }
