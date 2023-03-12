@@ -37,9 +37,11 @@ mergeInto(LibraryManager.library, {
     },
 
     SaveExtern: function (date) {
-        var dateString = UTF8ToString(date);
-        var myobj = JSON.parse(dateString);
-        player.setData(myobj, true);
+    if (typeof player !== "undefined" && player !== null && typeof player.setData === "function"){
+         var dateString = UTF8ToString(date);
+         var myobj = JSON.parse(dateString);
+         player.setData(myobj, true);
+    }
     },
 
     LoadExtern: function () {
@@ -126,7 +128,10 @@ mergeInto(LibraryManager.library, {
     },
 
     CheckPaymentsExtern: function () {
-        payments.getPurchases().then(purchases => purchases.forEach(consumePurchase));
+        if (typeof payments !== "undefined" && payments !== null && typeof payments.getPurchases === "function")
+            {
+                payments.getPurchases().then(purchases => purchases.forEach(consumePurchase));
+            }
 
         function consumePurchase(purchase) {
             if (purchase.productID === 'gems200') {
