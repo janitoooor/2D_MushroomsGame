@@ -275,7 +275,11 @@ namespace Assets.Scripts
 
         public void SaveAuthBonus(AuthBonus authBonus)
         {
-            _saveData.AuthBonus = authBonus.GemsAdded;
+            if (_saveData.AuthBonus != authBonus)
+            {
+                _saveData.AuthBonus = authBonus.GemsAdded;
+                Save();
+            }
         }
 
         public void LoadAuthBonus(AuthBonus authBonus)
@@ -285,12 +289,30 @@ namespace Assets.Scripts
 
         public void SaveMaxBalance()
         {
-            _saveData.MaxCoinsBalance = _bankBalance.MaxBalance;
+            if (_saveData.MaxCoinsBalance != _bankBalance.MaxBalance)
+            {
+                _saveData.MaxCoinsBalance = _bankBalance.MaxBalance;
+                Save();
+            }
         }
 
         public void LoadMaxBalance()
         {
             _bankBalance.LoadMaxBalance(_saveData.MaxCoinsBalance);
+        }
+
+        public void SaveTutorialPanel(TutorialPanel tutorialPanel)
+        {
+            if (_saveData.TutorialPanelIsShowed[tutorialPanel.IndexItem] != tutorialPanel.IsShowed)
+            {
+                _saveData.TutorialPanelIsShowed[tutorialPanel.IndexItem] = tutorialPanel.IsShowed;
+                Save();
+            }
+        }
+
+        public void LoadTutorialPanel(TutorialPanel tutorialPanel)
+        {
+            tutorialPanel.LoadData(_saveData.TutorialPanelIsShowed[tutorialPanel.IndexItem]);
         }
 
         public void ClearSaves()
@@ -353,6 +375,8 @@ namespace Assets.Scripts
             public long[] AchivemenSellyAmountItemsSell = new long[s_maxAmountAchivesItems];
 
             public int[] AchivementBoosterLvlBooster = new int[s_maxAmountAchivesItems];
+
+            public bool[] TutorialPanelIsShowed = new bool[s_maxAmountItems];
         }
     }
 }
