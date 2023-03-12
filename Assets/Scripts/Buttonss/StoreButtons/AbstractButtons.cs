@@ -2,8 +2,6 @@
 using UnityEngine.UI;
 using TMPro;
 
-namespace Assets.Scripts.Buttons.StoreButtons
-{
     public abstract class AbstractButtons : MonoBehaviour
     {
         [SerializeField] protected private Sprite _buttonSelectedSprite;
@@ -78,6 +76,5 @@ namespace Assets.Scripts.Buttons.StoreButtons
             {
 
             }
-        }
     }
 }

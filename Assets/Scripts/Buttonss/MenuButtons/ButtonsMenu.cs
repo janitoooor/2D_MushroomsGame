@@ -12,6 +12,8 @@ namespace Assets.Scripts.Buttons.StoreButtons
         public event ButtonPressed ButtonPresseds;
         private readonly Menu _menu = Menu.GetInstance();
 
+        [SerializeField] private bool _withoutPressedState;
+        [Space]
         [SerializeField] private GameObject _layer;
         [Space]
         [SerializeField] private int _indexLayer;
@@ -60,7 +62,7 @@ namespace Assets.Scripts.Buttons.StoreButtons
             ButtonPresseds?.Invoke(this);
         }
 
-        private void SetActiveHomeLayer()
+        public void SetActiveHomeLayer()
         {
             if (_indexLayer == 0)
                 SetButtonPressedState();
@@ -73,7 +75,8 @@ namespace Assets.Scripts.Buttons.StoreButtons
             if (buttonMenu == this)
             {
                 _layer.SetActive(true);
-                SetButtonPressedState();
+                if (!_withoutPressedState)
+                    SetButtonPressedState();
             }
             else
             {
