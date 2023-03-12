@@ -21,6 +21,14 @@ public class BackGroundMusic : MonoBehaviour
         StartCoroutine(CheckSoundIsPlay());
     }
 
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+            _audioSource.Stop();
+        else
+            _audioSource.Play();
+    }
+
     private void GetRandomAudioClip()
     {
     GetNewAudioClip:
