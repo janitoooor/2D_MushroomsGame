@@ -33,6 +33,16 @@ public class BackGroundMusic : MonoBehaviour
         _isOnFocus = focus;
     }
 
+    public void StopPlay()
+    {
+        _isOnPause = true;
+    }
+
+    public void StartPlay()
+    {
+        _isOnPause = false;
+    }
+
     private void GetRandomAudioClip()
     {
     GetNewAudioClip:
