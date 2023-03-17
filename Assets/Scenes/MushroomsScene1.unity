@@ -4989,6 +4989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61b4064256d1a42aa31caec8b7d4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _backgroundMusic: {fileID: 1178248374}
   _buttonAdvOpen: {fileID: 948595709}
   _timeToActivateAdv: 60
 --- !u!4 &631177758
@@ -9578,7 +9579,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.65
+  m_fontSize: 49.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -16872,7 +16873,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56
+  m_fontSize: 54.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

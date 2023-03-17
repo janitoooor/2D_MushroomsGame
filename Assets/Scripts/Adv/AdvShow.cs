@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class AdvShow : MonoBehaviour
 {
+    [SerializeField] private BackGroundMusic _backgroundMusic;
     [Space]
     [SerializeField] private GameObject _buttonAdvOpen;
     [Space]
@@ -33,6 +34,7 @@ public class AdvShow : MonoBehaviour
         _bonusValue = value;
 #if !UNITY_EDITOR && UNITY_WEBGL
         AddCoinsExtern();
+        _backgroundMusic.StopPlay();
 #endif
     }
 
@@ -40,6 +42,7 @@ public class AdvShow : MonoBehaviour
     {
         _buttonAdvOpen.gameObject.SetActive(false);
         StartCoroutine(ActiveAdvAfterShow());
+        _backgroundMusic.StartPlay();
     }
 
     private IEnumerator ActiveAdvAfterShow()
