@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using Assets.Scripts.Buttonss.ButtonsAdv;
+using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using TMPro;
@@ -9,6 +10,8 @@ using UnityEngine.UI;
 
 public class Yandex : MonoBehaviour
 {
+    public event EventHandler OnGetTypeDevice;
+
     [SerializeField] private RawImage _userImage;
     [SerializeField] private TextMeshProUGUI _userName;
 
@@ -21,10 +24,16 @@ public class Yandex : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void RateGame();
 
+    [DllImport("__Internal")]
+    private static extern void GetTypeDevice();
+
+    public DeviceTypeWeb CurrentDeviceType { get; private set; } = DeviceTypeWeb.Mobile;
+
     private void Start()
     {
 #if !UNITY_EDITOR && UNITY_WEBGL
         ShowAdv();
+        GetTypeDevice();
 # endif
     }
 
@@ -40,6 +49,24 @@ public class Yandex : MonoBehaviour
 #if !UNITY_EDITOR && UNITY_WEBGL
         RateGame();
 #endif
+    }
+
+    public void SetTargetDeviceType(string deviceType)
+    {
+        switch (deviceType)
+        {
+            case "desktop":
+                CurrentDeviceType = DeviceTypeWeb.Desktop;
+                break;
+            case "mobile":
+                CurrentDeviceType = DeviceTypeWeb.Mobile;
+                break;
+            default:
+                CurrentDeviceType = DeviceTypeWeb.Mobile;
+                break;
+        }
+
+        OnGetTypeDevice?.Invoke(this, EventArgs.Empty);
     }
 
     public void SetName(string name)

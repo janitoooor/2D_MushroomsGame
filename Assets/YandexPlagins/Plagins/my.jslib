@@ -17,9 +17,15 @@ mergeInto(LibraryManager.library, {
         }
     },
 
+    GetTypeDevice: function () {
+        getTypeDevice();
+    },
+
     GetPlayerData: function () {
-        myGameInstance.SendMessage('Yandex', 'SetName', player.getName());
-        myGameInstance.SendMessage('Yandex', 'SetPhoto', player.getPhoto("medium"));
+        if (typeof player !== "undefined" && player !== null && typeof player.getName === "function")
+            myGameInstance.SendMessage('Yandex', 'SetName', player.getName());
+        if (typeof player !== "undefined" && player !== null && typeof player.getPhoto === "function")
+            myGameInstance.SendMessage('Yandex', 'SetPhoto', player.getPhoto("medium"));
     },
 
     RateGame: function () {
@@ -37,20 +43,20 @@ mergeInto(LibraryManager.library, {
     },
 
     SaveExtern: function (date) {
-    if (typeof player !== "undefined" && player !== null && typeof player.setData === "function"){
-         var dateString = UTF8ToString(date);
-         var myobj = JSON.parse(dateString);
-         player.setData(myobj, true);
-    }
+        if (typeof player !== "undefined" && player !== null && typeof player.setData === "function") {
+            var dateString = UTF8ToString(date);
+            var myobj = JSON.parse(dateString);
+            player.setData(myobj, true);
+        }
     },
 
     LoadExtern: function () {
-       if (typeof player !== "undefined" && player !== null && typeof player.getData === "function") {
+        if (typeof player !== "undefined" && player !== null && typeof player.getData === "function") {
             player.getData().then(_date => {
                 const myJSON = JSON.stringify(_date);
                 myGameInstance.SendMessage('JsonSaveSystem', 'Load', myJSON);
             });
-            }
+        }
     },
 
     ShowAdv: function () {
@@ -128,10 +134,9 @@ mergeInto(LibraryManager.library, {
     },
 
     CheckPaymentsExtern: function () {
-        if (typeof payments !== "undefined" && payments !== null && typeof payments.getPurchases === "function")
-            {
-                payments.getPurchases().then(purchases => purchases.forEach(consumePurchase));
-            }
+        if (typeof payments !== "undefined" && payments !== null && typeof payments.getPurchases === "function") {
+            payments.getPurchases().then(purchases => purchases.forEach(consumePurchase));
+        }
 
         function consumePurchase(purchase) {
             if (purchase.productID === 'gems200') {
