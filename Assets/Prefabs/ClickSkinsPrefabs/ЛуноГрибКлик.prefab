@@ -412,7 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indexItem: 3
   _font: {fileID: 11400000, guid: df7459bfe3c3bd94a99b0602aa47aaa6, type: 2}
-  _audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+  _audioClip: {fileID: 8300000, guid: 5ed9970e17bfee943a6dff056dc3a9d0, type: 3}
   _unlockIcon: {fileID: 5493014207203380609}
   _lockIcon: {fileID: 5493014206620747635}
   _iconIsSelect: {fileID: 4312256978502678733}
@@ -1022,7 +1022,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &8190698577958282940
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1039,7 +1039,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!224 &4258233474676343979 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5382782582637388308, guid: 4ac53b7259e314343ae3bd4c4206f9d3, type: 3}

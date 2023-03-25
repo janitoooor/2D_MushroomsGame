@@ -412,7 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indexItem: 5
   _font: {fileID: 11400000, guid: df7459bfe3c3bd94a99b0602aa47aaa6, type: 2}
-  _audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+  _audioClip: {fileID: 8300000, guid: 5ed9970e17bfee943a6dff056dc3a9d0, type: 3}
   _nameTextsLvl:
   - "\u0448\u043B\u044F\u043F\u043A\u0430 \u043C\u0443\u0445\u043E\u043C\u043E\u0440\u0430
     \u0437\u0430\u0449\u0438\u0442\u0438\u0442 \u043E\u0442 \u0432\u0440\u0430\u0433\u043E\u0432"
@@ -426,7 +426,7 @@ MonoBehaviour:
   _passiveIncome: 2
   _passiveIncomeLvls: 708e010000000000e01c030000000000
   _spriteAssteHaveMoney: {fileID: 11400000, guid: 1b96cdcbd185c8749824bb15bb1b5fc3, type: 2}
-  _spriteAssteHaventMoney: {fileID: 11400000, guid: ea2e3ee3a547fea45b97a66ffcc4a5df, type: 2}
+  _spriteAssteHaventMoney: {fileID: 11400000, guid: 8eb893ce53bedd741982e4378d815bff, type: 2}
 --- !u!1 &909191546558295060
 GameObject:
   m_ObjectHideFlags: 0

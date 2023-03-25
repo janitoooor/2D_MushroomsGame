@@ -352,17 +352,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indexItem: 7
   _font: {fileID: 11400000, guid: df7459bfe3c3bd94a99b0602aa47aaa6, type: 2}
-  _audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+  _audioClip: {fileID: 8300000, guid: 5ed9970e17bfee943a6dff056dc3a9d0, type: 3}
   _iconLocked: {fileID: 4541971553982709598}
   _iconUnlocked: {fileID: 7860997000021456533}
   _itemName: "\u0421\u0430\u043A\u043C\u0430\u0441\u0442\u0435\u0440"
   _itemPrice: 2500000000000
   _itemPasssiveIncome: 1000000
   _spriteAssetUnlock: {fileID: 11400000, guid: 1b96cdcbd185c8749824bb15bb1b5fc3, type: 2}
-  _spriteAssetLock: {fileID: 11400000, guid: ea2e3ee3a547fea45b97a66ffcc4a5df, type: 2}
+  _spriteAssetLock: {fileID: 11400000, guid: 8eb893ce53bedd741982e4378d815bff, type: 2}
 --- !u!95 &-5242345091566957365
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -379,7 +379,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &3260561788624524202
 GameObject:
   m_ObjectHideFlags: 0
