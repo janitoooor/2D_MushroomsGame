@@ -898,7 +898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _indexItem: 1
   _font: {fileID: 11400000, guid: df7459bfe3c3bd94a99b0602aa47aaa6, type: 2}
-  _audioClip: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+  _audioClip: {fileID: 8300000, guid: 5ed9970e17bfee943a6dff056dc3a9d0, type: 3}
   _unlockIcon: {fileID: 5645783999588729321}
   _lockIcon: {fileID: 5645784000402398745}
   _iconIsSelect: {fileID: 2004074944880362254}
@@ -1257,7 +1257,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &8686500986631483467
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1274,7 +1274,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &6369235999517492419
 MonoBehaviour:
   m_ObjectHideFlags: 0

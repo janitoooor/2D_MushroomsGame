@@ -1,18 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChangeItemByYan : MonoBehaviour
+public class ChangeItemByYan : AbstractButtons
 {
     [SerializeField] private InApp _inApp;
     [Header("Choose: 200, 600, 2000")]
     [SerializeField] private long _itemAmountGems;
 
-    private Button _button;
+    private new Button _button;
 
     private void Awake()
     {
+        _audioSource = GameObject.Find(_audiosourceObjectName).GetComponent<AudioSource>();
         _button = GetComponent<Button>();
         _button.onClick.AddListener(BuyGems);
+        _button.onClick.AddListener(PlayOneShot);
     }
 
     private void BuyGems()
