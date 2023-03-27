@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MushroomsScene1.unity
+    path: Assets/_Scenes/LoadingScene.unity
+    guid: 22d08c67a66dfcc43a5de55d82b31e2a
+  - enabled: 1
+    path: Assets/_Scenes/MushroomsScene.unity
     guid: 72c39324365b31247953c894e8f447e3
   m_configObjects: {}
