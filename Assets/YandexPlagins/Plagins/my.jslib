@@ -7,13 +7,15 @@ mergeInto(LibraryManager.library, {
             // Ошибка при инициализации объекта Player.
         });
 
-        if (player.getMode() === 'lite') {
-            ysdk.auth.openAuthDialog();
-        }
-        else {
-            myGameInstance.SendMessage('AuthBonus', 'AuthBonusGems');
-            ysdk.getLeaderboards()
-                .then(_lb => lb = _lb);
+        if (typeof player !== "undefined" && player !== null && typeof player.getMode === "function") {
+            if (player.getMode() === 'lite') {
+                ysdk.auth.openAuthDialog();
+            }
+            else {
+                myGameInstance.SendMessage('AuthBonus', 'AuthBonusGems');
+                ysdk.getLeaderboards()
+                    .then(_lb => lb = _lb);
+            }
         }
     },
 
@@ -51,10 +53,10 @@ mergeInto(LibraryManager.library, {
     },
 
     LoadExtern: function () {
-        if (typeof player !== "undefined" && player !== null && typeof player.getData === "function") {
+        if (typeof player !== "undefined" && player !== null) {
             player.getData().then(_date => {
                 const myJSON = JSON.stringify(_date);
-                myGameInstance.SendMessage('JsonSaveSystem', 'Load', myJSON);
+                myGameInstance.SendMessage('SaveSystem', 'Load', myJSON);
             });
         }
     },
@@ -99,10 +101,14 @@ mergeInto(LibraryManager.library, {
 
     BuyItemGems200Extern: function () {
 
-        payments.purchase({ id: 'gems200' }).then(purchase => {
-            myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying200');
-            addGems(200).then(() => payments.consumePurchase(purchase.purchaseToken));
-        });
+        if (typeof payments !== "undefined" && payments !== null) {
+            {
+                payments.purchase({ id: 'gems200' }).then(purchase => {
+                    myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying200');
+                    addGems(200).then(() => payments.consumePurchase(purchase.purchaseToken));
+                });
+            }
+        }
 
         function addGems(value) {
             return player.incrementStats({ gems: value });
@@ -111,10 +117,12 @@ mergeInto(LibraryManager.library, {
 
     BuyItemGems600Extern: function () {
 
-        payments.purchase({ id: 'gems600' }).then(purchase => {
-            myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying600');
-            addGems(600).then(() => payments.consumePurchase(purchase.purchaseToken));
-        });
+        if (typeof payments !== "undefined" && payments !== null) {
+            payments.purchase({ id: 'gems600' }).then(purchase => {
+                myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying600');
+                addGems(600).then(() => payments.consumePurchase(purchase.purchaseToken));
+            });
+        }
 
         function addGems(value) {
             return player.incrementStats({ gems: value });
@@ -123,10 +131,12 @@ mergeInto(LibraryManager.library, {
 
     BuyItemGems2000Extern: function () {
 
-        payments.purchase({ id: 'gems2000' }).then(purchase => {
-            myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying2000');
-            addGems(2000).then(() => payments.consumePurchase(purchase.purchaseToken));
-        });
+        if (typeof payments !== "undefined" && payments !== null) {
+            payments.purchase({ id: 'gems2000' }).then(purchase => {
+                myGameInstance.SendMessage('InApp', 'GetGemsAfterBuying2000');
+                addGems(2000).then(() => payments.consumePurchase(purchase.purchaseToken));
+            });
+        }
 
         function addGems(value) {
             return player.incrementStats({ gems: value });
