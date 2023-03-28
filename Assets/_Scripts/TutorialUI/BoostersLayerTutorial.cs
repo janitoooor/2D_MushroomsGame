@@ -13,6 +13,6 @@ public class BoostersLayerTutorial : MonoBehaviour
 
     private void OnDisable()
     {
-        _tutorialPanel.gameObject.SetActive(true);
+        _tutorialPanel.Show();
     }
 }

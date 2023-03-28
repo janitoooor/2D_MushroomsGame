@@ -69,7 +69,7 @@ public class TutorialPanel : MonoBehaviour
             StartCoroutine(HideObjectTimer());
     }
 
-    private void Show()
+    public void Show()
     {
         if (_isShowed)
             return;
