@@ -1,4 +1,3 @@
-using Assets.Scripts;
 using UnityEngine;
 
 public class AuthBonus : MonoBehaviour
@@ -23,19 +22,20 @@ public class AuthBonus : MonoBehaviour
     private void Start()
     {
         JsonSaveSystem.Instance.LoadAuthBonus(this);
+
         if (_gemsAdded)
             _button.SetActive(false);
     }
 
     public void AuthBonusGems()
     {
-        if (!_gemsAdded)
-        {
-            _gemBank.AddGems(_bonusGems);
-            _button.SetActive(false);
-            _gemsAdded = true;
-            JsonSaveSystem.Instance.SaveAuthBonus(this);
-        }
+        if (_gemsAdded)
+            return;
+
+        _gemBank.AddGems(_bonusGems);
+        _button.SetActive(false);
+        _gemsAdded = true;
+        JsonSaveSystem.Instance.SaveAuthBonus(this);
     }
 
     public void LoadData(bool gemsAdded)

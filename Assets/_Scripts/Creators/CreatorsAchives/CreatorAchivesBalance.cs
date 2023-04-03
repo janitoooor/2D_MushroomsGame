@@ -1,9 +1,6 @@
-﻿using Assets.Scripts.Items.Achivementitems;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Creators.CreatorsAchives
-{
     class CreatorAchivesBalance : CreatorItems
     {
         [SerializeField] private List<AchivementNewBalance> _achivesBalance;
@@ -67,4 +64,3 @@ namespace Assets.Scripts.Creators.CreatorsAchives
             }
         }
     }
-}

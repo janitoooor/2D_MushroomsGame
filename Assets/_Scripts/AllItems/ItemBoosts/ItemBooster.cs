@@ -1,7 +1,4 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.Shop;
-using Assets.Scripts.StoreItem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -149,20 +146,21 @@ public class ItemBooster : Items
 
     private void SetNewValue()
     {
-        if (!_maxLvlBoster && gameObject != null)
-        {
-            _iconLvls[_indexLvl + 1].SetActive(true);
-            for (int i = 0; i < _iconLvls.Count; i++)
-            {
-                if (_iconLvls[i] != _iconLvls[_indexLvl + 1])
-                    _iconLvls[i].SetActive(false);
-            }
+        if (_maxLvlBoster || gameObject == null)
+            return;
 
-            _price = _pricesLvls[_indexLvl + 1];
-            _itemBoosterNameText.ChangeText(_nameTextsLvl[_indexLvl + 1]);
-            ChangeIncomeText(_passiveIncomeLvls[_indexLvl + 1]);
-            ChangeBoosterPriceText();
+        _iconLvls[_indexLvl + 1].SetActive(true);
+
+        for (int i = 0; i < _iconLvls.Count; i++)
+        {
+            if (_iconLvls[i] != _iconLvls[_indexLvl + 1])
+                _iconLvls[i].SetActive(false);
         }
+
+        _price = _pricesLvls[_indexLvl + 1];
+        _itemBoosterNameText.ChangeText(_nameTextsLvl[_indexLvl + 1]);
+        ChangeIncomeText(_passiveIncomeLvls[_indexLvl + 1]);
+        ChangeBoosterPriceText();
     }
 
     private void SetLockItem(Color color, bool interactable, TMP_SpriteAsset spriteAsset)
@@ -176,30 +174,30 @@ public class ItemBooster : Items
 
     private void LockItemBooster(long currentBankBalance)
     {
-        if (!_itemIsLocked && _price > currentBankBalance)
-        {
-            SetLockItem(Color.grey, false, _spriteAssteHaventMoney);
-            _itemIsLocked = true;
-        }
+        if (_itemIsLocked || _price < currentBankBalance)
+            return;
+
+        SetLockItem(Color.grey, false, _spriteAssteHaventMoney);
+        _itemIsLocked = true;
     }
 
     private void UnlockItemBooster(long currentBankBalance)
     {
-        if (_itemIsLocked && _price <= currentBankBalance && !_maxLvlBoster)
-        {
-            SetLockItem(Color.white, true, _spriteAssteHaveMoney);
-            _itemIsLocked = false;
-        }
+        if (!_itemIsLocked || _price > currentBankBalance || _maxLvlBoster)
+            return;
+
+        SetLockItem(Color.white, true, _spriteAssteHaveMoney);
+        _itemIsLocked = false;
     }
 
     private void DeactivateGameObject()
     {
-        if (_maxLvlBoster)
-        {
-            gameObject.SetActive(false);
-            _bankBalance.BalanceSetNewBalance -= LockItemBooster;
-            _bankBalance.BalanceSetNewBalance -= UnlockItemBooster;
-        }
+        if (!_maxLvlBoster)
+            return;
+
+        gameObject.SetActive(false);
+        _bankBalance.BalanceSetNewBalance -= LockItemBooster;
+        _bankBalance.BalanceSetNewBalance -= UnlockItemBooster;
     }
 
     private string CoyntingSystemUpdate(long value)

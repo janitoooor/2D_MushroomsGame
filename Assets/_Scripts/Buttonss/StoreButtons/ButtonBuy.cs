@@ -1,8 +1,5 @@
-﻿using Assets.Scripts.Buttons.StoreButtons;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Shop
-{
     public class ButtonBuy : AbstractButtons
     {
         private readonly Store _store = Store.GetInstance();
@@ -60,4 +57,3 @@ namespace Assets.Scripts.Shop
             _store.ChangePressedButton(true, false);
         }
     }
-}

@@ -1,5 +1,3 @@
-using Assets.Scripts.Shop;
-using Assets.Scripts.StoreItem;
 using UnityEngine;
 using TMPro;
 
@@ -24,11 +22,13 @@ public class ItemStats : Items
     private ItemText _itemDescriptionText;
     private ItemImage _itemImageButton;
 
+    private string _secretItemString = "???";
+
     private void Awake()
     {
         CreatorItemsInStore.Instance.StoreItemsCreated += UnlockStartItems;
         GetComponents();
-        ChangelockItem("???", "???", Color.black, Color.black, true, false);
+        ChangelockItem(_secretItemString, _secretItemString, Color.black, Color.black, true, false);
     }
 
     private void Start()
@@ -65,9 +65,7 @@ public class ItemStats : Items
         foreach (var item in CreatorItemsInStore.Instance.CreatedItems)
         {
             if (item.ItemIsHidden)
-            {
                 UnlockItem(item.IndexItem);
-            }
         }
     }
 
@@ -82,11 +80,11 @@ public class ItemStats : Items
 
     private void UnlockItem(int indexItem)
     {
-        if (indexItem == _indexItem)
-        {
-            ChangelockItem(_itemName, _itemDescription, Color.white, _colorText, false, true);
-            _store.BuyItemsIsMades -= UnlockItem;
-        }
+        if (indexItem != _indexItem)
+            return;
+
+        ChangelockItem(_itemName, _itemDescription, Color.white, _colorText, false, true);
+        _store.BuyItemsIsMades -= UnlockItem;
     }
 
     private void ChangelockItem(string itemName, string itemDescription, Color colorButton, Color colorText, bool iconLocked, bool iconUnlocked)

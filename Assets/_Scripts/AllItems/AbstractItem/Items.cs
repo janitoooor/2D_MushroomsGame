@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class Items : MonoBehaviour
+public abstract class Items : MonoBehaviour
 {
     [SerializeField] protected private int _indexItem;
     [Space]

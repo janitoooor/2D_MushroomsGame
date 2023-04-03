@@ -1,5 +1,3 @@
-using Assets.Scripts.Buttonss.ButtonsAdv;
-
 public class ButtonAdvClose : ButtonBonus
 {
     private void Awake()

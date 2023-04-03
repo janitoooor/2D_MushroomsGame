@@ -1,4 +1,3 @@
-using Assets.Scripts.StoreItem;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,24 +24,28 @@ public class CreatorItemsBlockAnimation : CreatorItems
     private void ActiveItemsInStart()
     {
         foreach (var item in CreatorItemsInStore.Instance.CreatedItems)
-        {
-            if (item.IndexItem < _createdItems.Count && _createdItems[item.IndexItem] != null)
-            {
-                if (!_createdItems[item.IndexItem].IsCreated && item.ItemIsHidden)
-                    _createdItems[item.IndexItem].gameObject.SetActive(true);
-            }
-        }
+            if (ItemCanActive(item))
+                _createdItems[item.IndexItem].gameObject.SetActive(true);
+    }
+
+    private bool ItemCanActive(StoreItemsObject item)
+    {
+        bool isNotNull = item.IndexItem < _createdItems.Count && _createdItems[item.IndexItem] != null;
+        bool isNotCreated = !_createdItems[item.IndexItem].IsCreated;
+
+        return isNotNull && isNotCreated && item.ItemIsHidden;
     }
 
     private protected override void ActiveItems(int index)
     {
-        if (index < _createdItems.Count)
-        {
-            if (_createdItems[index] != null)
-            {
-                if (!_createdItems[index].gameObject.activeInHierarchy)
-                    _createdItems[index].gameObject.SetActive(true);
-            }
-        }
+        if (ItemCanActive(index))
+            _createdItems[index].gameObject.SetActive(true);
+    }
+
+    private protected override bool ItemCanActive(int index)
+    {
+        bool isDeactive = !_createdItems[index].gameObject.activeInHierarchy;
+        bool isNotNull = index < _createdItems.Count && _createdItems[index] != null;
+        return isDeactive && isNotNull;
     }
 }

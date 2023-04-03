@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Buttonss.ButtonsAdv
-{
     public abstract class ButtonBonus : MonoBehaviour
     {
         [SerializeField] private protected GameObject _layerToClose;
@@ -35,4 +33,3 @@ namespace Assets.Scripts.Buttonss.ButtonsAdv
             _audioSource.PlayOneShot(_audioClip);
         }
     }
-}

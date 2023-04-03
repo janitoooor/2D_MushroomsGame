@@ -1,6 +1,3 @@
-using Assets.Scripts;
-using UnityEngine;
-
 public class Store
 {
     public delegate void SayDesiredAmountItemAfterBuy(long desiredAmount, int index);

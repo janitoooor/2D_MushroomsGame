@@ -1,5 +1,4 @@
 using Assets.Scripts;
-using Assets.Scripts.Buttonss.ButtonsAdv;
 using UnityEngine;
 
 public class ShowAdvButton : ButtonBonus

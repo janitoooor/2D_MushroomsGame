@@ -2,8 +2,6 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace Assets.Scripts
-{
     public class BankBalance
     {
         public delegate void BankBalanceChanged(long amount);
@@ -78,6 +76,7 @@ namespace Assets.Scripts
         private IEnumerator TimerSaveBalance()
         {
             yield return new WaitForSeconds(_timerAutoSave);
+
             if (!_stopSave)
             {
                 JsonSaveSystem.Instance.SaveBalance();
@@ -93,4 +92,3 @@ namespace Assets.Scripts
             }
         }
     }
-}

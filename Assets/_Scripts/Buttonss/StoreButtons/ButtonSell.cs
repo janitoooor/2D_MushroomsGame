@@ -1,8 +1,4 @@
-﻿using Assets.Scripts.Buttons.StoreButtons;
-
-namespace Assets.Scripts.Shop
-{
-    public class ButtonSell : AbstractButtons
+﻿    public class ButtonSell : AbstractButtons
     {
         private readonly Store _store = Store.GetInstance();
 
@@ -52,4 +48,3 @@ namespace Assets.Scripts.Shop
                 DisabledButtonPressedState();
         }
     }
-}

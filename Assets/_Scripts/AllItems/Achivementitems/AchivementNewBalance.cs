@@ -1,45 +1,43 @@
-﻿namespace Assets.Scripts.Items.Achivementitems
+﻿class AchivementNewBalance : AchivementItem
 {
-    class AchivementNewBalance : AchivementItem
+    public delegate void AchiveCreated(AchivementNewBalance achivementNewBalance);
+    public event AchiveCreated AchivesCreated;
+
+    private readonly BankBalance _bankBalance = BankBalance.GetInstance();
+
+    private long _currentBalance;
+
+    private void Start()
     {
-        public delegate void AchiveCreated(AchivementNewBalance achivementNewBalance);
-        public event AchiveCreated AchivesCreated;
+        SetSubscriptions();
+        LockAchivement();
+    }
 
-        private readonly BankBalance _bankBalance = BankBalance.GetInstance();
+    private protected override void RemoveAllSubscriptions()
+    {
+        _bankBalance.BalanceSetNewBalance -= ChangeStateAchivementAfterNewBalance;
+    }
 
-        private long _currentBalance;
+    private protected override void GetValueOnClickUnlockedItem()
+    {
+        base.GetValueOnClickUnlockedItem();
+        AchivesCreated?.Invoke(this);
+    }
 
-        private void Start()
+    private protected override void SetSubscriptions()
+    {
+        _bankBalance.BalanceSetNewBalance += ChangeStateAchivementAfterNewBalance;
+    }
+
+    private void ChangeStateAchivementAfterNewBalance(long balance)
+    {
+        _currentBalance = balance;
+        ChangeCurrentStateText(_currentBalance);
+
+        if (_currentBalance >= _goal)
         {
-            SetSubscriptions();
-            LockAchivement();
-        }
-
-        private protected override void RemoveAllSubscriptions()
-        {
-            _bankBalance.BalanceSetNewBalance -= ChangeStateAchivementAfterNewBalance;
-        }
-
-        private protected override void GetValueOnClickUnlockedItem()
-        {
-            base.GetValueOnClickUnlockedItem();
-            AchivesCreated?.Invoke(this);
-        }
-
-        private protected override void SetSubscriptions()
-        {
-            _bankBalance.BalanceSetNewBalance += ChangeStateAchivementAfterNewBalance;
-        }
-
-        private void ChangeStateAchivementAfterNewBalance(long balance)
-        {
-            _currentBalance = balance;
-            ChangeCurrentStateText(_currentBalance);
-            if (_currentBalance >= _goal)
-            {
-                UnlockAchivement();
-                _bankBalance.BalanceChanged -= ChangeStateAchivementAfterNewBalance;
-            }
+            UnlockAchivement();
+            _bankBalance.BalanceChanged -= ChangeStateAchivementAfterNewBalance;
         }
     }
 }

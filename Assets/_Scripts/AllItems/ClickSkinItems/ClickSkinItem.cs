@@ -1,12 +1,8 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.AllItems.ClickSkinItems;
-using Assets.Scripts.Shop;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 class ClickSkinItem : Items
 {
-
     [Space]
     [SerializeField] private GameObject _unlockIcon;
     [SerializeField] private GameObject _lockIcon;
@@ -38,8 +34,6 @@ class ClickSkinItem : Items
     private void Awake()
     {
         GetComponents();
-
-
     }
 
     private void Start()
@@ -79,11 +73,10 @@ class ClickSkinItem : Items
         {
             _button.image.color = Color.white;
             _button.interactable = true;
+            return;
         }
-        else
-        {
-            LockItem();
-        }
+
+        LockItem();
     }
 
     private void UnlockItem()
@@ -125,29 +118,29 @@ class ClickSkinItem : Items
 
     private void BuyItem()
     {
-        if (_gemBank.GemsBalance >= _price)
-        {
-            _gemBank.WithdrawGems(_price);
-            _itemIsBuying = true;
-            ChangeBuyingItem();
-            SelectItem();
-            JsonSaveSystem.Instance.SaveSkins(this);
-        }
+        if (_gemBank.GemsBalance < _price)
+            return;
+
+        _gemBank.WithdrawGems(_price);
+        _itemIsBuying = true;
+        ChangeBuyingItem();
+        SelectItem();
+        JsonSaveSystem.Instance.SaveSkins(this);
     }
 
     private void ChangeBuyingItem()
     {
-        if (_itemIsBuying)
-        {
-            UnlockItem();
-            _button.onClick.RemoveListener(BuyItem);
-            _button.onClick.AddListener(SelectItem);
-            _skinItemStore.SkinItemSelectedInStore += UnSelectItem;
-            _gemBank.GemBankSetsNewBalance -= ChangeButtonImageIfHaveGems;
+        if (!_itemIsBuying)
+            return;
 
-            if (_itemSelected)
-                SelectItem();
-        }
+        UnlockItem();
+        _button.onClick.RemoveListener(BuyItem);
+        _button.onClick.AddListener(SelectItem);
+        _skinItemStore.SkinItemSelectedInStore += UnSelectItem;
+        _gemBank.GemBankSetsNewBalance -= ChangeButtonImageIfHaveGems;
+
+        if (_itemSelected)
+            SelectItem();
     }
 
     private void RemoveAllSubcriptions()

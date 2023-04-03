@@ -1,8 +1,4 @@
-using Assets.Scripts;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -61,11 +57,13 @@ public class TutorialPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        if (!_tutorialObject.activeInHierarchy)
+            return;
 
-        if (_tutorialObject.activeInHierarchy && _canvasGroup.alpha < 1)
+        if (_canvasGroup.alpha < 1)
             _canvasGroup.alpha = 1;
 
-        if (_tutorialObject.activeInHierarchy && _saveInJson)
+        if (_saveInJson)
             StartCoroutine(HideObjectTimer());
     }
 

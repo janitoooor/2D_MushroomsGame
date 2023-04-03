@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using Assets.Scripts.StoreItem;
 using System;
-using Assets.Scripts.Buttonss.StoreButtons;
-using Assets.Scripts;
-using Assets.Scripts.Shop;
 using TMPro;
 
 public class StoreItemsObject : Items
@@ -11,7 +7,7 @@ public class StoreItemsObject : Items
     private readonly Store _store = Store.GetInstance();
     private readonly BankBalance _bankBalance = BankBalance.GetInstance();
     private readonly Menu _menu = Menu.GetInstance();
-    private readonly BoostersAndItems _upgratesAndItems = BoostersAndItems.GetInstance();
+    private readonly BoostersAndItems _upgradesAndItems = BoostersAndItems.GetInstance();
 
     private ItemText _itemAmountText;
     private ItemText _itemNameText;
@@ -45,6 +41,8 @@ public class StoreItemsObject : Items
     private long _currentBankBalance;
     private long _startPrice;
 
+    private string _secretItemString = "???";
+
     private void Awake()
     {
         GetChildsComponents();
@@ -66,34 +64,34 @@ public class StoreItemsObject : Items
     }
     public void BuyItem()
     {
-        if (_store.PressedBuy && _bankBalance.CoinsBalance >= _itemPrice)
-        {
-            long deviderValue = 3;
-            _itemValue.ChangeCurrentAmount(_itemValue.DesiredAmount);
-            _store.BuyItem(this);
-            _startPrice += _startPrice / deviderValue;
-            _itemValue.IfBuyChangePriceDependOfDesiredAmount(_startPrice, ref _itemPrice, _itemValue.DesiredAmount);
-            _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
-            _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
-            LockItemInBuy(_currentBankBalance);
-            JsonSaveSystem.Instance.SaveItems(this);
-        }
+        if (!_store.PressedBuy || _bankBalance.CoinsBalance < _itemPrice)
+            return;
+
+        long deviderValue = 3;
+        _itemValue.ChangeCurrentAmount(_itemValue.DesiredAmount);
+        _store.BuyItem(this);
+        _startPrice += _startPrice / deviderValue;
+        _itemValue.IfBuyChangePriceDependOfDesiredAmount(_startPrice, ref _itemPrice, _itemValue.DesiredAmount);
+        _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
+        _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
+        LockItemInBuy(_currentBankBalance);
+        JsonSaveSystem.Instance.SaveItems(this);
     }
 
     public void SellItem()
     {
-        if (_store.PressedSell && _itemValue.CurrentAmount >= 1)
-        {
-            long deviderValue = 10;
-            _itemValue.ChangeCurrentAmount(-_itemValue.DesiredAmount);
-            _store.SellItem(this);
-            _startPrice -= _startPrice / deviderValue;
-            _itemValue.IfSellChangePriceDependOfDesiredAmountIfBuy(_startPrice, ref _itemPrice, _itemValue.DesiredAmount);
-            _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
-            _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
-            LockItemInSell(_itemValue.DesiredAmount);
-            JsonSaveSystem.Instance.SaveItems(this);
-        }
+        if (!_store.PressedSell || _itemValue.CurrentAmount < 1)
+            return;
+
+        long deviderValue = 10;
+        _itemValue.ChangeCurrentAmount(-_itemValue.DesiredAmount);
+        _store.SellItem(this);
+        _startPrice -= _startPrice / deviderValue;
+        _itemValue.IfSellChangePriceDependOfDesiredAmountIfBuy(_startPrice, ref _itemPrice, _itemValue.DesiredAmount);
+        _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
+        _itemAmountText.ChangeText(CoyntingSystemUpdate(_itemValue.CurrentAmount));
+        LockItemInSell(_itemValue.DesiredAmount);
+        JsonSaveSystem.Instance.SaveItems(this);
     }
 
     private void SetSubscriptions()
@@ -123,9 +121,9 @@ public class StoreItemsObject : Items
         _menu.ButtonStorePressed += LockItemInBuy;
         _menu.ButtonStorePressed += UnLockItemInBuy;
 
-        _upgratesAndItems.ButtonItemsPressed += UnHiddenItem;
-        _upgratesAndItems.ButtonItemsPressed += LockItemInBuy;
-        _upgratesAndItems.ButtonItemsPressed += UnLockItemInBuy;
+        _upgradesAndItems.ButtonItemsPressed += UnHiddenItem;
+        _upgradesAndItems.ButtonItemsPressed += LockItemInBuy;
+        _upgradesAndItems.ButtonItemsPressed += UnLockItemInBuy;
     }
 
     private void RemoveAllSubcriptions()
@@ -155,9 +153,9 @@ public class StoreItemsObject : Items
         _menu.ButtonStorePressed -= UnLockItemInBuy;
         _menu.ButtonStorePressed -= LockItemInBuy;
 
-        _upgratesAndItems.ButtonItemsPressed -= UnHiddenItem;
-        _upgratesAndItems.ButtonItemsPressed -= LockItemInBuy;
-        _upgratesAndItems.ButtonItemsPressed -= UnLockItemInBuy;
+        _upgradesAndItems.ButtonItemsPressed -= UnHiddenItem;
+        _upgradesAndItems.ButtonItemsPressed -= LockItemInBuy;
+        _upgradesAndItems.ButtonItemsPressed -= UnLockItemInBuy;
 
         _itemButton.RemoveAllListeners();
     }
@@ -232,12 +230,12 @@ public class StoreItemsObject : Items
     }
     private void ChangePassiveIncome(int index, long passiveIncome)
     {
-        if (index == _indexItem)
-        {
-            _store.ChangePassiveIncomeCurrentAmount(this);
-            _itemPasssiveIncome *= passiveIncome;
-            JsonSaveSystem.Instance.SaveItems(this);
-        }
+        if (index != _indexItem)
+            return;
+
+        _store.ChangePassiveIncomeCurrentAmount(this);
+        _itemPasssiveIncome *= passiveIncome;
+        JsonSaveSystem.Instance.SaveItems(this);
     }
 
     private void TakeCurrentBalance(long balanceBank)
@@ -264,27 +262,31 @@ public class StoreItemsObject : Items
 
     private void HiddenItem()
     {
-        if (!_itemIsHidden)
-        {
-            ChangeHiddenItem(true, false, "???", Color.black, false, false);
-            _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
-            _itemAmountText.ChangeText("");
-        }
+        if (_itemIsHidden)
+            return;
+
+        ChangeHiddenItem(true, false, _secretItemString, Color.black, false, false);
+        _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
+        _itemAmountText.ChangeText("");
+    }
+
+    private bool CanUnhiddenItem()
+    {
+        return !_store.PressedSell && !_itemIsHidden;
     }
 
     private void UnHiddenItem(long balance)
     {
-        if (!_store.PressedSell && !_itemIsHidden)
+        bool canUnhiddenInBuy = _bankBalance.CoinsBalance >= _itemPrice || ItemCurrentAmount >= 1;
+
+        if (CanUnhiddenItem() && canUnhiddenInBuy)
         {
-            if (_bankBalance.CoinsBalance >= _itemPrice || ItemCurrentAmount >= 1)
-            {
-                ChangeHiddenItem(false, true, _itemName, Color.white, true, true);
-                _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
-                _itemAmountText.ChangeText($"{ItemCurrentAmount}");
-            }
+            ChangeHiddenItem(false, true, _itemName, Color.white, true, true);
+            _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
+            _itemAmountText.ChangeText($"{ItemCurrentAmount}");
 
             _bankBalance.BalanceChanged -= UnHiddenItem;
-            _upgratesAndItems.ButtonItemsPressed -= UnHiddenItem;
+            _upgradesAndItems.ButtonItemsPressed -= UnHiddenItem;
             _menu.ButtonStorePressed -= UnHiddenItem;
         }
     }
@@ -298,36 +300,48 @@ public class StoreItemsObject : Items
 
     private void LockItemInBuy(long balance)
     {
-        if (!_store.PressedSell && _store.PressedBuy && _itemIsHidden)
-        {
-            if (_bankBalance.CoinsBalance < _itemPrice)
-                ChangeLockItem(Color.black, false, _spriteAssetLock);
-        }
+        if (InBuy() && !HaveMoney())
+            ChangeLockItem(Color.black, false, _spriteAssetLock);
+    }
+
+    private bool InBuy()
+    {
+        return !_store.PressedSell && _store.PressedBuy && _itemIsHidden;
+    }
+
+    private bool HaveMoney()
+    {
+        return _bankBalance.CoinsBalance >= _itemPrice;
     }
 
     private void UnLockItemInBuy(long balance)
     {
-        if (!_store.PressedSell && _store.PressedBuy && _itemIsHidden)
-        {
-            if (_bankBalance.CoinsBalance >= _itemPrice)
-                ChangeLockItem(Color.white, true, _spriteAssetUnlock);
-        }
+        if (InBuy() && HaveMoney())
+            ChangeLockItem(Color.white, true, _spriteAssetUnlock);
+    }
+
+    private bool InSeLL()
+    {
+        return !_store.PressedBuy && _store.PressedSell && _itemIsHidden;
+    }
+
+    private bool HaveAmount()
+    {
+        return _itemValue.CurrentAmount >= _itemValue.DesiredAmount;
     }
 
     private void LockItemInSell(long desiredAmout)
     {
         Color colorLockInSell = Color.Lerp(Color.red, Color.blue, 0.5f);
 
-        if (!_store.PressedBuy && _store.PressedSell && _itemIsHidden)
-            if (_itemValue.CurrentAmount < _itemValue.DesiredAmount)
-                ChangeLockItem(colorLockInSell, false, _spriteAssetLock);
+        if (InSeLL() && !HaveAmount())
+            ChangeLockItem(colorLockInSell, false, _spriteAssetLock);
     }
 
     private void UnLockItemInSell(long desiredAmout)
     {
-        if (!_store.PressedBuy && _store.PressedSell && _itemIsHidden)
-            if (_itemValue.CurrentAmount >= _itemValue.DesiredAmount)
-                ChangeLockItem(Color.red, true, _spriteAssetUnlock);
+        if (InSeLL() && HaveAmount())
+            ChangeLockItem(Color.red, true, _spriteAssetUnlock);
     }
 
     private void PressedButtonSell(long amount = 0)
@@ -351,22 +365,19 @@ public class StoreItemsObject : Items
     private void PressedButtonAmount(long none = 0)
     {
         if (_store.PressedBuy)
-            _itemValue.IfBuyChangePriceDependOfDesiredAmount(_startPrice, ref _itemPrice, _itemValue.DesiredAmount);
-        else if (_store.PressedSell)
-            _itemValue.IfSellChangePriceDependOfDesiredAmountIfBuy(_startPrice, ref _itemPrice, _itemValue.DesiredAmount);
-
-        _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
-
-        if (_store.PressedBuy)
         {
+            _itemValue.IfBuyChangePriceDependOfDesiredAmount(_startPrice, ref _itemPrice, _itemValue.DesiredAmount);
             LockItemInBuy(_currentBankBalance);
             UnLockItemInBuy(_currentBankBalance);
         }
         else if (_store.PressedSell)
         {
+            _itemValue.IfSellChangePriceDependOfDesiredAmountIfBuy(_startPrice, ref _itemPrice, _itemValue.DesiredAmount);
             LockItemInSell(_itemValue.DesiredAmount);
             UnLockItemInSell(_itemValue.DesiredAmount);
         }
+
+        _itemPriceText.ChangeText(UpdateTextDesiredAmountAndPrice());
     }
 
     private string UpdateTextDesiredAmountAndPrice()

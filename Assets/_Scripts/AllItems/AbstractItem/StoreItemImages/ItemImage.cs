@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.StoreItem
-{
     class ItemImage : MonoBehaviour
     {
         private Image _itemImage;
@@ -22,4 +20,3 @@ namespace Assets.Scripts.StoreItem
             _itemImage.color = color;
         }
     }
-}
