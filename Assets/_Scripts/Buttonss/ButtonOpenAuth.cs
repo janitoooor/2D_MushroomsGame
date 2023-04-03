@@ -1,5 +1,3 @@
-using Assets.Scripts.Buttonss.ButtonsAdv;
-
 public class ButtonOpenAuth : ButtonBonus
 {
     private void Awake()

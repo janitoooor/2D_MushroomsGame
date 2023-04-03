@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Buttonss.MenuButtons
-{
     class ButtonSound : MonoBehaviour
     {
         [Range(0, 1)]
@@ -67,4 +65,3 @@ namespace Assets.Scripts.Buttonss.MenuButtons
             _audioSource.PlayOneShot(_audioClip);
         }
     }
-}

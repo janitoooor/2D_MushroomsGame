@@ -1,15 +1,9 @@
-﻿using Assets.Scripts.Buttonss.PrestigButton;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using System.IO;
-using Assets.Scripts;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -108,6 +102,7 @@ public class SaveSystem : MonoBehaviour
     {
         bool authBonus = _saveData.AuthBonus;
         long gemBalance = _saveData.GemBalance;
+
         bool[] skinsIsBuying = new bool[11];
         bool[] skinsIsSelected = new bool[11];
 

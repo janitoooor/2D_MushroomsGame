@@ -57,25 +57,21 @@ public abstract class AbstractButtons : MonoBehaviour
 
     public virtual void SetButtonPressedState()
     {
-        _button.image.sprite = _buttonSelectedSprite;
-        _button.interactable = false;
-
-        try
-        {
-            _textButton.color = Color.white;
-        }
-        catch
-        {
-
-        }
+        ChangeSpriteInteractable(_buttonSelectedSprite, false, Color.white);
     }
     public virtual void DisabledButtonPressedState()
     {
-        _button.image.sprite = _baseSprite;
-        _button.interactable = true;
+        ChangeSpriteInteractable(_baseSprite, true, Color.black);
+    }
+
+    private void ChangeSpriteInteractable(Sprite sprite, bool interactable, Color textColor)
+    {
+        _button.image.sprite = sprite;
+        _button.interactable = interactable;
+
         try
         {
-            _textButton.color = Color.black;
+            _textButton.color = textColor;
         }
         catch
         {

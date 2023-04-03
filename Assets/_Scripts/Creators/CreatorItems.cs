@@ -26,20 +26,23 @@ public abstract class CreatorItems : MonoBehaviour
 
     private protected virtual void ActiveItems(int indexItem)
     {
-        if (_indexNumberInList < _createdItems.Count)
+        if (ItemCanActive(indexItem))
         {
-            if (indexItem == _createdItems[_indexNumberInList - 2].IndexItem || indexItem == _createdItems[_indexNumberInList - 1].IndexItem)
-            {
-                if (!_createdItems[_indexNumberInList].gameObject.activeInHierarchy)
-                {
-                    _createdItems[_indexNumberInList].gameObject.SetActive(true);
-                    _indexNumberInList++;
-                }
-            }
+            _createdItems[_indexNumberInList].gameObject.SetActive(true);
+            _indexNumberInList++;
+            return;
         }
-        else
-        {
-            _store.BuyItemsIsMades -= ActiveItems;
-        }
+
+        _store.BuyItemsIsMades -= ActiveItems;
+    }
+
+    private protected virtual bool ItemCanActive(int indexItem)
+    {
+        bool isCorrectIndex = _indexNumberInList < _createdItems.Count;
+        bool secondPreviousItemIsCreated = indexItem == _createdItems[_indexNumberInList - 2].IndexItem;
+        bool previousItemIsCreated = indexItem == _createdItems[_indexNumberInList - 1].IndexItem;
+        bool isDeactive = !_createdItems[_indexNumberInList].gameObject.activeInHierarchy;
+
+        return isCorrectIndex && (secondPreviousItemIsCreated || previousItemIsCreated) && isDeactive;
     }
 }

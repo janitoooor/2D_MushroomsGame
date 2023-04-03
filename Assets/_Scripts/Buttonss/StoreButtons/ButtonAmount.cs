@@ -1,59 +1,55 @@
-﻿using Assets.Scripts.Buttons.StoreButtons;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Shop
+class ButtonAmount : AbstractButtons
 {
-    class ButtonAmount : AbstractButtons
+    public delegate void PressButtonAmount(long amount);
+    public event PressButtonAmount PressedButtonAmount;
+
+    private readonly Store _store = Store.GetInstance();
+    [SerializeField] private long _amount;
+
+    private void Awake()
     {
-        public delegate void PressButtonAmount(long amount);
-        public event PressButtonAmount PressedButtonAmount;
+        GetComponents();
+    }
 
-        private readonly Store _store = Store.GetInstance();
-        [SerializeField] private long _amount;
+    private void Start()
+    {
+        AddListeners();
+        SetFont();
+        ShowButtonSelected(1);
+    }
 
-        private void Awake()
-        {
-            GetComponents();
-        }
+    private void OnEnable()
+    {
+        _store.PressedButtonAmount += ShowButtonSelected;
+        PressedButtonAmount += _store.TakeButtonAmount;
+    }
 
-        private void Start()
-        {
-            AddListeners();
-            SetFont();
-            ShowButtonSelected(1);
-        }
+    private void OnDisable()
+    {
+        _store.PressedButtonAmount -= ShowButtonSelected;
+        PressedButtonAmount -= _store.TakeButtonAmount;
+    }
 
-        private void OnEnable()
-        {
-            _store.PressedButtonAmount += ShowButtonSelected;
-            PressedButtonAmount += _store.TakeButtonAmount;
-        }
+    private void OnDestroy()
+    {
+        RemoveAllListeners();
+    }
 
-        private void OnDisable()
-        {
-            _store.PressedButtonAmount -= ShowButtonSelected;
-            PressedButtonAmount -= _store.TakeButtonAmount;
-        }
+    public override void OnClick()
+    {
+        ShowButtonSelected(_amount);
+        _audioSource.PlayOneShot(_audioClip);
+        PressedButtonAmount?.Invoke(_amount);
+    }
 
-        private void OnDestroy()
-        {
-            RemoveAllListeners();
-        }
-
-        public override void OnClick()
-        {
-            ShowButtonSelected(_amount);
-            _audioSource.PlayOneShot(_audioClip);
-            PressedButtonAmount?.Invoke(_amount);
-        }
-
-        public override void ShowButtonSelected(long amount)
-        {
-            if (_amount == amount)
-                SetButtonPressedState();
-            else
-                DisabledButtonPressedState();
-        }
+    public override void ShowButtonSelected(long amount)
+    {
+        if (_amount == amount)
+            SetButtonPressedState();
+        else
+            DisabledButtonPressedState();
     }
 }

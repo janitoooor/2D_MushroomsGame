@@ -1,5 +1,4 @@
-﻿namespace Assets.Scripts.Buttonss.StoreButtons
-{
+﻿
     class BoostersAndItems
     {
         private static readonly BoostersAndItems _upgratesAndItems = new BoostersAndItems();
@@ -22,4 +21,3 @@
             ButtonItemsPressed?.Invoke(_bankBalance.CoinsBalance);
         }
     }
-}

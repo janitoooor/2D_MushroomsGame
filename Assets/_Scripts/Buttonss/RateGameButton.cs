@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Buttonss
-{
     class RateGameButton : MonoBehaviour
     {
         [SerializeField] private Yandex _yandex;
@@ -47,4 +45,3 @@ namespace Assets.Scripts.Buttonss
             _audioSource.PlayOneShot(_audioClip);
         }
     }
-}

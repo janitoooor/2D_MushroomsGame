@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
 
-namespace Assets.Scripts.Shop
-{
     class ItemText : MonoBehaviour
     {
         private TextMeshProUGUI _itemNameText;
@@ -37,5 +35,3 @@ namespace Assets.Scripts.Shop
             _itemNameText.spriteAsset = spriteAsset;
         }
     }
-}
-

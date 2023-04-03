@@ -1,6 +1,4 @@
-﻿namespace Assets.Scripts.Buttonss.ButtonsAdv
-{
-    public class ButtonAdvOpen : ButtonBonus
+﻿    public class ButtonAdvOpen : ButtonBonus
     {
         private void Awake()
         {
@@ -13,4 +11,3 @@
             _button.onClick.AddListener(CloseLayer);
         }
     }
-}

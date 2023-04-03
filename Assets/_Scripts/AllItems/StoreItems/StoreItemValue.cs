@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-class StoreItemValue
+﻿class StoreItemValue
 {
     private long _priceMargin = 2;
 

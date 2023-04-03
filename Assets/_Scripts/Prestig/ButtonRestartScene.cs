@@ -2,12 +2,12 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Buttonss.PrestigButton
-{
     class ButtonRestartScene : MonoBehaviour
     {
         public static ButtonRestartScene Instance;
+        
         public delegate void RestartGame();
+
         public event RestartGame RestartsGame;
 
         private Button _button;
@@ -40,4 +40,3 @@ namespace Assets.Scripts.Buttonss.PrestigButton
             RestartsGame?.Invoke();
         }
     }
-}

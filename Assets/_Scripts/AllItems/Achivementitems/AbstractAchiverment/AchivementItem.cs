@@ -1,6 +1,3 @@
-using Assets.Scripts;
-using Assets.Scripts.Shop;
-using Assets.Scripts.StoreItem;
 using System;
 using UnityEngine;
 using UnityEngine.UI;

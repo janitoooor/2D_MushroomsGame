@@ -1,8 +1,6 @@
-﻿using Assets.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Assets.Scripts.Shop;
 
 class ItemsChange : Items
 {
@@ -55,11 +53,11 @@ class ItemsChange : Items
 
     private void ChangeCoinsToGems()
     {
-        if (_bankBalance.CoinsBalance >= _priceCoinsToChange)
-        {
-            _bankBalance.WithdrawCoins(_priceCoinsToChange);
-            _gemBank.AddGems(_priceGemsToChange);
-        }
+        if (_bankBalance.CoinsBalance < _priceCoinsToChange)
+            return;
+
+        _bankBalance.WithdrawCoins(_priceCoinsToChange);
+        _gemBank.AddGems(_priceGemsToChange);
     }
 
     private void ChangeLockItem(Color buttonColor, bool buttonInteractable, TMP_SpriteAsset spriteAsset)
