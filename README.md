@@ -10,7 +10,7 @@
 
 * For ___optimal display___ on each device special formats of UI elements location were developed. 
 
-![game link](Game.jpg)
+![game screen png](Game.jpg)
 
 ##How to play the game
 
