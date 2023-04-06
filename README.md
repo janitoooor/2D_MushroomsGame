@@ -16,6 +16,7 @@
 
 * Dotween
 * TMP
+* YandexSDK
 
 ## How to play the game
 
