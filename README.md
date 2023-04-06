@@ -12,6 +12,11 @@
 
 ![game screen png](Game.jpg)
 
+## Used plugins:
+
+* Dotween
+* TMP
+
 ## How to play the game
 
 >click on the mushroom __icon__ to go to the game link or click on this link: __clck.ru/344wyQ__
