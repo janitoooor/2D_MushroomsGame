@@ -12,11 +12,11 @@
 
 ![game screen png](Game.jpg)
 
-##How to play the game
+## How to play the game
 
-[![game link](Logo.png)](https://yandex.ru/games/app/215916#app-id=215916&catalog-session-uid=catalog-66dab6c9-5221-5176-a44a-0e98cefb7a23-1680806839716-10e7&rtx-reqid=13105632162353440822&pos=%7B%22listType%22%3A%22played%22%2C%22tabCategory%22%3A%22new%22%7D)
+>click on the mushroom icon to go to the game link or click on this link: clck.ru/344wyQ
 
->click on the picture to go to the link to the game
+[![game link](Logo.png)](clck.ru/344wyQ)
 
 ## System requirements:
 
