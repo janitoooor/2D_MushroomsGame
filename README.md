@@ -20,7 +20,7 @@
 
 ## How to play the game
 
->click on the mushroom __icon__ to go to the game link or click on this link: __ clck.ru/344wyQ __
+>click on the mushroom __icon__ to go to the game link or click on this link: clck.ru/344wyQ
 
 [![game link](Logo.png)](clck.ru/344wyQ)
 
