@@ -32,10 +32,6 @@ The project requires the Unity Environment 2021.3.19f1 or higher to work with it
 
 To install the project, download it from GitHub and open it in Unity. Then, open Loading scene and click on the "Play" button to start the project.
 
-## Contribution to the project:
-
-The project is open source, and we welcome contributions to its development. If you discover bugs or want to add new features, please submit a pull request to GitHub.
-
 ## Contacts:
 
 If you have any questions or suggestions, please contact us through our GitHub or [Telegram](https://t.me/janitoor13).
