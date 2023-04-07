@@ -20,9 +20,9 @@
 
 ## How to play the game
 
->click on the mushroom __icon__ to go to the game link or click on this link: __[clck.ru/344wyQ](https://clck.ru/344wyQ)__
+>click on the mushroom __icon__ to go to the game link or click on this link: __[yandex.ru/games/app/215916](https://yandex.ru/games/app/215916)__
 
-[![game link](Logo.png)](https://clck.ru/344wyQ)
+[![game link](Logo.png)](https://yandex.ru/games/app/215916)
 
 ## System requirements:
 
